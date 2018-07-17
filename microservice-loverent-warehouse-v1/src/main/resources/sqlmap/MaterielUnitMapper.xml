@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielUnitMapper">
+ 	
+ 	<!-- 插入数据 -->
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.MaterielUnit">
+ 		insert into materiel_unit(
+		  unitName,
+		  unitCode,
+		  enableFlag,
+		  remark
+ 		)values(
+ 		  #{unitName},
+		  #{unitCode},
+		  #{enableFlag},
+		  #{remark}
+ 		)
+ 	</insert>
+ 	
+ 	<!-- 查询唯一性 -->
+ 	<select id="queryUniqueCount" parameterType="org.gz.warehouse.entity.MaterielUnitQuery" resultType="int">
+ 		select 
+ 			count(1) 
+ 		from materiel_unit
+ 		where 1=1 and (unitName=#{unitName} or unitCode=#{unitCode})
+ 		<if test="id!=null and id>0">
+ 			and id!=#{id}
+ 		</if>
+ 	</select>
+ 	
+ 	<!-- 更新数据 -->
+ 	<update id="update" parameterType="org.gz.warehouse.entity.MaterielUnit">
+ 		update materiel_unit 
+ 		set unitName=#{unitName},unitCode=#{unitCode},enableFlag=#{enableFlag},remark=#{remark}
+ 		where  id=#{id}
+ 	</update>
+ 	
+ 	<!-- 批量删除数据 -->
+ 	<delete id="deleteByIds" parameterType="list">
+ 		delete from materiel_unit where id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+ 	</delete>
+ 	
+ 	<!-- 查询materiel_basic_info表使用的数量 -->
+ 	<select id="queryUsedCount" parameterType="list" resultType="int">
+ 		select count(1) from materiel_basic_info where materielUnitId in
+ 		 <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+ 	</select>
+ 	
+ 	<!-- 查询详情 -->
+ 	<select id="selectByPrimaryKey" parameterType="int" resultType="org.gz.warehouse.entity.MaterielUnit">
+ 		select * from materiel_unit where id=#{id}
+ 	</select>
+ 	
+ 	<!-- 分页共有查询条件 -->
+ 	<sql id="where_queryPageCount">
+ 		where 1=1 
+ 		<if test="unitName!=null and unitName!=''">
+ 			and unitName like CONCAT('%',#{unitName},'%')
+ 		</if>
+ 		<if test="enableFlag!=null and enableFlag>-1">
+ 			and enableFlag=#{enableFlag}
+ 		</if>
+ 	</sql>
+ 	
+ 	<!-- 查询分页总条数 -->
+ 	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.MaterielUnitQuery" resultType="int">
+ 		select 
+ 			count(1)
+ 		from materiel_unit
+ 		<include refid="where_queryPageCount"/>
+ 	</select>
+ 	
+ 	<!-- 查询分页列表 -->
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielUnitQuery" resultType="org.gz.warehouse.entity.MaterielUnit">
+ 		select 
+ 			*
+ 		from materiel_unit
+ 		<include refid="where_queryPageCount"/>
+ 		limit #{startIndex},#{endIndex}
+ 	</select>
+</mapper>

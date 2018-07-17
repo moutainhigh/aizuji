@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.workorder.dao.SearchRecordDao">
+
+    <resultMap id="SearchRecordMap" type="org.gz.workorder.entity.SearchRecord">
+        <result property="id" column="id"/>
+        <result property="operator" column="operator"/>
+        <result property="content" column="content"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, operator, content
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.operator, t.content
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=operator and ''!=operator">
+                AND operator = #{operator}
+            </if>
+            <if test="null!=content and ''!=content">
+                AND content = #{content}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="SearchRecordMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                search_record
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="SearchRecordMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        search_record
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO search_record (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=operator">
+	                 operator,
+	            </if>
+            	<if test="null!=content">
+	                 content
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=operator">
+                #{operator},
+                </if>
+            	<if test="null!=content">
+                #{content}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO search_record (
+                operator,
+                content
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.operator},#{item.content})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	search_record
+            <set>
+            	<if test="null!=updateCloumn.operator">
+                	<![CDATA[ operator = #{updateCloumn.operator} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.content">
+                	<![CDATA[ content = #{updateCloumn.content} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.operator">
+                	AND <![CDATA[ operator = #{updateWhere.operator} ]]>
+                </if>
+            	<if test="null!=updateWhere.content">
+                	AND <![CDATA[ content = #{updateWhere.content} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryPageSearchRecord" resultMap="SearchRecordMap" parameterType="org.gz.workorder.supports.Pagination">
+  	select 
+  	<include refid="columns" />
+  	from search_record
+  	<trim prefix="WHERE" prefixOverrides="AND|OR">
+  		<if test="params.operator!= null">
+  			AND operator = #{params.operator, jdbcType=VARCHAR}
+  		</if>
+  	</trim>
+  </select>
+   
+</mapper>
+

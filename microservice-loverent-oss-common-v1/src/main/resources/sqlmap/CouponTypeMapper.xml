@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.oss.common.dao.CouponTypeDao" >
+  <resultMap id="BaseResultMap" type="org.gz.oss.common.entity.CouponType" >
+    <id column="id" property="id" />
+    <result column="coupon_id" property="couponId"  />
+    <result column="model_id" property="modelId" />
+    <result column="product_id" property="productId"  />
+    <result column="imei_no" property="imeiNo"  />
+    <result column="sn_no" property="snNo" />
+    <result column="status" property="status"  />
+    <result column="create_no" property="createNo"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coupon_id as couponId, model_id as modelId, product_id as productId, imei_no as imeiNo, sn_no as snNo, status, create_no as createNo
+  </sql>
+  
+  <select id="queryDataList" parameterType="org.gz.oss.common.entity.CouponType" resultType="org.gz.oss.common.entity.CouponType">
+		select 
+			<include refid="Base_Column_List"></include> 
+		from 
+			coupon_type
+		where coupon_id = #{couponId}
+   </select>
+   
+   <delete id="deleteByCouponId" parameterType="java.lang.Long" >
+    delete from coupon_type
+    where coupon_id = #{couponId}
+  </delete>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_type
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from coupon_type
+    where id = #{id}
+  </delete>
+  <insert id="insert" parameterType="org.gz.oss.common.entity.CouponType" >
+    insert into coupon_type (id, coupon_id, model_id, 
+      product_id, imei_no, sn_no, 
+      status, create_no)
+    values (#{id}, #{couponId}, #{modelId}, 
+      #{productId}, #{imeiNo}, #{snNo}, 
+      #{status}, #{createNo})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.oss.common.entity.CouponType" >
+    insert into coupon_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="imeiNo != null" >
+        imei_no,
+      </if>
+      <if test="snNo != null" >
+        sn_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createNo != null" >
+        create_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="couponId != null" >
+        #{couponId},
+      </if>
+      <if test="modelId != null" >
+        #{modelId},
+      </if>
+      <if test="productId != null" >
+        #{productId},
+      </if>
+      <if test="imeiNo != null" >
+        #{imeiNo},
+      </if>
+      <if test="snNo != null" >
+        #{snNo},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="createNo != null" >
+        #{createNo},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.oss.common.entity.CouponType" >
+    update coupon_type
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId},
+      </if>
+      <if test="modelId != null" >
+        model_id = #{modelId},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId},
+      </if>
+      <if test="imeiNo != null" >
+        imei_no = #{imeiNo},
+      </if>
+      <if test="snNo != null" >
+        sn_no = #{snNo},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="createNo != null" >
+        create_no = #{createNo},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.oss.common.entity.CouponType" >
+    update coupon_type
+    set coupon_id = #{couponId},
+      model_id = #{modelId},
+      product_id = #{productId},
+      imei_no = #{imeiNo},
+      sn_no = #{snNo},
+      status = #{status},
+      create_no = #{createNo}
+    where id = #{id}
+  </update>
+</mapper>

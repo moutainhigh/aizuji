@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.RepaymentDetailMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.RepaymentDetailEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="repaymentAmount" jdbcType="DECIMAL" property="repaymentAmount" />
+    <result column="accountCode" jdbcType="VARCHAR" property="accountCode" />
+    <result column="orderSN" jdbcType="VARCHAR" property="orderSN" />
+    <result column="billDate" jdbcType="DATE" property="billDate" />
+    <result column="transactionSN" jdbcType="VARCHAR" property="transactionSN" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, repaymentAmount, accountCode, orderSN, billDate, transactionSN, remark, 
+    createBy, createOn
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from repayment_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insert" parameterType="org.gz.liquidation.entity.RepaymentDetailEntity">
+    insert into repayment_detail (id, userId, repaymentAmount, 
+      accountCode, orderSN, billDate, 
+      transactionSN, remark, createBy, 
+      createOn)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{repaymentAmount,jdbcType=DECIMAL}, 
+      #{accountCode,jdbcType=VARCHAR}, #{orderSN,jdbcType=VARCHAR}, #{billDate,jdbcType=DATE}, 
+      #{transactionSN,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=BIGINT}, 
+      #{createOn,jdbcType=TIMESTAMP})
+  </insert>
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="list">
+  	INSERT INTO repayment_detail 
+   		(
+   			userId, 
+   			repaymentAmount, 
+     		accountCode,
+     		orderSN,
+     		billDate, 
+     		transactionSN, 
+     		remark, 
+     		createBy, 
+     		createOn
+     	)
+   		VALUES
+	    <foreach collection="list" item="item" index="index" separator=",">
+    	(
+     		#{item.userId,jdbcType=BIGINT},
+     		#{item.repaymentAmount,jdbcType=DECIMAL}, 
+      		#{item.accountCode,jdbcType=VARCHAR}, 
+      		#{item.orderSN,jdbcType=VARCHAR}, 
+      		#{item.billDate,jdbcType=DATE}, 
+      		#{item.transactionSN,jdbcType=VARCHAR}, 
+      		#{item.remark,jdbcType=VARCHAR}, 
+      		#{item.createBy,jdbcType=BIGINT}, 
+      		#{item.createOn,jdbcType=TIMESTAMP}
+     	)
+	    </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.RepaymentDetailEntity">
+    insert into repayment_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="repaymentAmount != null">
+        repaymentAmount,
+      </if>
+      <if test="accountCode != null">
+        accountCode,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="billDate != null">
+        billDate,
+      </if>
+      <if test="transactionSN != null">
+        transactionSN,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentAmount != null">
+        #{repaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=DATE},
+      </if>
+      <if test="transactionSN != null">
+        #{transactionSN,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.liquidation.entity.RepaymentDetailEntity">
+    update repayment_detail
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentAmount != null">
+        repaymentAmount = #{repaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accountCode != null">
+        accountCode = #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        orderSN = #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        billDate = #{billDate,jdbcType=DATE},
+      </if>
+      <if test="transactionSN != null">
+        transactionSN = #{transactionSN,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.liquidation.entity.RepaymentDetailEntity">
+    update repayment_detail
+    set userId = #{userId,jdbcType=BIGINT},
+      repaymentAmount = #{repaymentAmount,jdbcType=DECIMAL},
+      accountCode = #{accountCode,jdbcType=VARCHAR},
+      orderSN = #{orderSN,jdbcType=VARCHAR},
+      billDate = #{billDate,jdbcType=DATE},
+      transactionSN = #{transactionSN,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      createBy = #{createBy,jdbcType=BIGINT},
+      createOn = #{createOn,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

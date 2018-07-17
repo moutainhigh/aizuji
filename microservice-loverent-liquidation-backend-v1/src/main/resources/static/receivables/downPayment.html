@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首期款收款</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li>收款管理</li>
+		  <li class="active">首期款收款</li>
+		</ol>
+	</div>
+	<div class='content'>
+		<div class='first-header-collection clearfix'>
+			<div class='list'>
+				<div class='header-title'>首期支付概览</div>
+				<div class='text-list'>
+					<span class="title">实际完成首期支付：</span>
+					<span class="text" id="span-totalTransactions"></span>
+					<span class="title">首期支付总收入：</span>
+					<span class="text" id="span-totalDownpayment"></span>
+				</div>
+				<div class='text-list'>
+					<span class="title">实收首期租金：</span>
+					<span class="text" id="span-totalFirstRent"></span>
+					<span class="title">实收保障金：</span>
+					<span class="text" id="span-totalInsurance"></span>
+				</div>
+				<div class='text-list'>
+					<span class="title">实收溢价金：</span>
+					<span class="text" id="span-totalPremium"></span>
+				</div>
+				<div class='btn-box'>
+					<button class='btn btn-default btn-sm'>首期支付日报表</button>
+					<a href="./transactionDetail.html" target="iframe"><button class='btn btn-default btn-sm'>查看明细</button></a>
+				</div>
+			</div>
+			<div class='list'>
+				<div class='list-top'>
+					<div class='header-title'>今日</div>
+					<div class='text-list'>
+						<span class="title">实际完成首期支付：</span>
+						<span class="text" id="span-totalTransactions-today"></span>
+						<span class="title">首期支付总收入：</span>
+						<span class="text" id="span-totalDownpayment-today"></span>
+					</div>
+					<div class='text-list'>
+						<span class="title">实收首期租金：</span>
+						<span class="text" id="span-totalFirstRent-today"></span>
+						<span class="title">实收保障金：</span>
+						<span class="text" id="span-totalInsurance-today"></span>
+						<span class="title">实收溢价金：</span>
+						<span class="text" id="span-totalPremium-today"></span>
+					</div>
+					<div class='btn-box'>
+						<a href="./transactionDetail.html" target="iframe"><button class='btn btn-default btn-sm'>查看明细</button></a>
+					</div>
+				</div>
+				<div class='list-bottom'>
+					<div class='header-title'>昨日</div>
+					<div class='text-list'>
+						<span class="title">实际完成首期支付：</span>
+						<span class="text" id="span-totalTransactions-yestoday"></span>
+						<span class="title">首期支付总收入：</span>
+						<span class="text" id="span-totalDownpayment-yestoday"></span>
+					</div>
+					<div class='text-list'>
+						<span class="title">实收首期租金：</span>
+						<span class="text" id="span-totalFirstRent-yestoday"></span>
+						<span class="title">实收保障金：</span>
+						<span class="text" id="span-totalInsurance-yestoday"></span>
+						<span class="title">实收溢价金：</span>
+						<span class="text" id="span-totalPremium-yestoday"></span>
+					</div>
+					<div class='btn-box'>
+						<a href="./transactionDetail.html" target="iframe"><button class='btn btn-default btn-sm'>查看明细</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="table-title">最新10单支付信息</div>
+		<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+			<table class="table" id='grid-tab'></table>
+      		
+		</div>
+	</div>
+	<!-- 手动完成支付 -->
+	<div class="modal fade" id="manuaPay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	   <input type="hidden" id="ipt-hidden-transaction-id">
+	   <input type="hidden" id="ipt-hidden-transactionSN">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">手动完成支付</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class="approve-content clearfix">
+							<div class='list'>
+								<div class="titlt" style="width:130px">单号</div>
+								<div class="text" id="div-orderSN"></div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易金额</div>
+								<div class="text" id="div-amount"></div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易完成日期</div>
+								<div class="text">
+									<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="ipt-endDate">
+								</div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易备注</div>
+								<div class="text">
+									<textarea class="form-control col-sm-1" rows="3" id="textarea-remark"></textarea>
+								</div>
+							</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" onclick="submit()">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 支付明细弹窗 -->
+	<div class="modal fade" id="payDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="min-width:1000px;margin-left:-300px">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">支付明细</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='manua-pay-content clearfix'>
+	            		<div class='list'>
+	            			<span class="title">单号:</span>
+	            			<span class="text" id="span-orderSN"></span>
+	            			<span class="title">类别:</span>
+	            			<span class="text" id="span-category"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">客户姓名:</span>
+	            			<span class="text" id="span-realName"></span>
+	            			<span class="title">客户手机号:</span>
+	            			<span class="text" id="span-phone"></span>
+	            		</div>
+	            		<div class='list'>
+	            		<span class="title">租期:</span>
+	            			<span class="text" id="span-periods"></span>
+	            			<span class="title">月租金:</span>
+	            			<span class="text" id="span-rent"></span>
+	            			<span class="title">溢价金</span>
+	            			<span class="text"id="span-premium"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易流水号:</span>
+	            			<span class="text" id="span-transactionSN"></span>
+	            			<span class="title">交易方式:</span>
+	            			<span class="text" id="span-transactionWay"></span>
+	            			<span class="title">交易入口:</span>
+	            			<span class="text" id="span-transactionSource"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易账号:</span>
+	            			<span class="text" id="span-fromAccount"></span>
+	            			<span class="title">交易金额:</span>
+	            			<span class="text" id="span-transactionAmount"></span>
+	            			<span class="title">交易类型:</span>
+	            			<span class="text" id="span-transactionType"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易状态:</span>
+	            			<span class="text" id="span-state"></span>
+	            			<span class="title">失败原因:</span>
+	            			<span class="text" id="span-failure"></span>
+	            			<span class="title">已退款金额:</span>
+	            			<span class="text" id="span-returnAmount"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易发起人:</span>
+	            			<span class="text" id="span-createRealName"></span>
+	            			<span class="title">交易发起时间:</span>
+	            			<span class="text" id="span-creareOn"></span>
+	            			<span class="title">交易完成时间:</span>
+	            			<span class="text" id="span-updateOn"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">备注:</span>
+	            			<span class="text" id="span-remark"></span>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/downPaymentCommon.js'></script>
+	<script src='../js/downPayment.js'></script>
+</body>
+</html>

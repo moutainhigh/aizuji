@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推荐位配置</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="../css/bootstrap-table.css" rel="stylesheet" />
+    <link href="../css/bootstrap-dialog.min.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/fileinput.css" rel="stylesheet">
+    <style>
+        #page-wrapper{margin:0 !important;}
+    </style>
+</head>
+
+<body>
+     <div id="wrapper">
+     <!-- <nav class="navbar-default navbar-static-side" role="navigation" id="menuNav">
+    </nav> -->
+        <div id="page-wrapper" class="gray-bg">
+            <div class="wrapper wrapper-content">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-sm-offset-3 col-md-offset-3 col-lg-offset-3">
+                        <h3 class="text-center" style="margin-bottom:20px;"><span class="navTitle"></span></h3>
+                            <form class="form-horizontal" role="form"  action="" method="post">
+							    <div class="form-group">
+							        <label  class="col-sm-2 col-md-2 col-lg-2 control-label">图片</label>
+							        <div class="col-md-10 tl th">
+							            <input type="file" id="imageUrl" name="file" class="file" value="" />
+							        	<p class="help-block">支持png jpg格式,670*200px</p>
+							            <div id="imgErrorDiv" class="Error"></div>
+							        </div>
+							    </div>  
+							<div class="form-group">
+                            	<label for="isDeleted" class="col-sm-2 col-md-2 col-lg-2 control-label">状态</label>
+                            	<div class="col-sm-3 col-md-3 col-lg-3">
+                                    <select id="isDeleted" class="form-control">
+                                    	<option value="0">启用</option>
+                                    	<option value="1">停用</option>
+                                    </select>
+                                    <div id="isDeletedErrorDiv" class="Error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="priceValue" class="col-sm-2 col-md-2 col-lg-2 control-label">价格</label>
+                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                    <input type="text" id="priceValue" name="priceValue" class="form-control" id="priceValue">
+                                    <div id="priceValueErrorDiv" class="Error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-2 col-sm-10 col-md-10 col-lg-10 group-btn">
+                                    <button type="button" class="btn btn-danger" id="cancel">
+                                        取 消
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="save">
+                                      保存
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    
+    <!-- Mainly scripts -->
+    <script src="../js/jquery/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/bootstrap/bootstrap-dialog.min.js"></script>
+    <script src="../js/bootstrap/fileinput.min.js"></script>
+    <script src="../js/bootstrap/fileinput_locale_zh.js"></script>
+    <script src="../js/util/util.js"></script>
+    <script src="../js/column/updateProductModel.js"></script>
+</body>
+</html>

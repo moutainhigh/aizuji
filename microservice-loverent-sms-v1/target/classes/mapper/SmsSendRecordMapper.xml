@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.sms.mapper.SmsSendRecordMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.sms.entity.SmsSendRecord" >
+    <id column="smsId" property="smsId" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="smsChannel" property="smsChannel" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="sendStatus" property="sendStatus" jdbcType="TINYINT" />
+    <result column="retCode" property="retCode" jdbcType="VARCHAR" />
+    <result column="retDesc" property="retDesc" jdbcType="VARCHAR" />
+    <result column="serviceCode" property="serviceCode" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    smsId, mobile, smsChannel, content, sendTime, sendStatus, retCode, retDesc, serviceCode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sms_send_record
+    where smsId = #{smsId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sms_send_record
+    where smsId = #{smsId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.sms.entity.SmsSendRecord" >
+    insert into sms_send_record (smsId, mobile, smsChannel, 
+      content, sendTime, sendStatus, 
+      retCode, retDesc, serviceCode
+      )
+    values (#{smsId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{smsChannel,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{sendStatus,jdbcType=TINYINT}, 
+      #{retCode,jdbcType=VARCHAR}, #{retDesc,jdbcType=VARCHAR}, #{serviceCode,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.sms.entity.SmsSendRecord" >
+    insert into sms_send_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="smsId != null" >
+        smsId,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="smsChannel != null" >
+        smsChannel,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="sendTime != null" >
+        sendTime,
+      </if>
+      <if test="sendStatus != null" >
+        sendStatus,
+      </if>
+      <if test="retCode != null" >
+        retCode,
+      </if>
+      <if test="retDesc != null" >
+        retDesc,
+      </if>
+      <if test="serviceCode != null" >
+        serviceCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="smsId != null" >
+        #{smsId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="smsChannel != null" >
+        #{smsChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="retCode != null" >
+        #{retCode,jdbcType=VARCHAR},
+      </if>
+      <if test="retDesc != null" >
+        #{retDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceCode != null" >
+        #{serviceCode,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.sms.entity.SmsSendRecord" >
+    update sms_send_record
+    <set >
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="smsChannel != null" >
+        smsChannel = #{smsChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendStatus != null" >
+        sendStatus = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="retCode != null" >
+        retCode = #{retCode,jdbcType=VARCHAR},
+      </if>
+      <if test="retDesc != null" >
+        retDesc = #{retDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceCode != null" >
+        serviceCode = #{serviceCode,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where smsId = #{smsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.sms.entity.SmsSendRecord" >
+    update sms_send_record
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      smsChannel = #{smsChannel,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      sendStatus = #{sendStatus,jdbcType=TINYINT},
+      retCode = #{retCode,jdbcType=VARCHAR},
+      retDesc = #{retDesc,jdbcType=VARCHAR},
+      serviceCode = #{serviceCode,jdbcType=SMALLINT}
+    where smsId = #{smsId,jdbcType=BIGINT}
+  </update>
+</mapper>

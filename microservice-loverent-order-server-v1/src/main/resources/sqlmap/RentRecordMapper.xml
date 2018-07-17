@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.order.server.dao.RentRecordDao">
+
+    <resultMap id="RentRecordMap" type="org.gz.order.common.entity.RentRecord">
+         <result property="id" column="id"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="userId" column="userId"/>
+        <result property="extendId" column="extendId"/>
+        <result property="channelNo" column="channelNo"/>
+        <result property="logisticsNo" column="logisticsNo"/>
+        <result property="returnLogisticsNo" column="returnLogisticsNo"/>
+        <result property="stockFlag" column="stockFlag"/>
+        <result property="snCode" column="snCode"/>
+        <result property="imei" column="imei"/>
+        <result property="applyTime" column="applyTime"/>
+        <result property="approvalTime" column="approvalTime"/>
+        <result property="terminateApplyTime" column="terminateApplyTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="signTime" column="signTime"/>
+        <result property="backTime" column="backTime"/>
+        <result property="createOn" column="createOn"/>
+        <result property="updateOn" column="updateOn"/>
+        <result property="state" column="state"/>
+        <result property="creditState" column="creditState"/>
+        <result property="agreementUrl" column="agreementUrl"/>
+        <result property="sealAgreementUrl" column="sealAgreementUrl"/>
+        <result property="evid" column="evid"/>
+        <result property="signServiceId" column="signServiceId"/>
+        <result property="discountFee" column="discountFee"/>
+        <result property="productType" column="productType"/>
+        <result property="applyInvoice" column="applyInvoice"/>
+        <result property="invoiceEnd" column="invoiceEnd"/>
+        <result property="channelType" column="channelType"/>
+        <result property="couponId" column="couponId"/>
+        <result property="couponAmount" column="couponAmount"/>
+        <result property="salePayAmount" column="salePayAmount"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, rentRecordNo, userId, extendId, channelNo, logisticsNo, returnLogisticsNo, stockFlag, snCode, imei, applyTime, approvalTime, terminateApplyTime, payTime, signTime, backTime, createOn, updateOn, state, creditState, agreementUrl, sealAgreementUrl, evid, signServiceId, discountFee, productType, applyInvoice, invoiceEnd, channelType, couponId, couponAmount, salePayAmount
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.rentRecordNo, t.userId, t.extendId, t.channelNo, t.logisticsNo, t.returnLogisticsNo, t.stockFlag, t.snCode, t.imei, t.applyTime, t.approvalTime, t.terminateApplyTime, t.payTime, t.signTime, t.backTime, t.createOn, t.updateOn, t.state, t.creditState, t.agreementUrl, t.sealAgreementUrl, t.evid, t.signServiceId, t.discountFee, t.productType, t.applyInvoice, t.invoiceEnd, t.channelType, t.couponId, t.couponAmount, t.salePayAmount
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=userId">
+                AND userId = #{userId}
+            </if>
+            <if test="null!=extendId">
+                AND extendId = #{extendId}
+            </if>
+            <if test="null!=channelNo and ''!=channelNo">
+                AND channelNo = #{channelNo}
+            </if>
+            <if test="null!=logisticsNo and ''!=logisticsNo">
+                AND logisticsNo = #{logisticsNo}
+            </if>
+            <if test="null!=returnLogisticsNo and ''!=returnLogisticsNo">
+                AND returnLogisticsNo = #{returnLogisticsNo}
+            </if>
+            <if test="null!=stockFlag">
+                AND stockFlag = #{stockFlag}
+            </if>
+            <if test="null!=snCode and ''!=snCode">
+                AND snCode = #{snCode}
+            </if>
+            <if test="null!=imei and ''!=imei">
+                AND imei = #{imei}
+            </if>
+            <if test="null!=applyTime and ''!=applyTime">
+                AND applyTime = #{applyTime}
+            </if>
+            <if test="null!=approvalTime and ''!=approvalTime">
+                AND approvalTime = #{approvalTime}
+            </if>
+            <if test="null!=terminateApplyTime and ''!=terminateApplyTime">
+                AND terminateApplyTime = #{terminateApplyTime}
+            </if>
+            <if test="null!=payTime and ''!=payTime">
+                AND payTime = #{payTime}
+            </if>
+            <if test="null!=signTime and ''!=signTime">
+                AND signTime = #{signTime}
+            </if>
+            <if test="null!=backTime and ''!=backTime">
+                AND backTime = #{backTime}
+            </if>
+            <if test="null!=createOn and ''!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=updateOn and ''!=updateOn">
+                AND updateOn = #{updateOn}
+            </if>
+            <if test="null!=state">
+                AND state = #{state}
+            </if>
+            <if test="null!=creditState">
+                AND creditState = #{creditState}
+            </if>
+            <if test="null!=agreementUrl and ''!=agreementUrl">
+                AND agreementUrl = #{agreementUrl}
+            </if>
+            <if test="null!=sealAgreementUrl and ''!=sealAgreementUrl">
+                AND sealAgreementUrl = #{sealAgreementUrl}
+            </if>
+            <if test="null!=evid and ''!=evid">
+                AND evid = #{evid}
+            </if>
+            <if test="null!=signServiceId and ''!=signServiceId">
+                AND signServiceId = #{signServiceId}
+            </if>
+            <if test="null!=discountFee">
+                AND discountFee = #{discountFee}
+            </if>
+            <if test="null!=productType">
+                AND productType = #{productType}
+            </if>
+            <if test="null!=applyInvoice and ''!=applyInvoice">
+                AND applyInvoice = #{applyInvoice}
+            </if>
+            <if test="null!=invoiceEnd and ''!=invoiceEnd">
+                AND invoiceEnd = #{invoiceEnd}
+            </if>
+            <if test="null!=channelType and ''!=channelType">
+                AND channelType = #{channelType}
+            </if>
+            <if test="null!=couponId and ''!=couponId">
+                AND couponId = #{couponId}
+            </if>
+            <if test="null!=couponAmount and ''!=couponAmount">
+                AND couponAmount = #{couponAmount}
+            </if>
+            <if test="null!=salePayAmount">
+                AND salePayAmount = #{salePayAmount}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentRecordMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_record
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentRecordMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_record
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_record (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=userId">
+	                 userId,
+	            </if>
+            	<if test="null!=extendId">
+	                 extendId,
+	            </if>
+            	<if test="null!=channelNo">
+	                 channelNo,
+	            </if>
+            	<if test="null!=logisticsNo">
+	                 logisticsNo,
+	            </if>
+            	<if test="null!=returnLogisticsNo">
+	                 returnLogisticsNo,
+	            </if>
+            	<if test="null!=stockFlag">
+	                 stockFlag,
+	            </if>
+            	<if test="null!=snCode">
+	                 snCode,
+	            </if>
+            	<if test="null!=imei">
+	                 imei,
+	            </if>
+            	<if test="null!=applyTime">
+	                 applyTime,
+	            </if>
+            	<if test="null!=approvalTime">
+	                 approvalTime,
+	            </if>
+            	<if test="null!=terminateApplyTime">
+	                 terminateApplyTime,
+	            </if>
+            	<if test="null!=payTime">
+	                 payTime,
+	            </if>
+            	<if test="null!=signTime">
+	                 signTime,
+	            </if>
+            	<if test="null!=backTime">
+	                 backTime,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=updateOn">
+	                 updateOn,
+	            </if>
+            	<if test="null!=state">
+	                 state,
+	            </if>
+            	<if test="null!=creditState">
+	                 creditState,
+	            </if>
+            	<if test="null!=agreementUrl">
+	                 agreementUrl,
+	            </if>
+            	<if test="null!=sealAgreementUrl">
+	                 sealAgreementUrl,
+	            </if>
+            	<if test="null!=evid">
+	                 evid,
+	            </if>
+            	<if test="null!=signServiceId">
+	                 signServiceId,
+	            </if>
+            	<if test="null!=discountFee">
+	                 discountFee,
+	            </if>
+            	<if test="null!=productType">
+	                 productType,
+	            </if>
+            	<if test="null!=applyInvoice">
+	                 applyInvoice,
+	            </if>
+            	<if test="null!=invoiceEnd">
+	                 invoiceEnd,
+	            </if>
+            	<if test="null!=channelType">
+	                 channelType,
+	            </if>
+            	<if test="null!=couponId">
+	                 couponId,
+	            </if>
+            	<if test="null!=couponAmount">
+	                 couponAmount,
+	            </if>
+            	<if test="null!=salePayAmount">
+	                 salePayAmount
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=userId">
+                #{userId},
+                </if>
+            	<if test="null!=extendId">
+                #{extendId},
+                </if>
+            	<if test="null!=channelNo">
+                #{channelNo},
+                </if>
+            	<if test="null!=logisticsNo">
+                #{logisticsNo},
+                </if>
+            	<if test="null!=returnLogisticsNo">
+                #{returnLogisticsNo},
+                </if>
+            	<if test="null!=stockFlag">
+                #{stockFlag},
+                </if>
+            	<if test="null!=snCode">
+                #{snCode},
+                </if>
+            	<if test="null!=imei">
+                #{imei},
+                </if>
+            	<if test="null!=applyTime">
+                #{applyTime},
+                </if>
+            	<if test="null!=approvalTime">
+                #{approvalTime},
+                </if>
+            	<if test="null!=terminateApplyTime">
+                #{terminateApplyTime},
+                </if>
+            	<if test="null!=payTime">
+                #{payTime},
+                </if>
+            	<if test="null!=signTime">
+                #{signTime},
+                </if>
+            	<if test="null!=backTime">
+                #{backTime},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=updateOn">
+                #{updateOn},
+                </if>
+            	<if test="null!=state">
+                #{state},
+                </if>
+            	<if test="null!=creditState">
+                #{creditState},
+                </if>
+            	<if test="null!=agreementUrl">
+                #{agreementUrl},
+                </if>
+            	<if test="null!=sealAgreementUrl">
+                #{sealAgreementUrl},
+                </if>
+            	<if test="null!=evid">
+                #{evid},
+                </if>
+            	<if test="null!=signServiceId">
+                #{signServiceId},
+                </if>
+            	<if test="null!=discountFee">
+                #{discountFee},
+                </if>
+            	<if test="null!=productType">
+                #{productType},
+                </if>
+            	<if test="null!=applyInvoice">
+                #{applyInvoice},
+                </if>
+            	<if test="null!=invoiceEnd">
+                #{invoiceEnd},
+                </if>
+            	<if test="null!=channelType">
+                #{channelType},
+                </if>
+            	<if test="null!=couponId">
+                #{couponId},
+                </if>
+            	<if test="null!=couponAmount">
+                #{couponAmount},
+                </if>
+            	<if test="null!=salePayAmount">
+                #{salePayAmount}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_record (
+                rentRecordNo,
+                userId,
+                extendId,
+                channelNo,
+                logisticsNo,
+                returnLogisticsNo,
+                stockFlag,
+                snCode,
+                imei,
+                applyTime,
+                approvalTime,
+                terminateApplyTime,
+                payTime,
+                signTime,
+                backTime,
+                createOn,
+                updateOn,
+                state,
+                creditState,
+                agreementUrl,
+                sealAgreementUrl,
+                evid,
+                signServiceId,
+                discountFee,
+                productType,
+                applyInvoice,
+                invoiceEnd,
+                channelType,
+                couponId,
+                couponAmount,
+                salePayAmount
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rentRecordNo},#{item.userId},#{item.extendId},#{item.channelNo},#{item.logisticsNo},#{item.returnLogisticsNo},#{item.stockFlag},#{item.snCode},#{item.imei},#{item.applyTime},#{item.approvalTime},#{item.terminateApplyTime},#{item.payTime},#{item.signTime},#{item.backTime},#{item.createOn},#{item.updateOn},#{item.state},#{item.creditState},#{item.agreementUrl},#{item.sealAgreementUrl},#{item.evid},#{item.signServiceId},#{item.discountFee},#{item.productType},#{item.applyInvoice},#{item.invoiceEnd},#{item.channelType},#{item.couponId},#{item.couponAmount},#{item.salePayAmount})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_record
+            <set>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.userId">
+                	<![CDATA[ userId = #{updateCloumn.userId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.extendId">
+                	<![CDATA[ extendId = #{updateCloumn.extendId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.channelNo">
+                	<![CDATA[ channelNo = #{updateCloumn.channelNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.logisticsNo">
+                	<![CDATA[ logisticsNo = #{updateCloumn.logisticsNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.returnLogisticsNo">
+                	<![CDATA[ returnLogisticsNo = #{updateCloumn.returnLogisticsNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.stockFlag">
+                	<![CDATA[ stockFlag = #{updateCloumn.stockFlag} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.snCode">
+                	<![CDATA[ snCode = #{updateCloumn.snCode} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.imei">
+                	<![CDATA[ imei = #{updateCloumn.imei} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.applyTime">
+                	<![CDATA[ applyTime = #{updateCloumn.applyTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.approvalTime">
+                	<![CDATA[ approvalTime = #{updateCloumn.approvalTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.terminateApplyTime">
+                	<![CDATA[ terminateApplyTime = #{updateCloumn.terminateApplyTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.payTime">
+                	<![CDATA[ payTime = #{updateCloumn.payTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.signTime">
+                	<![CDATA[ signTime = #{updateCloumn.signTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.backTime">
+                	<![CDATA[ backTime = #{updateCloumn.backTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createOn">
+                	<![CDATA[ createOn = #{updateCloumn.createOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.updateOn">
+                	<![CDATA[ updateOn = #{updateCloumn.updateOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.state">
+                	<![CDATA[ state = #{updateCloumn.state} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.creditState">
+                	<![CDATA[ creditState = #{updateCloumn.creditState} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.agreementUrl">
+                	<![CDATA[ agreementUrl = #{updateCloumn.agreementUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.sealAgreementUrl">
+                	<![CDATA[ sealAgreementUrl = #{updateCloumn.sealAgreementUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.evid">
+                	<![CDATA[ evid = #{updateCloumn.evid} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.signServiceId">
+                	<![CDATA[ signServiceId = #{updateCloumn.signServiceId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.discountFee">
+                	<![CDATA[ discountFee = #{updateCloumn.discountFee} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.productType">
+                	<![CDATA[ productType = #{updateCloumn.productType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.applyInvoice">
+                	<![CDATA[ applyInvoice = #{updateCloumn.applyInvoice} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.invoiceEnd">
+                	<![CDATA[ invoiceEnd = #{updateCloumn.invoiceEnd} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.channelType">
+                	<![CDATA[ channelType = #{updateCloumn.channelType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.couponId">
+                	<![CDATA[ couponId = #{updateCloumn.couponId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.couponAmount">
+                	<![CDATA[ couponAmount = #{updateCloumn.couponAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.salePayAmount">
+                	<![CDATA[ salePayAmount = #{updateCloumn.salePayAmount} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.userId">
+                	AND <![CDATA[ userId = #{updateWhere.userId} ]]>
+                </if>
+            	<if test="null!=updateWhere.extendId">
+                	AND <![CDATA[ extendId = #{updateWhere.extendId} ]]>
+                </if>
+            	<if test="null!=updateWhere.channelNo">
+                	AND <![CDATA[ channelNo = #{updateWhere.channelNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.logisticsNo">
+                	AND <![CDATA[ logisticsNo = #{updateWhere.logisticsNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.returnLogisticsNo">
+                	AND <![CDATA[ returnLogisticsNo = #{updateWhere.returnLogisticsNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.stockFlag">
+                	AND <![CDATA[ stockFlag = #{updateWhere.stockFlag} ]]>
+                </if>
+            	<if test="null!=updateWhere.snCode">
+                	AND <![CDATA[ snCode = #{updateWhere.snCode} ]]>
+                </if>
+            	<if test="null!=updateWhere.imei">
+                	AND <![CDATA[ imei = #{updateWhere.imei} ]]>
+                </if>
+            	<if test="null!=updateWhere.applyTime">
+                	AND <![CDATA[ applyTime = #{updateWhere.applyTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.approvalTime">
+                	AND <![CDATA[ approvalTime = #{updateWhere.approvalTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.terminateApplyTime">
+                	AND <![CDATA[ terminateApplyTime = #{updateWhere.terminateApplyTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.payTime">
+                	AND <![CDATA[ payTime = #{updateWhere.payTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.signTime">
+                	AND <![CDATA[ signTime = #{updateWhere.signTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.backTime">
+                	AND <![CDATA[ backTime = #{updateWhere.backTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.createOn">
+                	AND <![CDATA[ createOn = #{updateWhere.createOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.updateOn">
+                	AND <![CDATA[ updateOn = #{updateWhere.updateOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.state">
+                	AND <![CDATA[ state = #{updateWhere.state} ]]>
+                </if>
+            	<if test="null!=updateWhere.creditState">
+                	AND <![CDATA[ creditState = #{updateWhere.creditState} ]]>
+                </if>
+            	<if test="null!=updateWhere.agreementUrl">
+                	AND <![CDATA[ agreementUrl = #{updateWhere.agreementUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.sealAgreementUrl">
+                	AND <![CDATA[ sealAgreementUrl = #{updateWhere.sealAgreementUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.evid">
+                	AND <![CDATA[ evid = #{updateWhere.evid} ]]>
+                </if>
+            	<if test="null!=updateWhere.signServiceId">
+                	AND <![CDATA[ signServiceId = #{updateWhere.signServiceId} ]]>
+                </if>
+            	<if test="null!=updateWhere.discountFee">
+                	AND <![CDATA[ discountFee = #{updateWhere.discountFee} ]]>
+                </if>
+            	<if test="null!=updateWhere.productType">
+                	AND <![CDATA[ productType = #{updateWhere.productType} ]]>
+                </if>
+            	<if test="null!=updateWhere.applyInvoice">
+                	AND <![CDATA[ applyInvoice = #{updateWhere.applyInvoice} ]]>
+                </if>
+            	<if test="null!=updateWhere.invoiceEnd">
+                	AND <![CDATA[ invoiceEnd = #{updateWhere.invoiceEnd} ]]>
+                </if>
+            	<if test="null!=updateWhere.channelType">
+                	AND <![CDATA[ channelType = #{updateWhere.channelType} ]]>
+                </if>
+            	<if test="null!=updateWhere.couponId">
+                	AND <![CDATA[ couponId = #{updateWhere.couponId} ]]>
+                </if>
+            	<if test="null!=updateWhere.couponAmount">
+                	AND <![CDATA[ couponAmount = #{updateWhere.couponAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.salePayAmount">
+                	AND <![CDATA[ salePayAmount = #{updateWhere.salePayAmount} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentRecordMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_record
+         <include refid="where" />
+    </select>
+   
+   
+   
+   <!-- 自己写的================================================================================== -->
+    
+    <resultMap id="RecordAndExtendsMap" type="org.gz.order.common.dto.RecordAndExtends">
+    	<association property="rentRecord" javaType="org.gz.order.common.entity.RentRecord">
+			<result property="id" column="id"/>
+	             <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="userId" column="userId"/>
+        <result property="extendId" column="extendId"/>
+        <result property="channelNo" column="channelNo"/>
+        <result property="logisticsNo" column="logisticsNo"/>
+        <result property="returnLogisticsNo" column="returnLogisticsNo"/>
+        <result property="stockFlag" column="stockFlag"/>
+        <result property="snCode" column="snCode"/>
+        <result property="imei" column="imei"/>
+        <result property="applyTime" column="applyTime"/>
+        <result property="approvalTime" column="approvalTime"/>
+        <result property="terminateApplyTime" column="terminateApplyTime"/>
+        <result property="payTime" column="payTime"/>
+        <result property="signTime" column="signTime"/>
+        <result property="backTime" column="backTime"/>
+        <result property="createOn" column="createOn"/>
+        <result property="updateOn" column="updateOn"/>
+        <result property="state" column="state"/>
+        <result property="creditState" column="creditState"/>
+        <result property="agreementUrl" column="agreementUrl"/>
+        <result property="sealAgreementUrl" column="sealAgreementUrl"/>
+        <result property="evid" column="evid"/>
+        <result property="signServiceId" column="signServiceId"/>
+        <result property="discountFee" column="discountFee"/>
+        <result property="productType" column="productType"/>
+        <result property="applyInvoice" column="applyInvoice"/>
+        <result property="invoiceEnd" column="invoiceEnd"/>
+        <result property="channelType" column="channelType"/>
+        </association>
+		<association property="rentRecordExtends" javaType="org.gz.order.common.entity.RentRecordExtends">
+<!-- 			<result property="id" column="id"/> -->
+	        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="productId" column="productId"/>
+        <result property="productNo" column="productNo"/>
+        <result property="materielClassId" column="materielClassId"/>
+        <result property="materielClassName" column="materielClassName"/>
+        <result property="materielBrandId" column="materielBrandId"/>
+        <result property="materielBrandName" column="materielBrandName"/>
+        <result property="materielModelId" column="materielModelId"/>
+        <result property="materielModelName" column="materielModelName"/>
+        <result property="materielSpecName" column="materielSpecName"/>
+        <result property="leaseTerm" column="leaseTerm"/>
+        <result property="leaseAmount" column="leaseAmount"/>
+        <result property="premium" column="premium"/>
+        <result property="floatAmount" column="floatAmount"/>
+        <result property="signContractAmount" column="signContractAmount"/>
+        <result property="sesameCredit" column="sesameCredit"/>
+        <result property="materielNo" column="materielNo"/>
+        <result property="matreielName" column="matreielName"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="realName" column="realName"/>
+        <result property="idNo" column="idNo"/>
+        <result property="prov" column="prov"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="address" column="address"/>
+        <result property="emergencyContact" column="emergencyContact"/>
+        <result property="emergencyContactPhone" column="emergencyContactPhone"/>
+        <result property="relationship" column="relationship"/>
+        <result property="showAmount" column="showAmount"/>
+        <result property="materielNewConfigId" column="materielNewConfigId"/>
+        <result property="configValue" column="configValue"/>
+         <result property="brokenScreenAmount" column="brokenScreenAmount"/>
+        <result property="brokenScreenBuyed" column="brokenScreenBuyed"/>
+		</association>
+	</resultMap>
+    <sql id="where_recordAndExtends">
+    	where 1=1 
+    	<if test="rentRecord!=null">
+			<if test="rentRecord.rentRecordNo!=null and rentRecord.rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecord.rentRecordNo}
+			</if>
+			<if test="rentRecord.userId!=null and rentRecord.userId!=''">
+				and rr.userId=#{rentRecord.userId}
+			</if>
+			<if test="rentRecord.extendId!=null and rentRecord.extendId!=''">
+				and rr.extendId=#{rentRecord.extendId}
+			</if>
+			<if test="rentRecord.channelNo!=null and rentRecord.channelNo!=''">
+				and rr.channelNo=#{rentRecord.channelNo}
+			</if>
+			<if test="rentRecord.logisticsNo!=null and rentRecord.logisticsNo!=''">
+				and rr.logisticsNo=#{rentRecord.logisticsNo}
+			</if>
+			<if test="rentRecord.stockFlag!=null and rentRecord.stockFlag!=''">
+				and rr.stockFlag=#{rentRecord.stockFlag}
+			</if>
+			<if test="rentRecord.snCode!=null and rentRecord.snCode!=''">
+				and rr.snCode=#{rentRecord.snCode}
+			</if>
+			<if test="rentRecord.imei!=null and rentRecord.imei!=''">
+				and rr.imei=#{rentRecord.imei}
+			</if>
+			<if test="rentRecord.state!=null">
+				and rr.state=#{rentRecord.state}
+			</if>
+			<if test="null!= rentRecord.creditState">
+                and rr.creditState = #{rentRecord.creditState}
+            </if>
+            <if test="rentRecord.productType!=null and rentRecord.productType!=''">
+                and rr.productType = #{rentRecord.productType}
+            </if>
+			<if test="applyStartTime!=null and applyEndTime!=null">
+				and rr.applyTime &gt;= #{applyStartTime}
+				and rr.applyTime &lt;= #{applyEndTime}
+			</if>
+			<if test="approvalStartTime!=null and approvalEndTime!=null">
+				and rr.approvalTime &gt;= #{approvalStartTime}
+				and rr.approvalTime &lt;= #{approvalEndTime}
+			</if>
+			<if test="payStartTime!=null and payEndTime!=null">
+				and rr.payTime &gt;= #{payStartTime}
+				and rr.payTime &lt;= #{payEndTime}
+			</if>
+			<if test="terminateApplyStartTime!=null and terminateApplyEndTime!=null">
+				and rr.terminateApplyTime &gt;= #{terminateApplyStartTime}
+				and rr.terminateApplyTime &lt;= #{terminateApplyEndTime}
+			</if>
+    	</if>
+    	<if test="rentRecordExtends!=null">
+    		<if test="rentRecordExtends.materielClassId!=null and rentRecordExtends.materielClassId!=''">
+				and rre.materielClassId=#{rentRecordExtends.materielClassId}
+			</if>
+			<if test="rentRecordExtends.realName!=null and rentRecordExtends.realName!=''">
+				and rre.realName=#{rentRecordExtends.realName}
+			</if>
+			<if test="rentRecordExtends.idNo!=null and rentRecordExtends.idNo!=''">
+				and rre.idNo=#{rentRecordExtends.idNo}
+			</if>
+			<if test="rentRecordExtends.phoneNum!=null and rentRecordExtends.phoneNum!=''">
+				and rre.phoneNum=#{rentRecordExtends.phoneNum}
+			</if>
+    	</if>
+    	<if test="recordStates!=null and recordStates.size>0">
+				and rr.state in
+				<foreach item="item" index="key" collection="recordStates" open="(" separator="," close=")">
+		    	#{item}
+		    	</foreach>
+		</if>
+		<if test="noRecordStates!=null and noRecordStates.size>0">
+				and rr.state not in
+				<foreach item="item" index="key" collection="noRecordStates" open="(" separator="," close=")">
+		    	#{item}
+		    	</foreach>
+		</if>
+		<if test="productTypes!=null and productTypes.size>0">
+				and rr.productType in
+				<foreach item="item" index="key" collection="productTypes" open="(" separator="," close=")">
+		    	#{item}
+		    	</foreach>
+		</if>
+	</sql>
+	<sql id="order_recordAndExtends">
+		<if test="orderBy!=null and orderBy.size>0">
+		order by 
+		<foreach item="item" index="key" collection="orderBy" open="" separator="," close="">
+	    	${item.cloumnName} ${item.sequence}
+	    </foreach>
+		</if>
+	</sql>
+    <select id="countRecordAndExtends" parameterType="org.gz.order.common.dto.RecordAndExtendsQuery" resultType="int">
+		select count(*) from rent_record rr inner join rent_record_extends rre on rr.extendId=rre.id <include refid="where_recordAndExtends"/>
+	</select>
+	<select id="queryPageRecordAndExtends" parameterType="org.gz.order.common.dto.RecordAndExtendsQuery" resultMap="RecordAndExtendsMap">
+		select rr.*,rre.*
+		from rent_record rr inner join rent_record_extends rre on rr.extendId=rre.id 
+		<include refid="where_recordAndExtends"/> 
+		<include refid="order_recordAndExtends"/> 
+		limit #{startIndex},#{endIndex}
+	</select>
+	<select id="getRecordAndExtends"  resultMap="RecordAndExtendsMap">
+		select rr.*,rre.*
+		from rent_record rr inner join rent_record_extends rre on rr.extendId=rre.id 
+		where rr.id=#{id}
+	</select>
+   
+    <select id="queryCount" resultType="int" >
+    	SELECT
+        count(*)
+        FROM
+        rent_record
+         <include refid="where" />
+    </select>
+    
+
+    <select id="getByRentRecordNo" resultMap="RentRecordMap">
+        SELECT <include refid="columns" />
+            FROM
+                rent_record
+            WHERE 
+              rentRecordNo = #{rentRecordNo}
+    </select>
+    
+    
+    
+    <resultMap id="RentRecordAndExtendsMap"  extends="RentRecordMap" type="org.gz.order.common.dto.OrderDetailResp">
+        <result property="productId" column="productId"/>
+        <result property="productNo" column="productNo"/>
+        <result property="materielClassId" column="materielClassId"/>
+        <result property="materielClassName" column="materielClassName"/>
+        <result property="materielBrandId" column="materielBrandId"/>
+        <result property="materielBrandName" column="materielBrandName"/>
+        <result property="materielModelId" column="materielModelId"/>
+        <result property="materielModelName" column="materielModelName"/>
+        <result property="materielSpecName" column="materielSpecName"/>
+        <result property="leaseTerm" column="leaseTerm"/>
+        <result property="showAmount" column="showAmount"/>
+        <result property="leaseAmount" column="leaseAmount"/>
+        <result property="premium" column="premium"/>
+        <result property="floatAmount" column="floatAmount"/>
+        <result property="signContractAmount" column="signContractAmount"/>
+        <result property="sesameCredit" column="sesameCredit"/>
+        <result property="materielNo" column="materielNo"/>
+        <result property="matreielName" column="matreielName"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="realName" column="realName"/>
+        <result property="idNo" column="idNo"/>
+        <result property="prov" column="prov"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="address" column="address"/>
+        <result property="emergencyContact" column="emergencyContact"/>
+        <result property="emergencyContactPhone" column="emergencyContactPhone"/>
+        <result property="relationship" column="relationship"/>
+        <result property="materielNewConfigId" column="materielNewConfigId"/>
+        <result property="configValue" column="configValue"/>
+        <result property="brokenScreenAmount" column="brokenScreenAmount"/>
+        <result property="brokenScreenBuyed" column="brokenScreenBuyed"/>
+        
+    </resultMap>
+    <!-- 查询订单详细信息   -->
+     <select id="getOrderDetailByRentRecordNo" resultMap="RentRecordAndExtendsMap">
+        SELECT  rr.*,rre.* 
+            FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+            WHERE 
+              rr.rentRecordNo = #{rentRecordNo}
+    </select>
+  
+  
+      <!-- 按不同状态查询当前用户订单列表  -->
+        <select id="queryOrderStateList" resultMap="RentRecordAndExtendsMap" parameterType="org.gz.order.common.dto.OrderDetailReq">
+        SELECT  rr.*,rre.* 
+            FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+            WHERE 
+               rr.userId  = #{userId}
+			 <if test="backState != null" >
+			       and   rr.state in 
+			         <foreach collection="backState" item="listItem" open="(" close=")" separator="," >
+			                  #{listItem}
+			           </foreach>
+			   </if>
+			
+			 <if test="productTypes !=null" >
+			<choose>  
+	            <when test=" productTypes==1">  
+	               and  rr.productType in (1,2)
+	            </when >  
+	            <otherwise>  
+	             and  rr.productType = 3
+	             and rr.state != 0
+	            </otherwise>  
+	        </choose>
+			</if>	   
+			   
+			   order by rr.id desc
+    </select>
+  
+  <!-- 按条件分页查询RentRecord信息 -->
+   <select id="countRentRecord" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="int">
+		select count(*) from rent_record rr <include refid="where_record"/>
+	</select>
+	<select id="queryPageRentRecord" parameterType="org.gz.order.common.dto.RentRecordQuery" resultMap="RentRecordMap">
+		select *
+		from rent_record  rr
+		<include refid="where_record"/> 
+		<include refid="order_recordAndExtends"/> 
+		limit #{startIndex},#{endIndex}
+	</select>
+  
+   <sql id="where_record">
+    	where 1=1 
+    	   <if test=" notZero != null ">
+				and rr.state !=  #{notZero}
+			</if>
+    	   <if test=" greateZero != null ">
+				and rr.state >= #{greateZero}
+			</if>
+    	   <if test=" userId != null ">
+				and rr.userId = #{userId}
+			</if>
+			<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecordNo}
+			</if>
+			<if test="snCode!=null and snCode!=''">
+				and rr.snCode=#{snCode}
+			</if>
+			<if test="imei!=null and imei!=''">
+				and rr.imei=#{imei}
+			</if>
+			<if test="state!=null">
+				and rr.state=#{state}
+			</if>
+			
+		    <if test="stateList != null and stateList.size &gt; 0">
+	         and  rr.state      in
+	         <foreach close=")" collection="stateList" index="index" item="state" open="(" separator=",">
+	            #{state}
+	        </foreach>
+	        </if>
+			
+			<if test="signStartTime != null and signStartTime != '' " >
+             <![CDATA[  
+               and rr.signTime >= CONCAT( #{signStartTime},' 00:00:00') 
+              ]]>
+          </if>
+          <if test="signEndTime != null and signEndTime != '' " >
+             <![CDATA[
+               and rr.signTime <= CONCAT( #{signEndTime},' 23:59:59') 
+                  ]]>
+          </if>
+          	<if test="startApplyTime != null and startApplyTime != '' " >
+             <![CDATA[  
+               and rr.applyTime >= #{startApplyTime} 
+              ]]>
+          </if>
+          	<if test="endApplyTime != null and endApplyTime != '' " >
+             <![CDATA[  
+               and rr.applyTime <= #{endApplyTime} 
+              ]]>
+          </if>
+          
+          <if test="null!=realName and ''!=realName">
+                AND rre.realName = #{realName}
+            </if>
+            <if test="null!=idNo and ''!=idNo">
+                AND  rre.idNo = #{idNo}
+            </if>
+              <if test="null!=phoneNum and ''!=phoneNum">
+                AND  rre.phoneNum = #{phoneNum}
+            </if>
+          
+          
+	</sql>
+  
+  
+  <!-- 按条件分页查询订单列表信息返回给仓库系统信息 -->
+   <select id="countWareOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="int">
+		select count(*)  
+		  FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+		<include refid="where_record"/>
+	</select>
+	<select id="queryPageWareOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultMap="RentRecordAndExtendsMap">
+		SELECT  rr.*,rre.* 
+            FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+		<include refid="where_record"/> 
+		<include refid="order_recordAndExtends"/> 
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+	
+  
+	<select id="queryRentRecordStatusStatistics"  resultType="org.gz.order.common.dto.RentOrderStateStatistics">
+		select state as state,count(1) as orderCount
+		from rent_record
+		where userId = #{userId}
+		group by state
+	</select>
+	
+	<!-- 通过imeilist查询订单编号list<String> -->
+	<select id="queryRentRecordNoByImei"  resultType="String" parameterType="java.util.List">
+		select rentRecordNo 
+		from rent_record
+		where 
+		imei in
+		 <foreach close=")" collection="list" index="index" item="imei" open="(" separator=",">
+	            #{imei}
+	        </foreach>
+		
+	</select>
+  
+  	  <!-- 按条件分页查询订单列表信息返回给工单系统信息 -->
+   <select id="countWokerOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="int">
+		select count(*) from rent_record rr 
+		inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+		where 1=1 
+		and state != 0
+			<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecordNo}
+			</if>
+			<if test="null!=realName and ''!=realName">
+                AND realName = #{realName}
+            </if>
+            <if test="null!=idNo and ''!=idNo">
+                AND idNo = #{idNo}
+            </if>
+              <if test="null!=phoneNum and ''!=phoneNum">
+                AND phoneNum = #{phoneNum}
+            </if>
+	</select>
+	<select id="queryPageWokerOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="org.gz.order.common.dto.WorkOrderRsp">
+		SELECT  rr.rentRecordNo,rr.state,rr.applyTime,rre.materielModelName,
+		rre.materielSpecName,rre.materielBrandName,rre.leaseTerm,rre.matreielName
+            FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+			where 1=1 
+			and state != 0
+			<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecordNo}
+			</if>
+			<if test="null!=realName and ''!=realName">
+                AND realName = #{realName}
+            </if>
+            <if test="null!=idNo and ''!=idNo">
+                AND idNo = #{idNo}
+            </if>
+            <if test="null!=phoneNum and ''!=phoneNum">
+                AND phoneNum = #{phoneNum}
+            </if>
+            order by rr.id desc 
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+  
+  <!-- 按大于某个申请时间分页查询订单编号list -->
+   <select id="queryPageOrderNos" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="String">
+		SELECT  rr.rentRecordNo
+            FROM
+                rent_record rr 
+		<include refid="where_record"/> 
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+  
+    <!-- 按小于某个申请时间查询订单编号list -->
+   <select id="queryOrderNos" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="String">
+		SELECT  rr.rentRecordNo
+            FROM
+                rent_record rr 
+		<include refid="where_record"/> 
+	</select>
+	
+	
+  <select id="queryOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultMap="RentRecordAndExtendsMap">
+		SELECT  rr.*,rre.* 
+            FROM
+                rent_record rr inner join rent_record_extends rre
+                on rr.rentRecordNo=rre.rentRecordNo 
+		<include refid="where_record"/> 
+		<include refid="order_recordAndExtends"/> 
+	</select>
+	
+	
+	
+	  <!-- 分页查询订单还机列表信息返回给库存系统（归还中”、“提前解约中”、“强制归还中”、“退货中） -->
+   <select id="countReturnOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultType="int">
+		SELECT  count(*)
+	     FROM rent_record rr 
+		inner join rent_record_extends rre
+		on rr.rentRecordNo=rre.rentRecordNo 
+		INNER JOIN (
+		select rentRecordNo,createOn from rent_state where 
+		1=1
+		  <if test="stateList != null and stateList.size &gt; 0">
+	         and  state      in
+	         <foreach close=")" collection="stateList" index="index" item="state" open="(" separator=",">
+	            #{state}
+	        </foreach>
+	        </if>
+	        
+	        <if test="startApplyTime != null and startApplyTime != '' " >
+             <![CDATA[  
+               and createOn >= #{startApplyTime} 
+              ]]>
+          </if>
+          	<if test="endApplyTime != null and endApplyTime != '' " >
+             <![CDATA[  
+               and createOn <= #{endApplyTime} 
+              ]]>
+          </if>
+		 ) bb
+		on rr. rentRecordNo = bb.rentRecordNo
+		where 1=1 
+			<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecordNo}
+			</if>
+			<if test="returnLogisticsNo !=null and returnLogisticsNo !=''">
+				and rr.returnLogisticsNo=#{returnLogisticsNo}
+			</if>
+			<if test="snCode!=null and snCode!=''">
+				and rr.snCode=#{snCode}
+			</if>
+			<if test="imei!=null and imei!=''">
+				and rr.imei=#{imei}
+			</if>
+	        
+	</select>
+	
+	<select id="queryReturnOrderList" parameterType="org.gz.order.common.dto.RentRecordQuery" resultMap="RentRecordAndExtendsMap">
+		SELECT  rr.*,rre.* 
+	     FROM rent_record rr 
+		inner join rent_record_extends rre
+		on rr.rentRecordNo=rre.rentRecordNo 
+		INNER JOIN (
+		select rentRecordNo,createOn from rent_state where 
+		1=1
+		  <if test="stateList != null and stateList.size &gt; 0">
+	         and  state      in
+	         <foreach close=")" collection="stateList" index="index" item="state" open="(" separator=",">
+	            #{state}
+	        </foreach>
+	        </if>
+	        
+	        <if test="startApplyTime != null and startApplyTime != '' " >
+             <![CDATA[  
+               and createOn >= #{startApplyTime} 
+              ]]>
+          </if>
+          	<if test="endApplyTime != null and endApplyTime != '' " >
+             <![CDATA[  
+               and createOn <= #{endApplyTime} 
+              ]]>
+          </if>
+		 ) bb
+		on rr. rentRecordNo = bb.rentRecordNo
+		where 1=1 
+			<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and rr.rentRecordNo=#{rentRecordNo}
+			</if>
+			<if test="returnLogisticsNo !=null and returnLogisticsNo !=''">
+				and rr.returnLogisticsNo=#{returnLogisticsNo}
+			</if>
+			<if test="snCode!=null and snCode!=''">
+				and rr.snCode=#{snCode}
+			</if>
+			<if test="imei!=null and imei!=''">
+				and rr.imei=#{imei}
+			</if>
+          order by bb.createOn desc
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+	
+	 <!-- 按条件分页查询countInvoice信息 -->
+   <select id="countInvoice" parameterType="org.gz.order.common.dto.QueryInvoiceReq" resultType="int">
+		select  count(*)  from rent_record a 
+		INNER JOIN
+		rent_record_extends b on a.rentRecordNo  = b.rentRecordNo
+		where a.applyInvoice =1
+		and a.productType =3
+		    <![CDATA[  
+                and a.state >=7
+              ]]>
+		<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and a.rentRecordNo=#{rentRecordNo}
+		</if>
+		<if test="phoneNum !=null and phoneNum !=''">
+				and b.phoneNum  like '${rentRecordNo}%'
+		</if>
+		<if test="phoneNum !=null and phoneNum !=''">
+				and b.realName like  '%${rentRecordNo}%'
+		</if>
+		 <if test="null!=invoiceEnd ">
+                AND invoiceEnd = #{invoiceEnd}
+          </if>
+	</select>
+	
+	<select id="queryPageInvoice" parameterType="org.gz.order.common.dto.QueryInvoiceReq" resultType="org.gz.order.common.dto.QueryInvoiceRsp">
+		select a.rentRecordNo ,b.signContractAmount,b.phoneNum,b.realName,b.materielModelName,
+		b.materielSpecName,b.configValue,c.titleType,c.title,c.invoiceNumber,c.content,c.fee,
+		c.feeTwo,c.invoiceType,a.payTime,a.invoiceEnd
+		 from rent_record a 
+		 INNER JOIN
+		rent_record_extends b on a.rentRecordNo  = b.rentRecordNo
+		LEFT JOIN rent_invoice c on a.rentRecordNo = c.rentRecordNo
+		where a.applyInvoice =1
+		and a.productType =3
+		    <![CDATA[  
+                and a.state >=7
+              ]]>
+		
+		<if test="rentRecordNo!=null and rentRecordNo!=''">
+				and a.rentRecordNo=#{rentRecordNo}
+		</if>
+		<if test="phoneNum !=null and phoneNum !='' ">
+				and b.phoneNum  like '${phoneNum}%'
+		</if>
+		<if test="realName !=null and realName !=''">
+				and b.realName like  '%${realName}%'
+		</if>
+		 <if test="null!=invoiceEnd ">
+                AND invoiceEnd = #{invoiceEnd}
+          </if>
+          order by  a.payTime asc
+		limit #{startIndex},#{endIndex}
+	</select>
+  
+</mapper>
+

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.overdue.mapper.ContactRecordMapper">
+<resultMap id="ContactRecordMap"  type="org.gz.overdue.entity.ContactRecord" >
+	<result column="id" property="id" jdbcType="INTEGER" />
+	<result column="orderSN" property="orderSN" jdbcType="VARCHAR" />
+	<result column="userName" property="userName" jdbcType="VARCHAR" />
+	<result column="userPhone" property="userPhone" jdbcType="VARCHAR" />
+	<result column="contactResult" property="contactResult" jdbcType="INTEGER" />
+	<result column="contactTime" property="contactTime" jdbcType="TIMESTAMP" />
+	<result column="opPerson" property="opPerson" jdbcType="VARCHAR" />
+	<result column="remark" property="remark" jdbcType="VARCHAR" />
+</resultMap> 
+<sql id="columns">
+  id,orderSN,userName,userPhone,contactResult,contactTime,opPerson,remark
+</sql> 
+<sql id="t_columns">
+  t.id,t.orderSN,t.userName,t.userPhone,t.contactResult,t.contactTime,t.opPerson,t.remark
+</sql> 
+<sql id="where"> 
+	<where> 
+		<if test="null!=id">
+			 AND id=#{id}
+		</if>
+		<if test="null!=orderSN">
+			 AND orderSN=#{orderSN}
+		</if>
+		<if test="null!=userName">
+			 AND userName=#{userName}
+		</if>
+		<if test="null!=userPhone">
+			 AND userPhone=#{userPhone}
+		</if>
+		<if test="null!=contactResult">
+			 AND contactResult=#{contactResult}
+		</if>
+		<if test="null!=contactTime">
+			 AND contactTime=#{contactTime}
+		</if>
+		<if test="null!=opPerson">
+			 AND opPerson=#{opPerson}
+		</if>
+		<if test="null!=remark">
+			 AND remark=#{remark}
+		</if>
+	</where> 
+</sql> 
+<select id="getById" resultMap="ContactRecordMap"> 
+	SELECT 
+	<include refid="columns" />
+	FROM contact_record
+		WHERE  id = #{id}  
+</select> 
+<select id="findAll" resultMap="ContactRecordMap"> 
+	SELECT 
+	<include refid="columns" />
+	FROM contact_record
+</select> 
+<insert id="add" useGeneratedKeys="true" keyProperty="id"> 
+	INSERT INTO contact_record
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="null!=id"> 
+			id,
+		</if>
+		<if test="null!=orderSN"> 
+			orderSN,
+		</if>
+		<if test="null!=userName"> 
+			userName,
+		</if>
+		<if test="null!=userPhone"> 
+			userPhone,
+		</if>
+		<if test="null!=contactResult"> 
+			contactResult,
+		</if>
+		<if test="null!=contactTime"> 
+			contactTime,
+		</if>
+		<if test="null!=opPerson"> 
+			opPerson,
+		</if>
+		<if test="null!=remark"> 
+			remark,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="null!=id"> 
+		#{id},
+	</if>
+	<if test="null!=orderSN"> 
+		#{orderSN},
+	</if>
+	<if test="null!=userName"> 
+		#{userName},
+	</if>
+	<if test="null!=userPhone"> 
+		#{userPhone},
+	</if>
+	<if test="null!=contactResult"> 
+		#{contactResult},
+	</if>
+	<if test="null!=contactTime"> 
+		#{contactTime},
+	</if>
+	<if test="null!=opPerson"> 
+		#{opPerson},
+	</if>
+	<if test="null!=remark"> 
+		#{remark},
+	</if>
+	</trim>
+</insert>
+<update id="update">
+	UPDATE contact_record
+	<set>
+	<if test="null!=id"> 
+		id = #{id},
+	</if>
+	<if test="null!=orderSN"> 
+		orderSN = #{orderSN},
+	</if>
+	<if test="null!=userName"> 
+		userName = #{userName},
+	</if>
+	<if test="null!=userPhone"> 
+		userPhone = #{userPhone},
+	</if>
+	<if test="null!=contactResult"> 
+		contactResult = #{contactResult},
+	</if>
+	<if test="null!=contactTime"> 
+		contactTime = #{contactTime},
+	</if>
+	<if test="null!=opPerson"> 
+		opPerson = #{opPerson},
+	</if>
+	<if test="null!=remark"> 
+		remark = #{remark},
+	</if>
+	</set>
+	<where> 
+		AND id = #{id}
+	</where> 
+</update>
+<select id="queryList" resultMap="ContactRecordMap">
+	SELECT
+		<include refid="columns" />
+		FROM contact_record
+		<include refid="where" />
+		order by id desc
+		limit #{startIndex},#{endIndex}
+</select>
+<select id="queryCount" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM contact_record
+		<include refid="where" />
+	</select>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from contact_record
+	where id = #{id}
+</delete>
+</mapper>

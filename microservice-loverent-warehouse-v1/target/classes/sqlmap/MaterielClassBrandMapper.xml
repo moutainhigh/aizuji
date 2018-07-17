@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielClassBrandMapper">
+	
+	<!-- 查询分类可用品牌 -->
+ 	<select id="queryBrands" resultType="org.gz.warehouse.entity.MaterielClassBrandVO">
+ 		select 
+ 			t.* 
+ 		from (
+ 			select 
+ 				mb.id,
+ 				mb.brandName,
+ 				(select count(1) from materiel_class_brand where materielBrandId=mb.id and  materielClassId=#{materielClassId}) as count 
+ 			from materiel_brand mb 
+ 		)t 
+ 		ORDER BY t.count desc
+ 	</select>
+ 	
+	<!-- 查询特定分类下关联的品牌 -->
+	<select id="queryLinkedBrandList" resultType="org.gz.warehouse.entity.MaterielClassBrandVO">
+		select 
+			mb.id,mb.brandName 
+		FROM materiel_brand mb INNER JOIN materiel_class_brand mcb on mb.id=mcb.materielBrandId INNER JOIN materiel_class mc on mcb.materielClassId=mc.id 
+		where mc.id=#{materielClassId}
+	</select>
+	
+	<!-- 查询特定分类下关联的品牌Ids -->
+	<select id="queryLinkedBrandIds" resultType="java.lang.Integer">
+		select 
+			mb.id
+		FROM materiel_brand mb INNER JOIN materiel_class_brand mcb on mb.id=mcb.materielBrandId INNER JOIN materiel_class mc on mcb.materielClassId=mc.id 
+		where mc.id=#{materielClassId}
+	</select>
+	
+	<!-- 批量插入 -->
+	<insert id="batchAdd" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+		insert into materiel_class_brand(materielClassId,materielBrandId)values  
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(#{item.materielClassId},#{item.materielBrandId})  
+    	</foreach>  
+	</insert>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDelete">
+		delete from materiel_class_brand where materielClassId=#{materielClassId} and materielBrandId in
+	 	<foreach item="item" collection="delList" open="(" separator="," close=")">
+            #{item.materielBrandId}
+        </foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.oss.common.dao.CouponBackageDao" >
+  <resultMap id="BaseResultMap" type="org.gz.oss.common.entity.CouponBackage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="qualifications" property="qualifications" jdbcType="TINYINT" />
+    <result column="validity_start_time" property="validityStartTime" jdbcType="TIMESTAMP" />
+    <result column="validity_end_time" property="validityEndTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="create_no" property="createNo" jdbcType="TIMESTAMP" />
+    <result column="update_no" property="updateNo" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, qualifications, validity_start_time as validityStartTime, validity_end_time as validityEndTime, 
+    status, create_no as createNo, update_no as updateNo
+  </sql>
+
+  <select id="queryPageCount" parameterType="org.gz.oss.common.entity.CouponBackageQuery" resultType="int">
+    	select count(*) from coupon_backage
+  </select>
+  
+  <select id="queryPageList" parameterType="org.gz.oss.common.entity.CouponBackageQuery" resultType="org.gz.oss.common.entity.CouponBackage">
+		select 
+			<include refid="Base_Column_List"></include> 
+		from 
+			coupon_backage 
+		limit #{startIndex},#{endIndex}
+   </select>
+   
+   <select id="queryCouponBackList" parameterType="org.gz.oss.common.entity.CouponBackageQuery" resultType="org.gz.oss.common.entity.CouponBackage">
+		select id from coupon_backage where validity_start_time &lt;= #{nowDate} AND validity_end_time &gt;= #{nowDate}
+   </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_backage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from coupon_backage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.oss.common.entity.CouponBackage" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into coupon_backage (id, name, qualifications, 
+      validity_start_time, validity_end_time, 
+      status, create_no, update_no
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{qualifications,jdbcType=TINYINT}, 
+      #{validityStartTime,jdbcType=TIMESTAMP}, #{validityEndTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{createNo,jdbcType=TIMESTAMP}, #{updateNo,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.oss.common.entity.CouponBackage" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into coupon_backage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="qualifications != null" >
+        qualifications,
+      </if>
+      <if test="validityStartTime != null" >
+        validity_start_time,
+      </if>
+      <if test="validityEndTime != null" >
+        validity_end_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createNo != null" >
+        create_no,
+      </if>
+      <if test="updateNo != null" >
+        update_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifications != null" >
+        #{qualifications,jdbcType=TINYINT},
+      </if>
+      <if test="validityStartTime != null" >
+        #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null" >
+        #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createNo != null" >
+        #{createNo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateNo != null" >
+        #{updateNo,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.oss.common.entity.CouponBackage" >
+    update coupon_backage
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="qualifications != null" >
+        qualifications = #{qualifications,jdbcType=TINYINT},
+      </if>
+      <if test="validityStartTime != null" >
+        validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null" >
+        validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createNo != null" >
+        create_no = #{createNo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateNo != null" >
+        update_no = #{updateNo,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.oss.common.entity.CouponBackage" >
+    update coupon_backage
+    set name = #{name,jdbcType=VARCHAR},
+      qualifications = #{qualifications,jdbcType=TINYINT},
+      validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      create_no = #{createNo,jdbcType=TIMESTAMP},
+      update_no = #{updateNo,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

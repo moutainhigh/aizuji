@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.aliOrder.dao.RentStateDao">
+
+    <resultMap id="RentStateMap" type="org.gz.aliOrder.entity.RentState">
+        <result property="id" column="id"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="createBy" column="createBy"/>
+        <result property="createOn" column="createOn"/>
+        <result property="state" column="state"/>
+        <result property="createMan" column="createMan"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+    
+  <sql id="columns">
+        <![CDATA[
+        id, rentRecordNo, createBy, createOn, state, createMan, remark
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.rentRecordNo, t.createBy, t.createOn, t.state, t.createMan, t.remark
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=createBy">
+                AND createBy = #{createBy}
+            </if>
+            <if test="null!=createOn and ''!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=state">
+                AND state = #{state}
+            </if>
+            <if test="null!=createMan and ''!=createMan">
+                AND createMan = #{createMan}
+            </if>
+            <if test="null!=remark and ''!=remark">
+                AND remark = #{remark}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentStateMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_state
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentStateMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_state
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_state (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=createBy">
+	                 createBy,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=state">
+	                 state,
+	            </if>
+            	<if test="null!=createMan">
+	                 createMan,
+	            </if>
+            	<if test="null!=remark">
+	                 remark
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=createBy">
+                #{createBy},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=state">
+                #{state},
+                </if>
+            	<if test="null!=createMan">
+                #{createMan},
+                </if>
+            	<if test="null!=remark">
+                #{remark}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_state (
+                rentRecordNo,
+                createBy,
+                createOn,
+                state,
+                createMan,
+                remark
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rentRecordNo},#{item.createBy},#{item.createOn},#{item.state},#{item.createMan},#{item.remark})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_state
+            <set>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createBy">
+                	<![CDATA[ createBy = #{updateCloumn.createBy} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createOn">
+                	<![CDATA[ createOn = #{updateCloumn.createOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.state">
+                	<![CDATA[ state = #{updateCloumn.state} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createMan">
+                	<![CDATA[ createMan = #{updateCloumn.createMan} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.remark">
+                	<![CDATA[ remark = #{updateCloumn.remark} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.createBy">
+                	AND <![CDATA[ createBy = #{updateWhere.createBy} ]]>
+                </if>
+            	<if test="null!=updateWhere.createOn">
+                	AND <![CDATA[ createOn = #{updateWhere.createOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.state">
+                	AND <![CDATA[ state = #{updateWhere.state} ]]>
+                </if>
+            	<if test="null!=updateWhere.createMan">
+                	AND <![CDATA[ createMan = #{updateWhere.createMan} ]]>
+                </if>
+            	<if test="null!=updateWhere.remark">
+                	AND <![CDATA[ remark = #{updateWhere.remark} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentStateMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_state
+         <include refid="where" />
+    </select>
+</mapper>
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" type='image/ico' href='image/favicon.ico'>
+	<title>手机租赁 - 产品系统</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="fonts/iconfont.css">
+</head>
+<body>
+	<div class='content-wapper'>
+		<div class="header">
+			<div class='index-logo'></div>
+			<div class="exit">退出登录</div>
+			<span class='user'>欢迎您，<span class='userName' id="userNameSpan"></span></span>
+		</div>
+		<div class='view'>
+			<iframe src="./product/productConfig.html" frameborder="0" name='iframe' class='iframe' id='iframe'></iframe>
+		</div>
+	</div>
+ 	<div class="menu" ref='menu'>
+		<div class="panel-group" id="accordion">
+		    <div class="panel panel-default">
+		        <div class="panel-heading">
+		            <h4 class="panel-title">
+		                <a data-toggle="collapse" data-parent="#accordion" 
+		                   href="#collapseOne"> 
+		                    <b class='iconfont'></b>产品管理<span class='iconfont panel-icon'>&#xe600;</span>
+		                </a>
+		            </h4>
+		        </div>
+		        <div id="collapseOne" class="panel-collapse collapse">
+		            <div class="panel-body">
+						<a href="./product/productConfig.html" target="iframe">产品配置管理</a>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default">
+		        <div class="panel-heading">
+		            <h4 class="panel-title">
+		                <a data-toggle="collapse" data-parent="#accordion" 
+		                   href="#collapseTwo">
+		                    运营管理<span class='iconfont panel-icon'>&#xe600;</span>
+		                </a>
+		            </h4>
+		        </div>
+		        <div id="collapseTwo" class="panel-collapse collapse">
+		            <div class="panel-body">
+						<a href="./banner/bannerList.html" target="iframe">推荐配置</a>
+		            </div>
+		            <div class="panel-body">
+						<a href="./column/productColumnList.html" target="iframe">栏目配置</a>
+		            </div>
+		        </div>
+			</div>
+			<!-- <div class="panel panel-default">
+		        <div class="panel-heading">
+		            <h4 class="panel-title">
+		                <a data-toggle="collapse" data-parent="#accordion" 
+		                   href="#reportDiv">
+		                    报表管理<span class='iconfont panel-icon'>&#xe600;</span>
+		                </a>
+		            </h4>
+		        </div>
+		        <div id="reportDiv" class="panel-collapse collapse">
+		            <div class="panel-body">
+						<a href="./report/operateReport.html" target="iframe">运营报表</a>
+		            </div>
+		        </div>
+		    </div> -->
+		</div>
+	</div>
+	<script src='js/jquery.min.js'></script>
+	<script src='js/bootstrap/bootstrap.min.js'></script>
+	<script src='js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='js/common.js'></script>
+	<script>
+		 $(function () {
+			var _userName = common.getQueryString("userName");
+			$("#userNameSpan").text(_userName);
+		 	$('.panel-group .panel-body a').click(function(){
+		 		$('.panel-group .panel-body a').removeClass('active')
+		 		$(this).addClass('active')
+		 	})
+		 	$('.panel').click(function(){
+		 		$(this).find('.panel-icon').toggleClass('active')
+		 		$(this).siblings().find('.panel-icon').removeClass('active')
+		 	})
+		 	$('.exit').click(function(){
+			 	common.promt('是否退出登录',function(){
+			 		common.ajax("/oss/auth/logout",{},function(data){
+				        window.location.href="login.html";
+				     });
+			 	})
+		 	})
+		});
+	</script>
+</body>
+</html>

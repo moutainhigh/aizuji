@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单配货管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+	<style>
+		.view{
+		    position: fixed;
+		    z-index: 50;
+		    left: 0px;
+		    top: 110px;
+		    right: 0;
+		    bottom: 0;
+		    overflow-y: auto;
+		    background-color: #e7edf1;
+		    word-wrap: break-word;
+		}
+		.view iframe{width:100%;height:100%;}
+	</style>
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">租前订单管理</a></li>
+		  <li class="active">订单配货管理</li>
+		</ol>
+	</div>
+	<ul class="order-tab">
+	  <li class="active"><a href="./payPending.html" target="iframeChild">待配货</a></li>
+	  <li><a href="./signPending.html" target="iframeChild">配货中</a></li>
+	</ul>
+	<div class='view'>
+		<iframe src="./payPending.html" frameborder="0" name='iframeChild' class='iframe' id='iframe'></iframe>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script>
+		$('.order-tab li').click(function(){
+			$(this).addClass('active').siblings().removeClass('active')
+			var index = $(this).index()
+			$('.content-list').hide().eq(index).show()
+		})
+	</script>
+</body>
+</html>

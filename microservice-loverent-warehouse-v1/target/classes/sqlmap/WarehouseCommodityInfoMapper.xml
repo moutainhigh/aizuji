@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseCommodityInfoMapper">
+    <!-- 批量插入 -->
+ 	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+ 		insert into warehouse_commodity_info(
+			  warehouseId,
+			  warehouseLocationId,
+			  materielBasicId,
+			  storageBatchNo,
+			  batchNo,
+			  snNo,
+			  imieNo,
+			  operatorId,
+			  operatorName,
+			  operateOn
+		)
+		values  
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(
+	        	#{item.warehouseId},
+	        	#{item.warehouseLocationId},
+	        	#{item.materielBasicId},
+	        	#{item.storageBatchNo},
+	        	#{item.batchNo},
+	        	#{item.snNo},
+	        	#{item.imieNo},
+	        	#{item.operatorId},
+	        	#{item.operatorName},
+	        	#{item.operateOn}
+        	)  
+    	</foreach>  
+ 	</insert>
+ 	
+ 	<update id="updateWarehouseLocation" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityInfo">
+ 		update warehouse_commodity_info set
+ 			warehouseId=#{warehouseId},
+ 			warehouseLocationId=#{warehouseLocationId},
+ 			operateOn=#{operateOn}
+ 		where id=#{id}
+ 	</update>
+ 	
+ 	
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityInfoQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseCommodityInfo">
+ 		SELECT
+		    t1.*
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		WHERE  1=1
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t1.warehouseId=#{warehouseId}
+		</if>
+		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+			AND t1.warehouseLocationId=#{warehouseLocationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t1.materielBasicId=#{materielBasicId}
+		</if>
+		<if test="warehouseCode!=null and warehouseCode!=''">
+			AND t2.warehouseCode=#{warehouseCode}
+		</if>
+		<if test="locationCode!=null and locationCode!=''">
+			AND t3.locationCode=#{locationCode}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			AND t1.batchNo=#{batchNo}
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			AND t1.snNo=#{snNo}
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			AND t1.imieNo=#{imieNo}
+		</if>
+		limit #{startIndex},#{endIndex}
+ 	</select>
+ 	
+ 	<sql id="where_queryWarehouseLocationCommodityCount">
+ 		WHERE 1 = 1
+ 		<if test="materielBasicInfoId!=null and materielBasicInfoId>0">
+ 			AND t1.materielBasicId = #{materielBasicInfoId}
+ 		</if>
+ 		<if test="warehouseCode!=null and warehouseCode!=''">
+ 			AND t2.warehouseCode =#{warehouseCode}
+ 		</if>
+		<if test="warehouseLocationCode!=null and warehouseLocationCode!=''">
+ 			AND t3.locationCode =#{warehouseLocationCode}
+ 		</if>
+ 	</sql>
+ 	
+ 	<select id="queryWarehouseLocationCommodityCount" parameterType="org.gz.warehouse.common.vo.WarehouseCommodityReq" resultType="int">
+ 		SELECT
+			count(t1.id)
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		INNER JOIN materiel_basic_info t4 ON t1.materielBasicId = t4.id
+		<include refid="where_queryWarehouseLocationCommodityCount"/>
+ 	</select>
+ 	
+ 	<select id="queryWarehouseLocationCommodityList" parameterType="org.gz.warehouse.common.vo.WarehouseCommodityReq" resultType="org.gz.warehouse.common.vo.WarehouseCommodityResp">
+ 		SELECT
+			t1.snNo,
+			t1.imieNo
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		INNER JOIN materiel_basic_info t4 ON t1.materielBasicId = t4.id
+		<include refid="where_queryWarehouseLocationCommodityCount"/>
+		ORDER BY t1.operateOn desc limit #{startIndex},#{endIndex} 
+ 	</select>
+ 	
+</mapper>

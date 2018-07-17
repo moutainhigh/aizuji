@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.gz</groupId>
+		<artifactId>microservice-loverent-v1</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<artifactId>microservice-loverent-app-ca-v1</artifactId>
+	<packaging>jar</packaging>
+	<name>microservice-loverent-ca-v1</name>
+	<description></description>
+	<dependencies>
+		<dependency>
+			<groupId>org.gz</groupId>
+			<artifactId>microservice-loverent-common-v1</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gz</groupId>
+			<artifactId>microservice-loverent-cache-v1</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<!-- e签宝依赖开始 -->
+		<dependency>
+			<groupId>org.gz.internal</groupId>
+			<artifactId>tech-sdk</artifactId>
+			<version>2.0.11</version>
+		</dependency>
+		<!-- e签宝依赖结束 -->
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.41</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

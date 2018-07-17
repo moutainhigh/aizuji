@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>收款处理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">收款管理</a></li>
+		  <li class="active">收款处理</li>
+		</ol>
+	</div>
+	<!-- <ul class="order-tab">
+	  <li class="active">订单查询</li>
+	  <li>订单概览</li>
+	</ul> -->
+	<div class='content before-order'>
+		<!-- 查询模块 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>单号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" placeholder="请输入单号" id='orderSN'>
+					</div>
+					<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+				</div>
+				<div class='button-box'>
+					<button type="button" class="btn btn-warning" id='search'>查询</button>
+					<button type="button" class="btn btn-primary" id='clear'>清空</button>
+				</div>
+			</div>
+			<div class='height-srarch'>高级查询<span class='glyphicon glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<div class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">客户姓名</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="userName" placeholder="请输入客户姓名">
+				    </div>
+				   
+				  </div>
+				   <div class="form-group">
+				    <label class="col-sm-1 control-label">客户身份证号</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="identityCard" placeholder="请输入客户身份证号">
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<div class='table-box  table-responsive'>
+	      		<table class="table" id='grid-tab'>
+	      		</table>
+	      		<!-- 暂无数据 -->
+	      		<!-- <div class='no-data'>暂无数据</div> -->
+	      		<!-- 正在加载中 -->
+	      	<!-- 	<div class='loading-box'>
+	      			<img src="../image/loading.gif" alt="">正在加载中
+	      		</div> -->
+			</div>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/rentCollectionOrder.js'></script>
+	<script>
+		$('.height-srarch').click(function(){
+			$(this).find('span').toggleClass('active')
+			$('.form-box').slideToggle()
+		})
+		$('.order-tab li').click(function(){
+			$(this).addClass('active').siblings().removeClass('active')
+			var index = $(this).index()
+			$('.content-list').hide().eq(index).show()
+		})
+		$("#orderSN").bind('input porpertychange',function(){
+			if($(this).val()){
+				$('.form-box').find('input,button,select').attr('disabled','disabled')
+                $('.form-box').find('input,button,select').val('')
+			}else{
+				$('.form-box').find('input,button,select').removeAttr('disabled')
+			}
+		})
+		$('#clear').click(function(){
+			$('#orderSN').val('')
+			$('.form-box').find('input,select').val('')
+			$('.form-box').find('button').removeClass('btn-primary')
+			$('.form-box').find('input,button,select').removeAttr('disabled');
+			// 交易状态
+			searObj.state = '';
+		})
+		// 查询方法以及table组件使用方法
+		initData();
+	</script>
+</body>
+</html>

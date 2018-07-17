@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.UserInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="age" property="age" jdbcType="TINYINT" />
+    <result column="job" property="job" jdbcType="TINYINT" />
+    <result column="marital" property="marital" jdbcType="TINYINT" />
+    <result column="education" property="education" jdbcType="TINYINT" />
+    <result column="industry" property="industry" jdbcType="TINYINT" />
+    <result column="monthIncome" property="monthIncome" jdbcType="VARCHAR" />
+    <result column="phoneUserTime" property="phoneUserTime" jdbcType="VARCHAR" />
+    <result column="userEmail" property="userEmail" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="entryTime" property="entryTime" jdbcType="DATE" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="companyContactNumber" property="companyContactNumber" jdbcType="VARCHAR" />
+    <result column="companyAddress" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+    <result column="livingExpenses" property="livingExpenses" jdbcType="VARCHAR" />
+    <result column="schoolAddress" property="schoolAddress" jdbcType="VARCHAR" />
+    <result column="hasLoanRecord" property="hasLoanRecord" jdbcType="TINYINT" />
+    <result column="loanAmount" property="loanAmount" jdbcType="VARCHAR" />
+    <result column="monthRepayment" property="monthRepayment" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, birthday, age, job, marital, education, industry, monthIncome, phoneUserTime, 
+    userEmail, companyName, entryTime, position, companyContactNumber, companyAddress, 
+    schoolName, livingExpenses, schoolAddress, hasLoanRecord, loanAmount, monthRepayment, 
+    createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.UserInfo" >
+    insert into user_info (id, userId, birthday, 
+      age, job, marital, education, 
+      industry, monthIncome, phoneUserTime, 
+      userEmail, companyName, entryTime, 
+      position, companyContactNumber, companyAddress, 
+      schoolName, livingExpenses, schoolAddress, 
+      hasLoanRecord, loanAmount, monthRepayment, 
+      createTime, updateTime)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{birthday,jdbcType=DATE}, 
+      #{age,jdbcType=TINYINT}, #{job,jdbcType=TINYINT}, #{marital,jdbcType=TINYINT}, #{education,jdbcType=TINYINT}, 
+      #{industry,jdbcType=TINYINT}, #{monthIncome,jdbcType=VARCHAR}, #{phoneUserTime,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{entryTime,jdbcType=DATE}, 
+      #{position,jdbcType=VARCHAR}, #{companyContactNumber,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR}, 
+      #{schoolName,jdbcType=VARCHAR}, #{livingExpenses,jdbcType=VARCHAR}, #{schoolAddress,jdbcType=VARCHAR}, 
+      #{hasLoanRecord,jdbcType=TINYINT}, #{loanAmount,jdbcType=VARCHAR}, #{monthRepayment,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.UserInfo" >
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="marital != null" >
+        marital,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="monthIncome != null" >
+        monthIncome,
+      </if>
+      <if test="phoneUserTime != null" >
+        phoneUserTime,
+      </if>
+      <if test="userEmail != null" >
+        userEmail,
+      </if>
+      <if test="companyName != null" >
+        companyName,
+      </if>
+      <if test="entryTime != null" >
+        entryTime,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="companyContactNumber != null" >
+        companyContactNumber,
+      </if>
+      <if test="companyAddress != null" >
+        companyAddress,
+      </if>
+      <if test="schoolName != null" >
+        schoolName,
+      </if>
+      <if test="livingExpenses != null" >
+        livingExpenses,
+      </if>
+      <if test="schoolAddress != null" >
+        schoolAddress,
+      </if>
+      <if test="hasLoanRecord != null" >
+        hasLoanRecord,
+      </if>
+      <if test="loanAmount != null" >
+        loanAmount,
+      </if>
+      <if test="monthRepayment != null" >
+        monthRepayment,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=TINYINT},
+      </if>
+      <if test="marital != null" >
+        #{marital,jdbcType=TINYINT},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=TINYINT},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=TINYINT},
+      </if>
+      <if test="monthIncome != null" >
+        #{monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneUserTime != null" >
+        #{phoneUserTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=DATE},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="companyContactNumber != null" >
+        #{companyContactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="livingExpenses != null" >
+        #{livingExpenses,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAddress != null" >
+        #{schoolAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hasLoanRecord != null" >
+        #{hasLoanRecord,jdbcType=TINYINT},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="monthRepayment != null" >
+        #{monthRepayment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.UserInfo" >
+    update user_info
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=TINYINT},
+      </if>
+      <if test="marital != null" >
+        marital = #{marital,jdbcType=TINYINT},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=TINYINT},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=TINYINT},
+      </if>
+      <if test="monthIncome != null" >
+        monthIncome = #{monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneUserTime != null" >
+        phoneUserTime = #{phoneUserTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        userEmail = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entryTime = #{entryTime,jdbcType=DATE},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="companyContactNumber != null" >
+        companyContactNumber = #{companyContactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        companyAddress = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="livingExpenses != null" >
+        livingExpenses = #{livingExpenses,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAddress != null" >
+        schoolAddress = #{schoolAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hasLoanRecord != null" >
+        hasLoanRecord = #{hasLoanRecord,jdbcType=TINYINT},
+      </if>
+      <if test="loanAmount != null" >
+        loanAmount = #{loanAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="monthRepayment != null" >
+        monthRepayment = #{monthRepayment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.UserInfo" >
+    update user_info
+    set userId = #{userId,jdbcType=BIGINT},
+      birthday = #{birthday,jdbcType=DATE},
+      age = #{age,jdbcType=TINYINT},
+      job = #{job,jdbcType=TINYINT},
+      marital = #{marital,jdbcType=TINYINT},
+      education = #{education,jdbcType=TINYINT},
+      industry = #{industry,jdbcType=TINYINT},
+      monthIncome = #{monthIncome,jdbcType=VARCHAR},
+      phoneUserTime = #{phoneUserTime,jdbcType=VARCHAR},
+      userEmail = #{userEmail,jdbcType=VARCHAR},
+      companyName = #{companyName,jdbcType=VARCHAR},
+      entryTime = #{entryTime,jdbcType=DATE},
+      position = #{position,jdbcType=VARCHAR},
+      companyContactNumber = #{companyContactNumber,jdbcType=VARCHAR},
+      companyAddress = #{companyAddress,jdbcType=VARCHAR},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      livingExpenses = #{livingExpenses,jdbcType=VARCHAR},
+      schoolAddress = #{schoolAddress,jdbcType=VARCHAR},
+      hasLoanRecord = #{hasLoanRecord,jdbcType=TINYINT},
+      loanAmount = #{loanAmount,jdbcType=VARCHAR},
+      monthRepayment = #{monthRepayment,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where userId = #{userId,jdbcType=BIGINT}
+  </select>	
+  
+  <update id="updateByUserIdSelective" parameterType="org.gz.user.entity.UserInfo" >
+    update user_info
+    <set >
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=TINYINT},
+      </if>
+      <if test="marital != null" >
+        marital = #{marital,jdbcType=TINYINT},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=TINYINT},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=TINYINT},
+      </if>
+      <if test="monthIncome != null" >
+        monthIncome = #{monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneUserTime != null" >
+        phoneUserTime = #{phoneUserTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        userEmail = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entryTime = #{entryTime,jdbcType=DATE},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="companyContactNumber != null" >
+        companyContactNumber = #{companyContactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null" >
+        companyAddress = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="livingExpenses != null" >
+        livingExpenses = #{livingExpenses,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAddress != null" >
+        schoolAddress = #{schoolAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="hasLoanRecord != null" >
+        hasLoanRecord = #{hasLoanRecord,jdbcType=TINYINT},
+      </if>
+      <if test="loanAmount != null" >
+        loanAmount = #{loanAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="monthRepayment != null" >
+        monthRepayment = #{monthRepayment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

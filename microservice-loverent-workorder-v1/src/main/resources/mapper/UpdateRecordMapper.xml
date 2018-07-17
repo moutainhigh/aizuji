@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.workorder.dao.UpdateRecordDao">
+
+    <resultMap id="UpdateRecordMap" type="org.gz.workorder.entity.UpdateRecord">
+        <result property="id" column="id"/>
+        <result property="operator" column="operator"/>
+        <result property="type" column="type"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, operator, type
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.operator, t.type
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=operator and ''!=operator">
+                AND operator = #{operator}
+            </if>
+            <if test="null!=type">
+                AND type = #{type}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="UpdateRecordMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                update_record
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="UpdateRecordMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        update_record
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO update_record (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=operator">
+	                 operator,
+	            </if>
+            	<if test="null!=type">
+	                 type
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=operator">
+                #{operator},
+                </if>
+            	<if test="null!=type">
+                #{type}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO update_record (
+                operator,
+                type
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.operator},#{item.type})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	update_record
+            <set>
+            	<if test="null!=updateCloumn.operator">
+                	<![CDATA[ operator = #{updateCloumn.operator} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.type">
+                	<![CDATA[ type = #{updateCloumn.type} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.operator">
+                	AND <![CDATA[ operator = #{updateWhere.operator} ]]>
+                </if>
+            	<if test="null!=updateWhere.type">
+                	AND <![CDATA[ type = #{updateWhere.type} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="UpdateRecordMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        update_record
+         <include refid="where" />
+    </select>
+   
+</mapper>
+

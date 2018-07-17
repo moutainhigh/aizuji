@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li>订单管理</li>
+		  <li onclick="javascript:history.back()">订单管理首页</li>
+		  <li class="active">订单详情</li>
+		</ol>
+
+	</div>
+	<ul class="order-tab">
+	  <li class="active">订单信息</li>
+	</ul>
+	<div class='content order-check'>
+		<div>
+			<!-- 订单信息 -->
+			<div class='tab-content'>
+				<button class='btn btn-default pay' style="display:none">完成支付</button>
+				<button class='btn btn-default cancel' style="display:none">取消订单</button>
+				<button class='btn btn-default confirmreceive' style="display:none">确认收货</button>
+				<div class='header-title'>订单号：<span id="orderInfo_orderNo"></span></div>
+				<div class='header-title'>订单状态：<span id="orderInfo_orderState"></span></div>
+				<div class='detail-info clearfix'>
+					<ul class='clearfix'>
+						<li class='info-list'>
+							<div class="header">收货信息</div>
+							<div class='info-box'>
+								<div class="title">收货人:</div>
+								<div class="text" id="orderInfo_userName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">手机号:</div>
+								<div class="text" id="orderInfo_mobile"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">配送地址:</div>
+								<div class="text" id="orderInfo_address"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class="header">购买信息</div>
+							<div class='info-box'>
+								<div class="title">所属分类:</div>
+								<div class="text" id="orderInfo_classAndBrandName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品型号:</div>
+								<div class="text" id="orderInfo_materielModelName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品规格:</div>
+								<div class="text" id="orderInfo_materielSpecName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品成色:</div>
+								<div class="text" id="orderInfo_configValue"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品SN编码:</div>
+								<div class="text" id="orderInfo_sn"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品IMIE编:</div>
+								<div class="text" id="orderInfo_imei"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">购买价格:</div>
+								<div class="text" id="orderInfo_signContractAmount"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">订单申请时间:</div>
+								<div class="text" id="orderInfo_applyTime"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class="header">发票信息</div>
+							<div class='info-box'>
+								<div class="title">是否开票:</div>
+								<div class="text" id="invoice_is"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">抬头类型:</div>
+								<div class="text" id="invoice_titleType"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">发票抬头:</div>
+								<div class="text" id="invoice_title"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">税号:</div>
+								<div class="text" id="invoice_invoiceNumber"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">发票内容:</div>
+								<div class="text" id="invoice_content"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">发票金额:</div>
+								<div class="text" id="invoice_fee"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">开票类型:</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="table-box  table-responsive">
+							<div class="sm-title">订单物流信息</div>
+				      		<table class="table" id="logistics_tab">
+				      		</table>
+						</div>
+				<div class="table-box  table-responsive" style="margin-top:20px">
+					<div class="sm-title">订单流程信息</div>
+		      		<table class="table" id="rentState_tab">
+		      		</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 弹窗部分 -->
+			<!-- 查看物流信息 -->
+		<div class="modal fade" id="logisticsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">物流节点信息</h4>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="table-box margin-none" style="margin-top:10px">
+		            		<div class="wl-box" id="logisticsBox">
+		            		</div>
+	  		            </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/saledetail/orderInfo.js'></script>
+	<script>
+	</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.RecommendDao">
+
+    <resultMap id="RecommendMap" type="org.gz.oss.common.entity.Recommend">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="source" column="source"/>
+        <result property="leaseAmountShowTypt" column="leaseAmountShowTypt"/>
+        <result property="position" column="position"/>
+        <result property="image" column="image"/>
+        <result property="productNum" column="productNum"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, name, type, source, leaseAmountShowTypt,position,image
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.name, t.type, t.source, t.leaseAmountShowTypt,t.position,t.image
+        ]]>
+    </sql>
+    
+
+    
+    <select id="getById" resultMap="RecommendMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                recommend
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RecommendMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        recommend
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO recommend (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=name">
+	                 name,
+	            </if>
+            	<if test="null!=type">
+	                 type,
+	            </if>
+            	<if test="null!=source">
+	                 source,
+	            </if>
+            	<if test="null!=leaseAmountShowTypt">
+	                 leaseAmountShowTypt,
+	            </if>
+            	<if test="null!=position">
+	                 position,
+	            </if>
+            	<if test="null!=image">
+	                 image
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=name">
+                #{name},
+                </if>
+            	<if test="null!=type">
+                #{type},
+                </if>
+            	<if test="null!=source">
+                #{source},
+                </if>
+            	<if test="null!=leaseAmountShowTypt">
+                #{leaseAmountShowTypt},
+                </if>
+            	<if test="null!=position">
+                #{position},
+                </if>
+            	<if test="null!=image">
+                #{image}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO recommend (
+                name,
+                type,
+                source,
+                leaseAmountShowTypt,
+                position,
+                image
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name},#{item.type},#{item.source},#{item.leaseAmountShowTypt},#{item.position},#{item.image})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	recommend
+            <set>
+            	<if test="null!=updateCloumn.name">
+                	<![CDATA[ name = #{updateCloumn.name} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.type">
+                	<![CDATA[ type = #{updateCloumn.type} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.source">
+                	<![CDATA[ source = #{updateCloumn.source} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.leaseAmountShowTypt">
+                	<![CDATA[ leaseAmountShowTypt = #{updateCloumn.leaseAmountShowTypt} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.position">
+                	<![CDATA[ position = #{updateCloumn.position} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.image">
+                	<![CDATA[ image = #{updateCloumn.image} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.name">
+                	AND <![CDATA[ name = #{updateWhere.name} ]]>
+                </if>
+            	<if test="null!=updateWhere.type">
+                	AND <![CDATA[ type = #{updateWhere.type} ]]>
+                </if>
+            	<if test="null!=updateWhere.source">
+                	AND <![CDATA[ source = #{updateWhere.source} ]]>
+                </if>
+            	<if test="null!=updateWhere.leaseAmountShowTypt">
+                	AND <![CDATA[ leaseAmountShowTypt = #{updateWhere.leaseAmountShowTypt} ]]>
+                </if>
+            	<if test="null!=updateWhere.position">
+                	AND <![CDATA[ position = #{updateWhere.position} ]]>
+                </if>
+            	<if test="null!=updateWhere.image">
+                	AND <![CDATA[ image = #{updateWhere.image} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RecommendMap">
+    	SELECT
+        <include refid="t_columns" />,
+        (select count(1) from recommend_commodity_relation t1 where t.id = t1.recommendId) as productNum
+        FROM
+        recommend t
+         <include refid="where" />
+         order by t.position
+    </select>
+
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=name and ''!=name">
+                AND name = #{name}
+            </if>
+            <if test="null!=type">
+                AND type = #{type}
+            </if>
+            <if test="null!=source">
+                AND source = #{source}
+            </if>
+            <if test="null!=leaseAmountShowTypt">
+                AND leaseAmountShowTypt = #{leaseAmountShowTypt}
+            </if>
+            <if test="null!=position">
+                AND position = #{position}
+            </if>
+            <if test="null!=image">
+                AND image = #{image}
+            </if>
+        </where>
+    </sql>
+
+    <!--删除推荐位-->
+    <delete id="delete">
+    	delete from recommend where id = #{id}
+    </delete>
+
+   
+</mapper>
+

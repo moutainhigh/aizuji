@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>  
+        <!-- 全局缓存 -->  
+        <setting name="cacheEnabled" value="false" />  
+        <!-- 延迟加载 -->  
+        <setting name="lazyLoadingEnabled" value="false" />  
+    </settings> 
+   
+    <plugins>  
+       <plugin interceptor="org.gz.workorder.supports.plugin.PageInterceptor">  
+           <property name="databaseType" value="Mysql"/>
+       </plugin> 
+    </plugins>
+</configuration>

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.RepaymentScheduleMapper">
+ 	
+   <sql id="Base_Column_List">
+	    id, orderSN, periods,periodOf, paymentDueDate, due, actualRepayment, currentBalance, goodsValue,
+	    settleFlag, settleWay, settleDate, overdueDay, state, realName, phone, createBy, createOn, updateBy,
+	    updateOn, enableFlag,repaymentType,orderType
+    </sql>
+    <sql id="where_clause">
+	  	<where>
+	  		 <if test="orderSN != null">
+	            AND  orderSN = #{orderSN}
+	      	 </if>
+	      	  <if test="settleFlag != null">
+	        	AND settleFlag = #{settleFlag}
+	      	  </if>
+	      	  <if test="enableFlag != null">
+	        	AND enableFlag = #{enableFlag}
+	      	  </if>
+	      	  <if test="repaymentType != null">
+	        	AND repaymentType = #{repaymentType}
+	      	  </if>
+	      	  <if test="paymentDueDate != null">
+	        	<![CDATA[ AND paymentDueDate <= #{paymentDueDate} ]]>
+	      	  </if>
+	      	  <if test="overdueDay != null">
+	        	<![CDATA[ AND overdueDay >= #{overdueDay}  ]]>
+	      	  </if>
+	      	  <if test="orderType != null">
+	        	AND orderType = #{orderType}
+	      	  </if>
+	  	</where>
+    </sql>
+    <select id="selectList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM repayment_schedule
+    	<include refid="where_clause"></include>
+    	ORDER BY periodOf,overdueDay
+    </select>
+    <!-- 查询应还款数据列表，按照还款账期和逾期天数排序 -->
+    <select id="selectRepaymentList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM repayment_schedule
+    	<include refid="where_clause"></include>
+    	ORDER BY periodOf,overdueDay
+    </select>
+    <!-- 查询逾期数据 -->
+    <select id="selectOverdueList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM 
+    		repayment_schedule
+    	WHERE 
+    		settleFlag = 0
+    	AND	enableFlag = 1
+    	AND	repaymentType = 1
+    	AND currentBalance > 0
+	    <![CDATA[ AND paymentDueDate <= #{paymentDueDate} ]]>
+    	ORDER BY periodOf,overdueDay
+    </select>
+    
+    <select id="queryPage" resultType="RepaymentSchedule">
+   		SELECT
+   			id, 
+   			orderSN, 
+   			periods,
+   			periodOf, 
+   			paymentDueDate,
+   			actualRepayment,
+   			currentBalance, 
+   			goodsValue,
+   			settleFlag, 
+   			settleWay, 
+   			settleDate, 
+   			state, 
+   			realName, 
+   			phone, 
+   			createBy, 
+   			createOn, 
+   			updateBy,
+    		updateOn, 
+    		enableFlag,
+    		repaymentType,
+			MAX(overdueDay) AS overdueDay,
+			SUM(currentBalance) AS due
+		FROM
+			repayment_schedule
+    	<include refid="where_clause"></include>
+    	GROUP BY orderSN
+    </select>
+    
+ 	<insert id="addRepaymentScheduleBatch" parameterType="list">
+  		INSERT INTO repayment_schedule
+  			(
+  				orderSN,
+  				periods,
+  				periodOf,
+  				paymentDueDate,
+  				due,
+  				currentBalance,
+  				goodsValue,
+  				actualRepayment,
+  				settleWay,
+  				settleFlag,
+  				settleDate,
+  				createBy,
+  				updateBy,
+  				createOn,
+  				updateOn,
+  				repaymentType,
+  				repaymentTime,
+  				state,
+  				overdueDay,
+  				realName,
+  				phone,
+  				orderType
+  			)
+  	     VALUES
+  		<foreach collection="list" item="item" index="index" separator=",">
+            (
+            	#{item.orderSN},
+            	#{item.periods},
+            	#{item.periodOf},
+            	#{item.paymentDueDate},
+            	#{item.due},
+            	#{item.currentBalance},
+            	#{item.goodsValue},
+            	#{item.actualRepayment},
+            	#{item.settleWay},
+            	#{item.settleFlag},
+  				#{item.settleDate},
+            	#{item.createBy},
+            	#{item.updateBy},
+            	#{item.createOn},
+            	#{item.updateOn},
+            	#{item.repaymentType},
+            	#{item.repaymentTime},
+            	#{item.state},
+            	#{item.overdueDay},
+            	#{item.realName},
+            	#{item.phone},
+            	#{item.orderType}
+            )
+        </foreach>
+    </insert>
+    <select id="queryRepaymentDate" resultType="RepaymentSchedule">
+    	SELECT 
+    		paymentDueDate 
+    	FROM
+    		repayment_schedule
+    	WHERE
+    		enableFlag = 1
+    		AND orderSN = #{orderSN}
+    	LIMIT 1
+    </select>
+    <update id="updateBatch">
+    	UPDATE 
+    		repayment_schedule
+        <trim prefix="set" suffixOverrides=",">  
+	        <trim prefix="enableFlag =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.enableFlag!=null">  
+	                    when id=#{item.id} then #{item.enableFlag}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="settleFlag =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.settleFlag!=null">  
+	                    when id=#{item.id} then #{item.settleFlag}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="settleWay =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.settleWay!=null">  
+	                    when id=#{item.id} then #{item.settleWay}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="settleDate =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.settleDate!=null">  
+	                    when id=#{item.id} then #{item.settleDate}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="due =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.due!=null">  
+	                    when id=#{item.id} then #{item.due}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="actualRepayment =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.actualRepayment!=null">  
+	                    when id=#{item.id} then actualRepayment + #{item.actualRepayment}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="currentBalance =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.currentBalance!=null">  
+	                    when id=#{item.id} then #{item.currentBalance}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="state = case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.state !=null ">  
+	                    when id=#{item.id} then #{item.state}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+    	</trim> 
+    	WHERE
+    		id in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.id,jdbcType=BIGINT}
+        	</foreach>
+    </update>
+    <!-- 批量更新是否有效标识 -->
+    <update id="batchUpdateEnableFlag">
+    	UPDATE 
+    		repayment_schedule
+        <trim prefix="set" suffixOverrides=",">  
+	        <trim prefix="enableFlag =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.enableFlag!=null">  
+	                    when id=#{item.id} then #{item.enableFlag}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="updateOn =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.updateOn!=null">  
+	                    when id=#{item.id} then #{item.updateOn}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="updateBy =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.updateBy!=null">  
+	                    when id=#{item.id} then #{item.updateBy}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+    	</trim> 
+    	WHERE
+    		id in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.id,jdbcType=BIGINT}
+        	</foreach>
+    </update>
+    <select id="selectSumCurrentBalance" resultType="BigDecimal">
+	  	SELECT 
+	  		sum(currentBalance)
+	  	FROM
+	  		repayment_schedule
+	  	<include refid="where_clause"></include>
+    </select>
+    <select id="selectSumActualRepayment" resultType="BigDecimal">
+	  	SELECT 
+	  		sum(actualRepayment)
+	  	FROM
+	  		repayment_schedule
+	  	WHERE orderSN = #{orderSN}
+    </select>
+    <select id="sumRent" resultType="BigDecimal">
+	  	SELECT 
+	  		IFNULL(SUM(due),0)
+	  	FROM
+	  		repayment_schedule
+	  	WHERE orderSN = #{orderSN}
+    </select>
+    
+    <!-- 批量更新逾期天数 -->
+    <update id="updateOverdueDayBatch">
+    	UPDATE 
+    		repayment_schedule
+    	SET
+    		<trim prefix="overdueDay =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.overdueDay!=null">  
+	                    when id=#{item.id} then #{item.overdueDay}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+    		state = 1,
+    		updateOn = SYSDATE()
+    	WHERE
+    		id in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.id,jdbcType=BIGINT}
+        	</foreach>
+    </update>
+    
+    <!-- 查询最新的还款记录 -->
+    <select id="selectLatest" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM repayment_schedule
+    	<include refid="where_clause"></include>
+    	ORDER BY id DESC
+    	LIMIT 1
+    </select>
+    <!-- 查询本期租金是否结清 -->
+    <select id="queryCurrentRentIsSettled" resultType="int">
+	 	SELECT 
+	 		count(*) 
+	 	FROM 
+	 		repayment_schedule
+	 	WHERE 
+	 		orderSN = #{orderSN}
+	 		AND enableFlag = 1
+	 		AND settleFlag = 1
+	 		AND paymentDueDate = #{paymentDueDate}
+    </select>
+    <!-- 批量失效滞纳金数据 -->
+    <update id="batchDisableLateFeeData">
+    	UPDATE 
+    		repayment_schedule
+        SET
+        	enableFlag = 0,
+        	updateOn = SYSDATE()
+    	WHERE
+    		repaymentType = 2
+    		AND orderSN IN
+    		<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.orderSN,jdbcType=VARCHAR}
+        	</foreach>
+    </update>
+    <!-- 判断订单是否已经结清 -->
+     <select id="queryOrderIsSettled" resultType="int">
+	 	SELECT 
+	 		count(*) 
+	 	FROM 
+	 		repayment_schedule
+	 	WHERE 
+	 		orderSN = #{orderSN}
+	 		AND enableFlag = 1
+	 		AND settleFlag = 0
+    </select>
+    <!-- 统计逾期天数 -->
+    <select id="sumOverdueDay" resultType="int">
+	 	SELECT 
+	 		IFNULL(SUM(overdueDay),0)
+	 	FROM 
+	 		repayment_schedule
+	 	<include refid="where_clause"></include>
+    </select>
+    
+    <update id="updateByPrimaryKeySelective">
+	    UPDATE repayment_schedule
+	    <set>
+	      <if test="overdueDay != null">
+	        overdueDay = #{overdueDay,jdbcType=INTEGER},
+	      </if>
+	      <if test="state != null">
+	        state = #{state,jdbcType=INTEGER},
+	      </if>
+	      <if test="actualRepayment != null">
+	        actualRepayment = actualRepayment + #{actualRepayment},
+	      </if>
+	      <if test="currentBalance != null">
+	        currentBalance = currentBalance - #{currentBalance},
+	      </if>
+	      <if test="settleFlag != null">
+	        settleFlag = #{settleFlag},
+	      </if>
+	      <if test="settleDate != null">
+	        settleDate = #{settleDate},
+	      </if>
+	      <if test="updateOn != null">
+	        updateOn = #{updateOn,jdbcType=TIMESTAMP},
+	      </if>
+	    </set>
+	    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询需要发送短信提醒的数据 -->
+   <select id="selectSMSList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM repayment_schedule
+    	where
+    		settleFlag = 0
+    	AND	enableFlag = 1 
+    	<![CDATA[ AND	currentBalance > 0  ]]>
+    	AND paymentDueDate = #{paymentDueDate}
+    </select>
+    <!-- 查询逾期数据 -->
+     <select id="queryOverdueList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM 
+    		repayment_schedule
+    	WHERE
+    		settleFlag = 0
+    	AND	enableFlag = 1 
+    	<if test="array != null">
+    	      AND orderSN IN
+	         <foreach collection="array" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.orderSN}
+        	</foreach>
+	    </if>
+    	<if test="minDay != null">
+       		<![CDATA[ AND overdueDay >= #{minDay}  ]]>
+     	</if>
+    	<if test="maxDay != null">
+       		<![CDATA[ AND overdueDay <= #{maxDay}  ]]>
+     	</if>
+    </select>
+    
+    <select id="queryRepaymentRentList" resultType="RepaymentSchedule">
+    	SELECT
+    		<include refid="Base_Column_List"></include>
+    	FROM 
+    		repayment_schedule
+    	WHERE
+    		settleFlag = 0
+    	AND	enableFlag = 1 
+	    AND paymentDueDate = #{paymentDueDate}
+    </select>
+</mapper>

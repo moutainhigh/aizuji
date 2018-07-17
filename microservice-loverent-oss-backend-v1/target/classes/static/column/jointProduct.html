@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品栏目关联</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="../css/bootstrap-table.css" rel="stylesheet" />
+    <link href="../css/bootstrap-dialog.min.css" rel="stylesheet" />
+    <link href="../css/fileinput.css" rel="stylesheet">
+     <style>
+       .con {line-height: 100px; vertical-align: middle; text-align: center;}
+       #page-wrapper{margin:0 !important;}
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+    <!-- <nav class="navbar-default navbar-static-side" role="navigation" id="menuNav">
+    </nav> -->
+        <div id="page-wrapper" class="white-bg">
+            <div class="wrapper wrapper-content">
+	            <div class="row">
+	            	<div class="panel-body">
+		                	<div class="col-md-5">
+			                	<div class="container-fluid">
+									<div class="row-fluid">
+										<div class="form-inline">
+			                                <label for="lastname">分类品牌：</label>
+		                                    <select class="form-control" id="materielClass">
+		                                    	<option value="">请选择分类</option>
+		                                    </select>
+		                                    <select class="form-control" id="materielBrand">
+		                                    	<option value="">请选择品牌</option>
+		                                    </select>
+			                            </div>
+									</div>
+								</div>
+		                		<table id="basic_loan_tab"></table>
+		                	</div>
+		                	<div class="col-md-1" style="padding-top: 10%">
+		                	      <button class="btn btn-success" id="into">
+	                                                                                                             移入
+	           					  </button>
+		                	</div>
+		  					<div class="col-md-6" style="padding-top: 25px">
+			  					<div class="container-fluid">
+										<div class="row-fluid">
+											<!-- <div class="span12">
+												<h3>
+													温馨提示：拖动即可排序
+												</h3>
+											</div> -->
+										</div>
+									</div>
+		  					    <table id="selected_loan_tab"></table>
+		  					</div>
+		                </div>
+		                <div class="form-group">
+                                <div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-4 col-sm-10 col-md-10 col-lg-10 group-btn">
+                                    <button type="button" class="btn btn-warning" id="cancel">
+                                        返回
+                                    </button>
+                                </div>
+                            </div>
+	                </div>
+            </div>
+        </div>
+       <!-- 模态框（Modal） -->
+       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                       <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                   </div>
+                   <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                        	<input type>
+                          <div class="form-group">
+                            <label for="firstname" class="col-sm-2 control-label">价格</label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" id="firstname" placeholder="请输入价格">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="lastname" class="col-sm-2 control-label">主图</label>
+                            <div class="col-sm-10">
+                              <input type="file" id="imageUrl" name="file" class="file" value="" />
+                              <p class="help-block">支持png格式,800*800</p>
+                              <div id="imgErrorDiv" class="Error"></div>
+                            </div>
+                          </div>
+                        </form>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                       <button type="button" class="btn btn-primary">保存更改</button>
+                   </div>
+               </div><!-- /.modal-content -->
+           </div><!-- /.modal -->
+       </div>
+    </div>
+        
+      <!-- Mainly scripts -->
+    <script src="../js/jquery/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap/bootstrap.min.js"></script>
+    <script src="../js/jquery/jquery.dragsort-0.5.2.min.js"></script>
+    <!-- bootstrap table组件以及中文包的引用*@ -->
+    <script src="../js/bootstrap/bootstrap-table.js"></script>
+    <script src="../js/bootstrap/bootstrap-table-zh-CN.js"></script>
+    <script src="../js/bootstrap/bootstrap-dialog.min.js"></script>
+    <script src="../js/bootstrap/fileinput.min.js"></script>
+    <script src="../js/bootstrap/fileinput_locale_zh.js"></script>
+    <script src="../js/util/util.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/materiel/materiel.js"></script>
+    <script src="../js/column/jointProduct.js"></script>
+</body>
+</html>

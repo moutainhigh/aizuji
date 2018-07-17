@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielNewConfigMapper">
+ 	
+ 	<!-- 分頁查询所有新旧程度配置 -->
+ 	<select id="queryNewConfigPage" parameterType="org.gz.common.entity.QueryPager" resultType="org.gz.warehouse.entity.MaterielNewConfig">
+ 		select * from materiel_new_config limit #{startIndex},#{endIndex}
+ 	</select>
+
+	<!-- 查询所有新旧程度配置 -->
+	<select id="queryAllNewConfig"  resultType="org.gz.warehouse.entity.MaterielNewConfig">
+		select * from materiel_new_config
+	</select>
+ 	
+ 	<!-- 查询所有可用成色配置 -->
+	<select id="queryAllavailableNewConfigs"  resultType="org.gz.warehouse.entity.MaterielNewConfig">
+		select * from materiel_new_config where enableFlag=1
+	</select>
+	
+ 	<!-- 根据新旧配置名称和值查询数据 -->
+ 	<select id="queryConfigsByNameAndValue" parameterType="org.gz.warehouse.entity.MaterielNewConfig" resultType="org.gz.warehouse.entity.MaterielNewConfig">
+ 		select 
+ 			* 
+ 		from materiel_new_config 
+ 		where (configName = #{configName} or configValue = #{configValue})
+ 		<if test="id!=null and id>0">
+ 			and id!=id
+ 		</if>
+ 	</select>
+ 	
+ 	<!-- 新增新旧程度配置 -->
+ 	<insert id="insertNewConfigs" parameterType="org.gz.warehouse.entity.MaterielNewConfig">
+ 		insert into materiel_new_config(configName,configValue) values(#{configName},#{configValue})
+ 	</insert>
+ 	
+ 	<!-- 修改新旧程度配置 -->
+ 	<update id="updateNewConfigs" parameterType="org.gz.warehouse.entity.MaterielNewConfig">
+ 		update materiel_new_config set configName = #{configName} , configValue = #{configValue}
+ 		where id = #{id}
+ 	</update>
+ 	
+ 	<!-- 根据新旧配置ID查询物料基本信息 -->
+ 	<select id="queryBasicInfo" parameterType="int" resultType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 		select materielName,materielCode from materiel_basic_info where materielNewConfigId = #{id}
+ 	</select>
+ 	
+ 	<!-- 删除新旧程度配置 -->
+ 	<delete id="deleteById" parameterType="int" >
+ 		delete from materiel_new_config where id = #{id}
+ 	</delete>
+
+	<!--查询新旧程度配置总数-->
+	<select id="queryNewConfigsCout" resultType="int">
+		select COUNT(id) as count from materiel_new_config
+	</select>
+</mapper>

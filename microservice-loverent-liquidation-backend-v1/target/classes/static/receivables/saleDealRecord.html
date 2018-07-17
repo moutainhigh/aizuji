@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>收款交易记录</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">收款管理</a></li>
+		  <li class="active">收款交易记录</li>
+		</ol>
+	</div>
+	<!-- <ul class="order-tab">
+	  <li class="active">订单查询</li>
+	  <li>订单概览</li>
+	</ul> -->
+	<div class='content before-order'>
+		<!-- 查询模块 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>单号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" placeholder="请输入单号" id='numberInput'>
+					</div>
+					<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+				</div>
+				<div class='button-box'>
+					<button type="button" class="btn btn-warning" id='search'>查询</button>
+					<button type="button" class="btn btn-primary" id='clear'>清空</button>
+				</div>
+			</div>
+			<div class='height-srarch'>高级查询<span class='glyphicon glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<div class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">起止时间</label>
+				    <div class="col-sm-10">
+						<div class='input-list clearfix' style="display:inline-block;width:430px;">
+							<!-- 开始时间 -->
+					    	<div class='time-list' style="float:left;width:180px">
+		      				 	<input type="text" name="" onclick="WdatePicker({dchanging:cDayFunc,dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input1">
+					    	</div>
+							<span class='time-split' style="float:left;margin:0px 10px;position:relative;top:8px">-</span>
+							<!-- 结束时间 -->
+							<div class='time-list' style="float:left;width:180px">
+							    <input type="text" name="" onclick="WdatePicker({dchanging:cDayFunc,dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input2">
+							</div>
+						</div>
+				      <div class="btn-group0" style='display:inline-block;vertical-align: top'>
+				          <button type="button" class="btn btn-default" value='0'>昨日</button>
+				          <button type="button" class="btn btn-default" value='0'>今日</button>
+				          <button type="button" class="btn btn-default" value='0'>最近一周</button>
+				          <button type="button" class="btn btn-default" value='0'>最近一月</button>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label class="col-sm-1 control-label">交易状态</label>
+					  <div class="col-sm-2">
+						  <select name="" id="select-stateTypeOptions" class='form-control'>
+							  <option value="">全部</option>
+							  <option value="1">交易处理中</option>
+							  <option value="2">支付成功</option>
+							  <option value="3">支付失败</option>
+						  </select>
+					  </div>
+				    <!--<div class="col-sm-10">-->
+				      	<!--<div class="btn-group1">-->
+	  			          <!--<button type="button" class="btn btn-default" value=''>全部</button>-->
+	  			          <!--<button type="button" class="btn btn-default" value='1'>交易处理中</button>-->
+	  			          <!--<button type="button" class="btn btn-default" value='2'>支付成功</button>-->
+	  			          <!--<button type="button" class="btn btn-default" value='3'>支付失败</button>-->
+				      	<!--</div>-->
+				    <!--</div>-->
+				   </div>
+				   <div class="form-group">
+					    <label class="col-sm-1 control-label">交易方式</label>
+					    <div class="col-sm-2">
+					      	<select name="" id="select-transactionWay" class='form-control'>
+								<option value="">全部</option>
+								<option value="alipay">支付宝</option>
+								<option value="LianLian">连连支付</option>
+								<option value="BankCard">银行卡代扣</option>
+								<option value="WeChat">微信付款</option>
+					      	</select>
+					    </div>
+					    <label class="col-sm-1 control-label">交易类型</label>
+					    <div class="col-sm-2">
+					      	<select name="" id="select-transactionType" class='form-control'>
+								<option value="">全部</option>
+								<option value="FIRST_RENT">首期交易</option>
+								<option value="RENT">租金</option>
+								<option value="BUYOUT">买断</option>
+								<!--<option value="RECYCLE">回收</option>-->
+								<option value="RETURN">归还</option>
+								<option value="SALE">出售</option>
+					      	</select>
+					    </div>
+				   </div>
+				</div>
+			</div>
+			<div class="" style="margin: 30px 0px 10px 0px; border: 1px #ccc solid; background-color: #eef1f6; line-height: 34px; padding: 0px 20px;">
+				<p>交易信息&#12288;&#12288;&#12288;&#12288;交易笔数：<span id="totalNum" style="color: #337ab7;"></span>笔&#12288;&#12288;交易金额：<span id="totalMoney" style="color: #337ab7;"></span>元</p>
+			</div>
+			<div class='table-box  table-responsive' style="margin-top: 0px;">
+	      		<table class="table" id='grid-tab'>
+	      		</table>
+	      		<!-- 暂无数据 -->
+	      		<!-- <div class='no-data'>暂无数据</div> -->
+	      		<!-- 正在加载中 -->
+	      	<!-- 	<div class='loading-box'>
+	      			<img src="../image/loading.gif" alt="">正在加载中
+	      		</div> -->
+			</div>
+		</div>
+	</div>
+	<!-- 手动完成支付 -->
+	<div class="modal fade" id="manuaPay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	   <input type="hidden" id="ipt-hidden-transaction-id">
+	   <input type="hidden" id="ipt-hidden-transactionSN">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">手动完成支付</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class="approve-content clearfix">
+							<div class='list'>
+								<div class="titlt" style="width:130px">单号</div>
+								<div class="text" id="div-orderSN"></div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易金额</div>
+								<div class="text" id="div-amount"></div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易完成日期</div>
+								<div class="text">
+									<input type="text" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="ipt-endDate">
+								</div>
+							</div>
+							<div class='list'>
+								<div class="titlt" style="width:130px">交易备注</div>
+								<div class="text">
+									<textarea class="form-control col-sm-1" rows="3" id="textarea-remark"></textarea>
+								</div>
+							</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" onclick="submit()">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 支付明细弹窗 -->
+	<div class="modal fade" id="payDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content" style="min-width:1000px;margin-left:-300px">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel2">支付明细</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='manua-pay-content clearfix'>
+	            		<div class='list'>
+	            			<span class="title">单号:</span>
+	            			<span class="text" id="span-orderSN"></span>
+	            			<span class="title">类别:</span>
+	            			<span class="text" id="span-category"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">客户姓名:</span>
+	            			<span class="text" id="span-realName"></span>
+	            			<span class="title">客户手机号:</span>
+	            			<span class="text" id="span-phone"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">租期:</span>
+	            			<span class="text" id="span-periods"></span>
+	            			<span class="title">月租金:</span>
+	            			<span class="text" id="span-rent"></span>
+	            			<span class="title">溢价金</span>
+	            			<span class="text"id="span-premium"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易流水号:</span>
+	            			<span class="text" id="span-transactionSN"></span>
+	            			<span class="title">交易方式:</span>
+	            			<span class="text" id="span-transactionWay"></span>
+	            			<span class="title">交易入口:</span>
+	            			<span class="text" id="span-transactionSource"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易账号:</span>
+	            			<span class="text" id="span-fromAccount"></span>
+	            			<span class="title">交易金额:</span>
+	            			<span class="text" id="span-transactionAmount"></span>
+	            			<span class="title">交易类型:</span>
+	            			<span class="text" id="span-transactionType"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易状态:</span>
+	            			<span class="text" id="span-state"></span>
+	            			<span class="title">失败原因:</span>
+	            			<span class="text" id="span-failure"></span>
+	            			<span class="title">已退款金额:</span>
+	            			<span class="text" id="span-returnAmount"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">交易发起人:</span>
+	            			<span class="text" id="span-createRealName"></span>
+	            			<span class="title">交易发起时间:</span>
+	            			<span class="text" id="span-creareOn"></span>
+	            			<span class="title">交易完成时间:</span>
+	            			<span class="text" id="span-finishTime"></span>
+	            		</div>
+	            		<div class='list'>
+	            			<span class="title">备注:</span>
+	            			<span class="text" id="span-remark"></span>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/downPaymentCommon.js'></script>
+	<script src='../js/transactionDetail.js'></script>
+	<script>
+		
+	
+		$('.height-srarch').click(function(){
+			$(this).find('span').toggleClass('active')
+			$('.form-box').slideToggle()
+		})
+		$('.order-tab li').click(function(){
+			$(this).addClass('active').siblings().removeClass('active')
+			var index = $(this).index()
+			$('.content-list').hide().eq(index).show()
+		})
+		$("#numberInput").bind('input porpertychange',function(){
+			if($(this).val()){
+				$('.form-box').find('input,button,select').attr('disabled','disabled')
+                $('.form-box').find('input,button,select').val('')
+			}else{
+				$('.form-box').find('input,button,select').removeAttr('disabled')
+			}
+		})
+		$('#clear').click(function(){
+			$('#numberInput').val('')
+			$('.form-box').find('input,select').val('')
+			$('.form-box').find('button').removeClass('btn-primary')
+			$('.form-box').find('input,button,select').removeAttr('disabled');
+			// 交易状态
+			searObj.state = '';
+		})
+		// 查询方法以及table组件使用方法
+		initData();
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.warehouse.mapper.ProductInfoMapper">
+
+    <resultMap id="ProductInfoMap" type="org.gz.warehouse.common.vo.ProductInfo">
+        <result property="id" column="id"/>
+        <result property="productNo" column="productNo"/>
+        <result property="materielName" column="materielName"/>
+        <result property="materielId" column="materielId"/>
+        <result property="materielClassId" column="materielClassId"/>
+        <result property="materielBrandId" column="materielBrandId"/>
+        <result property="materielModelId" column="materielModelId"/>
+        <result property="specBatchNo" column="specBatchNo"/>
+        <result property="leaseTermId" column="leaseTermId"/>
+        <result property="leaseAmount" column="leaseAmount"/>
+        <result property="dayLeaseAmount" column="dayLeaseAmount"/>
+        <result property="premium" column="premium"/>
+        <result property="floatAmount" column="floatAmount"/>
+        <result property="signContractAmount" column="signContractAmount"/>
+        <result property="showAmount" column="showAmount"/>
+        <result property="sesameCredit" column="sesameCredit"/>
+        <result property="isDeleted" column="isDeleted"/>
+        <result property="depreciateAmouts" column="depreciateAmouts"/>
+        <result property="className" column="className"/>
+        <result property="brandName" column="brandName"/>
+        <result property="modelName" column="modelName"/>
+        <result property="specBatchNoValues" column="specBatchNoValues"/>
+        <result property="termValue" column="termValue"/>
+        <result property="thumbnailUrl" column="thumbnailUrl"/>
+        <result property="createBy" column="createBy"/>
+        <result property="createOn" column="createOn"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="updateOn" column="updateOn"/>
+        <result property="brokenScreenAmount" column="brokenScreenAmount"/>
+        <result property="displayLeaseType" column="displayLeaseType"/>
+        <result property="storageCount" column="storageCount"/>
+        <result property="productType" column="productType"/>
+
+    </resultMap>
+
+    <sql id="columns">
+        <![CDATA[
+        id,
+        productNo,
+        materielId,
+        leaseTermId,
+        leaseAmount,
+        dayLeaseAmount,
+        premium,
+        floatAmount,
+        signContractAmount,
+        showAmount,
+        sesameCredit,
+        isDeleted,
+        depreciateAmouts,
+        createBy,
+        createOn,
+        updateBy,
+        updateOn,
+        productType,
+        brokenScreenAmount
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType
+        ]]>
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=materielId">
+                AND materielId = #{materielId}
+            </if>
+            <if test="null!=leaseTermId">
+                AND leaseTermId = #{leaseTermId}
+            </if>
+            <if test="null!=leaseAmount">
+                AND leaseAmount = #{leaseAmount}
+            </if>
+            <if test="null!=dayLeaseAmount">
+                AND dayLeaseAmount = #{dayLeaseAmount}
+            </if>
+            <if test="null!=premium">
+                AND premium = #{premium}
+            </if>
+            <if test="null!=floatAmount">
+                AND floatAmount = #{floatAmount}
+            </if>
+            <if test="null!=signContractAmount">
+                AND signContractAmount = #{signContractAmount}
+            </if>
+            <if test="null!=showAmount">
+                AND showAmount = #{showAmount}
+            </if>
+            <if test="null!=sesameCredit">
+                AND sesameCredit = #{sesameCredit}
+            </if>
+            <if test="null!=isDeleted">
+                AND isDeleted = #{isDeleted}
+            </if>
+            <if test="null!=depreciateAmouts">
+                AND depreciateAmouts = #{depreciateAmouts}
+            </if>
+            <if test="null!=productNo">
+                AND productNo = #{productNo}
+            </if>
+            <if test="null!=productType">
+                AND productType = #{productType}
+            </if>
+            <if test="null!=createBy">
+                AND createBy = #{createBy}
+            </if>
+            <if test="null!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=updateBy">
+                AND updateBy = #{updateBy}
+            </if>
+            <if test="null!=updateOn">
+                AND updateOn = #{updateOn}
+            </if>
+            <if test="null!=brokenScreenAmount">
+                AND brokenScreenAmount = #{brokenScreenAmount}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="query_list_where">
+        <where>
+            <if test="null!=materielClassId">
+                AND t6.materielClassId = #{materielClassId}
+            </if>
+            <if test="null!=materielBrandId">
+                AND t6.materielBrandId = #{materielBrandId}
+            </if>
+            <if test="null!=materielModelId">
+                AND t6.materielModelId = #{materielModelId}
+            </if>
+            <if test="null!=specBatchNo and ''!=specBatchNo">
+                AND t6.specBatchNo = #{specBatchNo}
+            </if>
+            <if test="null!=materielUnitId and materielUnitId>0">
+            	AND t6.materielUnitId = #{materielUnitId}
+            </if>
+            <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+                AND t6.materielNewConfigId = #{materielNewConfigId}
+            </if>
+            <if test="null!=isDeleted">
+                AND t.isDeleted = #{isDeleted}
+            </if>
+            <if test="null!=materielId">
+                AND t.materielId = #{materielId}
+            </if>
+            <if test="null!=leaseTermId">
+                AND t.leaseTermId = #{leaseTermId}
+            </if>
+            <if test="null!=leaseAmount">
+                AND t.leaseAmount = #{leaseAmount}
+            </if>
+            <if test="null!=dayLeaseAmount">
+                AND t.dayLeaseAmount = #{dayLeaseAmount}
+            </if>
+            <if test="null!=premium">
+                AND t.premium = #{premium}
+            </if>
+            <if test="null!=floatAmount">
+                AND t.floatAmount = #{floatAmount}
+            </if>
+            <if test="null!=signContractAmount">
+                AND t.signContractAmount = #{signContractAmount}
+            </if>
+            <if test="null!=showAmount">
+                AND t.showAmount = #{showAmount}
+            </if>
+            <if test="null!=sesameCredit">
+                AND t.sesameCredit = #{sesameCredit}
+            </if>
+            <if test="null!=productType">
+                AND t.productType = #{productType}
+            </if>
+            <if test="null!=brokenScreenAmount">
+                AND t.brokenScreenAmount = #{brokenScreenAmount}
+            </if>
+            <if test="null!=productId">
+                AND t.id <![CDATA[ <> ]]> #{productId}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="query_all_sql">
+        SELECT <include refid="t_columns" />,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where t8.enableFlag =1 and t8.id = t6.materielNewConfigId) as configValue,
+        t6.materielUnitId,
+   		t9.unitName as materielUnitName
+        FROM
+        product_info t 
+        left join materiel_basic_info t6 on t.materielId = t6.id
+        left join materiel_unit t9 on t9.id=t6.materielUnitId
+    </sql>
+
+    <select id="getByIdOrPdtNo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag =1 and t8.id = t6.materielNewConfigId) as configValue,
+        t6.materielUnitId,
+   		t9.unitName as materielUnitName
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id  left join materiel_unit t9 on t9.id=t6.materielUnitId
+        <where>
+            <if test="null!=id">
+                AND t.id = #{id}
+            </if>
+            <if test="null!=productNo">
+                AND t.productNo = #{productNo}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增产品-->
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product_info (
+        <trim suffix="" suffixOverrides=",">
+            <if test="null!=productNo">
+                productNo,
+            </if>
+            <if test="null!=materielId">
+                materielId,
+            </if>
+            <if test="null!=leaseTermId">
+                leaseTermId,
+            </if>
+            <if test="null!=leaseAmount">
+                leaseAmount,
+            </if>
+            <if test="null!=dayLeaseAmount">
+                dayLeaseAmount,
+            </if>
+            <if test="null!=displayLeaseType and displayLeaseType>0">
+                displayLeaseType,
+            </if>
+            
+            <if test="null!=premium">
+                premium,
+            </if>
+            <if test="null!=floatAmount">
+                floatAmount,
+            </if>
+            <if test="null!=signContractAmount">
+                signContractAmount,
+            </if>
+            <if test="null!=showAmount">
+                showAmount,
+            </if>
+            <if test="null!=sesameCredit">
+                sesameCredit,
+            </if>
+            <if test="null!=isDeleted">
+                isDeleted,
+            </if>
+            <if test="null!=depreciateAmouts">
+                depreciateAmouts,
+            </if>
+            <if test="null!=productType">
+                productType,
+            </if>
+            <if test="null!=createBy">
+                createBy,
+            </if>
+            <if test="null!=createOn">
+                createOn,
+            </if>
+            <if test="null!=updateBy">
+                updateBy,
+            </if>
+            <if test="null!=updateOn">
+                updateOn,
+            </if>
+            <if test="null!=brokenScreenAmount">
+                brokenScreenAmount
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffix="" suffixOverrides=",">
+            <if test="null!=productNo">
+                #{productNo},
+            </if>
+            <if test="null!=materielId">
+                #{materielId},
+            </if>
+            <if test="null!=leaseTermId">
+                #{leaseTermId},
+            </if>
+            <if test="null!=leaseAmount">
+                #{leaseAmount},
+            </if>
+            <if test="null!=dayLeaseAmount">
+                #{dayLeaseAmount},
+            </if>
+             <if test="null!=displayLeaseType and displayLeaseType>0">
+                #{displayLeaseType},
+            </if>
+            <if test="null!=premium">
+                #{premium},
+            </if>
+            <if test="null!=floatAmount">
+                #{floatAmount},
+            </if>
+            <if test="null!=signContractAmount">
+                #{signContractAmount},
+            </if>
+            <if test="null!=showAmount">
+                #{showAmount},
+            </if>
+            <if test="null!=sesameCredit">
+                #{sesameCredit},
+            </if>
+            <if test="null!=isDeleted">
+                #{isDeleted},
+            </if>
+            <if test="null!=depreciateAmouts">
+                #{depreciateAmouts},
+            </if>
+            <if test="null!=productType">
+                #{productType},
+            </if>
+            <if test="null!=createBy">
+                #{createBy},
+            </if>
+            <if test="null!=createOn">
+                #{createOn},
+            </if>
+            <if test="null!=updateBy">
+                #{updateBy},
+            </if>
+            <if test="null!=updateOn">
+                #{updateOn},
+            </if>
+            <if test="null!=brokenScreenAmount">
+                #{brokenScreenAmount}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateAll">
+        UPDATE	product_info
+        <set>
+            <![CDATA[ productNo = #{productNo} ]]>,
+            <![CDATA[ materielId = #{materielId} ]]>,
+            <![CDATA[ leaseTermId = #{leaseTermId} ]]>,
+            <![CDATA[ leaseAmount = #{leaseAmount} ]]>,
+            <![CDATA[ dayLeaseAmount = #{dayLeaseAmount} ]]>,
+            <![CDATA[ premium = #{premium} ]]>,
+            <![CDATA[ floatAmount = #{floatAmount} ]]>,
+            <![CDATA[ signContractAmount = #{signContractAmount} ]]>,
+            <![CDATA[ showAmount = #{showAmount} ]]>,
+            <![CDATA[ sesameCredit = #{sesameCredit} ]]>,
+            <![CDATA[ isDeleted = #{isDeleted} ]]>,
+            <![CDATA[ depreciateAmouts = #{depreciateAmouts} ]]>,
+            <![CDATA[ productType = #{productType} ]]>,
+            <![CDATA[ createBy = #{createBy} ]]>,
+            <![CDATA[ createOn = #{createOn} ]]>,
+            <![CDATA[ updateBy = #{updateBy} ]]>,
+            <![CDATA[ updateOn = #{updateOn} ]]>,
+            <![CDATA[ displayLeaseType = #{displayLeaseType} ]]>,
+            <![CDATA[ brokenScreenAmount = #{brokenScreenAmount} ]]>
+        </set>
+        <where>
+            <if test="null!=id">
+                AND <![CDATA[ id = #{id} ]]>
+            </if>
+        </where>
+    </update>
+
+
+    <update id="update">
+        UPDATE	product_info
+        <set>
+            <if test="null!=productNo">
+                <![CDATA[ productNo = #{productNo} ]]>,
+            </if>
+            <if test="null!=materielId">
+                <![CDATA[ materielId = #{materielId} ]]>,
+            </if>
+            <if test="null!=leaseTermId">
+                <![CDATA[ leaseTermId = #{leaseTermId} ]]>,
+            </if>
+            <if test="null!=leaseAmount">
+                <![CDATA[ leaseAmount = #{leaseAmount} ]]>,
+            </if>
+            <if test="null!=dayLeaseAmount">
+                <![CDATA[ dayLeaseAmount = #{dayLeaseAmount} ]]>,
+            </if>
+            <if test="null!=premium">
+                <![CDATA[ premium = #{premium} ]]>,
+            </if>
+            <if test="null!=floatAmount">
+                <![CDATA[ floatAmount = #{floatAmount} ]]>,
+            </if>
+            <if test="null!=signContractAmount">
+                <![CDATA[ signContractAmount = #{signContractAmount} ]]>,
+            </if>
+            <if test="null!=showAmount">
+                <![CDATA[ showAmount = #{showAmount} ]]>,
+            </if>
+            <if test="null!=sesameCredit">
+                <![CDATA[ sesameCredit = #{sesameCredit} ]]>,
+            </if>
+            <if test="null!=isDeleted">
+                <![CDATA[ isDeleted = #{isDeleted} ]]>,
+            </if>
+            <if test="null!=depreciateAmouts">
+                <![CDATA[ depreciateAmouts = #{depreciateAmouts} ]]>,
+            </if>
+            <if test="null!=productType">
+                <![CDATA[ productType = #{productType} ]]>,
+            </if>
+            <if test="null!=createBy">
+                <![CDATA[ createBy = #{createBy} ]]>,
+            </if>
+            <if test="null!=createOn">
+                <![CDATA[ createOn = #{createOn} ]]>,
+            </if>
+            <if test="null!=updateBy">
+                <![CDATA[ updateBy = #{updateBy} ]]>,
+            </if>
+            <if test="null!=updateOn">
+                <![CDATA[ updateOn = #{updateOn} ]]>
+            </if>
+            <if test="null!=brokenScreenAmount">
+                <![CDATA[ brokenScreenAmount = #{brokenScreenAmount} ]]>
+            </if>
+        </set>
+        <where>
+            <if test="null!=id">
+                AND <![CDATA[ id = #{id} ]]>
+            </if>
+        </where>
+    </update>
+
+    <select id="queryList" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        <include refid="query_all_sql" />
+        <include refid="query_list_where" />
+        order by t.updateOn desc
+        limit #{startIndex},#{endIndex}
+    </select>
+
+    <select id="queryAllProductList" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        <include refid="columns" />
+        FROM
+        product_info
+        WHERE isDeleted = 0
+    </select>
+
+    <!-- 查询分页总条数 -->
+    <select id="queryPageCount"  resultType="java.lang.Integer">
+        select
+        count(1)
+        from product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        <include refid="query_list_where" />
+    </select>
+
+    <update id="updateProductUnableByMateielId">
+        UPDATE	product_info set isDeleted = 1
+        where materielId = #{materielId}
+    </update>
+
+    <!--获取售卖商品详情-->
+    <select id="getLeasePriceLowestProduct" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        <include refid="query_all_sql" />
+        <include refid="query_list_where" />
+        order by t.leaseAmount asc
+        limit 0,1
+    </select>
+
+
+    <!--获取产品租期列表-->
+    <select id="getLeaseProductList" parameterType="org.gz.warehouse.common.vo.ProductInfoQvo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        select x.* from (SELECT t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4
+        INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t6.materielUnitId,
+        t9.unitName as materielUnitName
+        FROM
+        product_info t
+        left join materiel_basic_info t6 on t.materielId = t6.id
+        left join materiel_unit t9 on t9.id=t6.materielUnitId
+        where t.productType in (1,2)
+        <if test="null!=materielClassId">
+            AND t6.materielClassId = #{materielClassId}
+        </if>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielModelId">
+            AND t6.materielModelId = #{materielModelId}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+        <if test="null!=leaseTermId">
+            AND t.leaseTermId = #{leaseTermId}
+        </if>
+        AND t.leaseTermId = 1
+        AND t6.materielBrandId = 4
+        AND t6.materielClassId = 1
+        AND t6.materielNewConfigId = 2
+        ) x
+        where 1=1
+        <if test="null!=materielSpecValue and ''!=materielSpecValue">
+            and x.specBatchNoValues = #{materielSpecValue}
+        </if>
+        order by x.leaseAmount asc
+        limit 0,1
+    </select>
+
+    <!--根据多个查询条件查询租赁和售卖产品信息-->
+    <select id="getLeaseAndSellProduct" parameterType="org.gz.warehouse.common.vo.ProductInfoQvo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,t10.snNo,t10.imieNo as imeiNo,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        inner join warehouse_commodity_info t10 on t10.materielBasicId = t6.id
+        where 1=1
+        <if test="null!=materielClassId">
+            AND t6.materielClassId = #{materielClassId}
+        </if>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielModelId">
+            AND t6.materielModelId = #{materielModelId}
+        </if>
+        <if test="null!=specBatchNo and ''!=specBatchNo">
+            AND t6.specBatchNo = #{specBatchNo}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+        <if test="null!=isDeleted">
+            AND t.isDeleted = #{isDeleted}
+        </if>
+        <if test="null!=materielId">
+            AND t.materielId = #{materielId}
+        </if>
+        <if test="null!=leaseTermId">
+            AND t.leaseTermId = #{leaseTermId}
+        </if>
+        <if test="null!=leaseAmount">
+            AND t.leaseAmount = #{leaseAmount}
+        </if>
+        <if test="null!=dayLeaseAmount">
+            AND t.dayLeaseAmount = #{dayLeaseAmount}
+        </if>
+        <if test="null!=premium">
+            AND t.premium = #{premium}
+        </if>
+        <if test="null!=floatAmount">
+            AND t.floatAmount = #{floatAmount}
+        </if>
+        <if test="null!=signContractAmount">
+            AND t.signContractAmount = #{signContractAmount}
+        </if>
+        <if test="null!=showAmount">
+            AND t.showAmount = #{showAmount}
+        </if>
+        <if test="null!=sesameCredit">
+            AND t.sesameCredit = #{sesameCredit}
+        </if>
+        <if test="null!=productType">
+            AND t.productType = #{productType}
+        </if>
+        <if test="null!=brokenScreenAmount">
+            AND t.brokenScreenAmount = #{brokenScreenAmount}
+        </if>
+        <if test="null!=productId">
+            AND t.id <![CDATA[ <> ]]> #{productId}
+        </if>
+        order by t.leaseAmount asc
+        limit 0,1
+    </select>
+
+    <!--根据多个型号ID，批量获取租赁商品-->
+    <select id="queryProductInfoListWithMaterielImageByModelIds" parameterType="java.lang.Long" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT t.id, t.productNo,t.materielId, t.leaseTermId, min(t.leaseAmount) AS leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11
+        on t6.id = t11.materielBasicInfoId
+        where t.productType in (1,2) and t6.materielModelId in
+        <foreach collection="materielModelIdList" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+        group by t6.materielModelId
+    </select>
+
+    <!--根据单个型号ID，获取租赁商品 -->
+    <select id="queryProductInfoWithMaterieImageByModelId" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11
+        on t6.id = t11.materielBasicInfoId
+        INNER JOIN materiel_model t7 ON t6.materielModelId = t7.id
+        where t.productType in (1,2) and t7.enableFlag = 1
+        <if test="null!=materielFlag">
+            AND t6.materielFlag=#{materielFlag}
+        </if>
+        <if test="null!=materielModelId">
+            and t6.materielModelId = #{materielModelId}
+        </if>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+
+      ORDER BY t.leaseAmount LIMIT 0,1
+    </select>
+
+    <!--根据单个型号ID，获取租赁商品 -->
+    <select id="queryProductMaterieImageByModelIds" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11
+        on t6.id = t11.materielBasicInfoId
+        where t.productType in (1,2)
+        <if test="null!=materielModelId">
+            and t6.materielModelId = #{materielModelId}
+        </if>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+        ORDER BY t.leaseAmount LIMIT 0,1
+    </select>
+
+    <!--获取租赁详情-->
+    <select id="getLeaseLowestDetail" parameterType="org.gz.warehouse.common.vo.ProductInfoQvo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT t.id, t.productNo,t.materielId, t.leaseTermId, t.leaseAmount,t.dayLeaseAmount,t.premium, t.floatAmount, t.signContractAmount, t.showAmount, t.sesameCredit,
+        t.isDeleted,t.depreciateAmouts,t.createBy,t.createOn,t.updateBy,t.updateOn,t.productType,t.brokenScreenAmount,t.displayLeaseType,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11
+        on t6.id = t11.materielBasicInfoId
+        where t.productType in (1,2)
+        <if test="null!=materielModelId">
+            and t6.materielModelId = #{materielModelId}
+        </if>
+        <if test="null!=materielBrandId">
+            AND t6.materielBrandId = #{materielBrandId}
+        </if>
+        <if test="null!=materielNewConfigId and ''!=materielNewConfigId">
+            AND t6.materielNewConfigId = #{materielNewConfigId}
+        </if>
+        ORDER BY t.leaseAmount LIMIT 0,1
+    </select>
+
+
+    <!--获取多个售卖商品详情-->
+    <select id="getSaleCommodityInfo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        t.*,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl,
+        (select count(1) from warehouse_commodity_info wci INNER JOIN warehouse_info wi on wci.warehouseId=wi.id INNER JOIN warehouse_location wl ON wci.warehouseLocationId=wl.id
+        where wci.materielBasicId=t.materielId and wi.warehouseCode='S011' and wl.locationCode='AVAILABLE') as storageCount
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11
+        on t6.id = t11.materielBasicInfoId
+        where  t.id in
+        <foreach collection="idList" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="batchQuerySellCommoidtyInfo" parameterType="java.util.List" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+		wc.imieNo as imeiNo,
+		wc.snNo,
+        wl.locationCode,
+        t.*,
+        t6.materielName as materielName,
+        t6.materielClassId as materielClassId,
+        t6.materielBrandId as materielBrandId,
+        t6.materielModelId as materielModelId,
+        t6.specBatchNo as specBatchNo,
+        t6.thumbnailUrl as thumbnailUrl,
+        t6.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        (select t3.materielModelName from materiel_model t3 where t3.id = t6.materielModelId ) as modelName,
+        (select group_concat(t4.materielSpecValue ORDER BY t7.sortOrder ASC) from materiel_model_spec t4 INNER JOIN materiel_spec t7 ON t4.materielSpecId = t7.id where t4.specBatchNo = t6.specBatchNo) as specBatchNoValues,
+        (select t5.termValue from product_lease_term t5 where t5.id = t.leaseTermId) as termValue,
+        (select t8.configValue from materiel_new_config t8 where  t8.enableFlag = 1 and  t8.id = t6.materielNewConfigId) as configValue,
+        t11.attaUrl
+        FROM
+        product_info t left join materiel_basic_info t6 on t.materielId = t6.id
+        LEFT JOIN (select t9.* from materiel_basic_images t9  inner join materiel_basic_info  t10
+        on t9.materielBasicInfoId = t10.id GROUP BY t9.materielBasicInfoId ) t11 on t6.id = t11.materielBasicInfoId
+		LEFT JOIN warehouse_commodity_info wc on t6.id = wc.materielBasicId
+		LEFT join warehouse_location wl on wc.warehouseLocationId = wl.id
+        where t.id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.productId}
+        </foreach>
+        and wc.imieNo in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.imeiNo}
+        </foreach>
+        and wc.snNo in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.snNo}
+        </foreach>
+
+    </select>
+
+    <!--根据产品ID、imeiNo、snNo获取售卖商品详细信息-->
+    <select id="getSaleCommodityInfoById" parameterType="org.gz.warehouse.common.vo.ProductInfo" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        t1.id as materielBasicId,
+        t1.materielName,
+        t1.materielModelId,
+		t9.imieNo as imeiNo,
+		t9.snNo,
+        t6.materielModelName,
+        t7.configValue,
+        t3.*,
+        t1.materielClassId as materielClassId,
+        t1.materielBrandId as materielBrandId,
+        t1.specBatchNo as specBatchNo,
+        t1.thumbnailUrl as thumbnailUrl,
+        t1.materielNewConfigId as materielNewConfigId,
+        (select typeName from materiel_class t1 where t1.id = t6.materielClassId) as className,
+        (select t2.brandName from materiel_brand t2 where t2.id = t6.materielBrandId) as brandName,
+        t6.materielModelName as modelName,
+        (SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR ',')
+        FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specBatchNoValues
+        FROM materiel_basic_info t1
+        INNER JOIN product_info t3 ON t3.materielId = t1.id
+        INNER JOIN materiel_model t6 ON t1.materielModelId = t6.id
+        INNER JOIN materiel_new_config t7 ON t7.id = t1.materielNewConfigId
+        inner join warehouse_commodity_info t9 on t3.materielId = t9.materielBasicId
+        inner join warehouse_info t2 on t2.id = t9.warehouseId
+        inner join warehouse_location t10 on t10.id=t9.warehouseLocationId
+        WHERE t9.imieNo is not null and t9.snNo is not null and t6.enableFlag = 1 and t7.enableFlag =1
+        /*AND t2.warehouseCode='S011'
+		AND t10.locationCode='AVAILABLE'*/
+        AND t3.id = #{id}
+        <if test="null!=imeiNo and ''!=imeiNo">
+            and t9.imieNo = #{imeiNo}
+        </if>
+        <if test="null!=snNo and ''!=snNo">
+            and t9.snNo = #{snNo}
+        </if>
+        limit 0,1
+    </select>
+
+
+   
+
+    <select id="getImageListByMaterieId" parameterType="java.util.List"  resultType="org.gz.warehouse.entity.MaterielBasicImages">
+        SELECT
+			t1.materielBasicInfoId,t1.attaUrl
+		FROM materiel_basic_images t1 INNER JOIN materiel_basic_info t2 on t1.materielBasicInfoId=t2.id
+		where t1.materielBasicInfoId in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            (
+            #{item}
+            )
+        </foreach>
+    </select>
+
+    <!--根据品牌ID，型号ID，品牌ID，分类ID查询租赁商品信息(查租赁数量)-->
+    <select id="queryRentCommodityPageCountForRent" parameterType="org.gz.warehouse.common.vo.RentProductReq" resultType="org.gz.warehouse.common.vo.RentProductResp">
+        SELECT
+        t3.productNo,
+        t8.imieNo,
+        t8.snNo,
+        t3.id as productId,
+        t1.id as materielId,
+        t1.materielClassId,
+        t1.materielBrandId,
+        t1.materielModelId,
+        t6.materielModelName as modelName,
+        t7.configValue,
+        t3.signContractAmount,
+        t3.showAmount,
+        t1.materielNewConfigId as materielNewConfigId,
+        (SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR ',')
+        FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specBatchNoValues,
+        (SELECT attaUrl FROM materiel_basic_images mbi WHERE mbi.materielBasicInfoId=t1.id LIMIT 1 ) as thumbnailUrl,
+        t3.productType,
+        t3.displayLeaseType,
+        t3.leaseAmount,
+        t3.dayLeaseAmount,
+        (SELECT termValue FROM product_lease_term plt WHERE plt.id=t3.leaseTermId) as termValue
+        FROM materiel_basic_info t1
+        INNER JOIN materiel_class t2 ON t1.materielClassId=t2.id
+        INNER JOIN product_info t3 ON t3.materielId = t1.id
+        INNER JOIN materiel_model t6 ON t1.materielModelId = t6.id
+        INNER JOIN materiel_new_config t7 ON t7.id = t1.materielNewConfigId
+        INNER JOIN warehouse_commodity_info t8 ON t8.materielBasicId=t1.id
+        <include refid="where_queryPageCount_rent"/>  GROUP BY t1.materielModelId,t1.materielNewConfigId,specBatchNoValues
+    </select>
+
+    <!--根据品牌ID，型号ID，品牌ID，分类ID查询租赁商品信息-->
+    <select id="getRentCommodityInfoByBrandIdAndModelIdAndConfigid" parameterType="org.gz.warehouse.common.vo.RentProductReq" resultType="org.gz.warehouse.common.vo.RentProductResp">
+        SELECT
+        t3.productNo,
+        t8.imieNo,
+        t8.snNo,
+        t3.id as productId,
+        t1.id as materielId,
+        t1.materielClassId,
+        t1.materielBrandId,
+        t1.materielModelId,
+        t6.materielModelName as modelName,
+        t7.configValue,
+        t3.signContractAmount,
+        t3.showAmount,
+        t1.materielNewConfigId as materielNewConfigId,
+        (SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR ',')
+        FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specBatchNoValues,
+        (SELECT attaUrl FROM materiel_basic_images mbi WHERE mbi.materielBasicInfoId=t1.id LIMIT 1 ) as thumbnailUrl,
+        t3.productType,
+        t3.displayLeaseType,
+        t3.leaseAmount,
+        t3.dayLeaseAmount,
+        t3.brokenScreenAmount,
+        (SELECT termValue FROM product_lease_term plt WHERE plt.id=t3.leaseTermId) as termValue
+        FROM materiel_basic_info t1
+        INNER JOIN materiel_class t2 ON t1.materielClassId=t2.id
+        INNER JOIN product_info t3 ON t3.materielId = t1.id
+        INNER JOIN materiel_model t6 ON t1.materielModelId = t6.id
+        INNER JOIN materiel_new_config t7 ON t7.id = t1.materielNewConfigId
+        INNER JOIN warehouse_commodity_info t8 ON t8.materielBasicId=t1.id
+        <include refid="where_queryPageCount_rent"/>  GROUP BY t1.materielModelId,t1.materielNewConfigId,specBatchNoValues limit #{startIndex},#{endIndex}
+    </select>
+
+    <!--租赁条件-->
+    <sql id="where_queryPageCount_rent">
+        where 1=1 AND t3.productType IN (1,2) and t7.enableFlag = 1 AND  t6.enableFlag=1
+        <if test="materielClassId!=null and materielClassId>0">
+            AND t1.materielClassId= #{materielClassId}
+        </if>
+        <if test="materielBrandId!=null and materielBrandId>0">
+            AND t1.materielBrandId=#{materielBrandId}
+        </if>
+        <if test="materielModelId!=null and materielModelId>0">
+            AND t1.materielModelId=#{materielModelId}
+        </if>
+        <if test="materielNewConfigId!=null and materielNewConfigId>0">
+            AND t1.materielNewConfigId=#{materielNewConfigId}
+        </if>
+    </sql>
+
+
+
+
+
+    <!--根据品牌ID，型号ID，品牌ID，分类ID查询售卖商品信息(查售卖数量)-->
+    <select id="queryRentCommodityPageCount" parameterType="org.gz.warehouse.common.vo.RentProductReq" resultType="org.gz.warehouse.common.vo.RentProductResp">
+        SELECT
+        t3.productNo,
+        t8.imieNo,
+        t8.snNo,
+        t3.id as productId,
+        t1.id as materielId,
+        t1.materielClassId,
+        t1.materielBrandId,
+        t1.materielModelId,
+        t6.materielModelName as modelName,
+        t7.configValue,
+        t3.signContractAmount,
+        t3.showAmount,
+        t1.materielNewConfigId as materielNewConfigId,
+        (SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR ',')
+        FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specBatchNoValues,
+        (SELECT attaUrl FROM materiel_basic_images mbi WHERE mbi.materielBasicInfoId=t1.id LIMIT 1 ) as thumbnailUrl,
+        t3.productType,
+        t3.displayLeaseType,
+        t3.leaseAmount,
+        t3.dayLeaseAmount,
+        (SELECT termValue FROM product_lease_term plt WHERE plt.id=t3.leaseTermId) as termValue
+        FROM materiel_basic_info t1
+        INNER JOIN materiel_class t2 ON t1.materielClassId=t2.id
+        INNER JOIN product_info t3 ON t3.materielId = t1.id
+        INNER JOIN materiel_model t6 ON t1.materielModelId = t6.id
+        INNER JOIN materiel_new_config t7 ON t7.id = t1.materielNewConfigId
+        INNER JOIN warehouse_commodity_info t8 ON t8.materielBasicId=t1.id
+        <include refid="where_queryPageCount"/>  GROUP BY t1.materielModelId,t1.materielNewConfigId,specBatchNoValues
+    </select>
+
+
+
+    <!--根据品牌ID，型号ID，品牌ID，分类ID查询售卖商品信息-->
+ 	<select id="queryRentCommodityPageList" parameterType="org.gz.warehouse.common.vo.RentProductReq" resultType="org.gz.warehouse.common.vo.RentProductResp">
+        SELECT
+        t3.productNo,
+        t8.imieNo,
+        t8.snNo,
+        t3.id as productId,
+        t1.id as materielId,
+        t1.materielClassId,
+        t1.materielBrandId,
+        t1.materielModelId,
+        t6.materielModelName as modelName,
+        t7.configValue,
+        t3.signContractAmount,
+        t3.showAmount,
+        t1.materielNewConfigId as materielNewConfigId,
+        (SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR ',')
+        FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specBatchNoValues,
+        (SELECT attaUrl FROM materiel_basic_images mbi WHERE mbi.materielBasicInfoId=t1.id LIMIT 1 ) as thumbnailUrl,
+        t3.productType,
+        t3.displayLeaseType,
+        t3.leaseAmount,
+        t3.dayLeaseAmount,
+        t3.brokenScreenAmount,
+        (SELECT termValue FROM product_lease_term plt WHERE plt.id=t3.leaseTermId) as termValue
+        FROM materiel_basic_info t1
+        INNER JOIN materiel_class t2 ON t1.materielClassId=t2.id
+        INNER JOIN product_info t3 ON t3.materielId = t1.id
+        INNER JOIN materiel_model t6 ON t1.materielModelId = t6.id
+        INNER JOIN materiel_new_config t7 ON t7.id = t1.materielNewConfigId
+        INNER JOIN warehouse_commodity_info t8 ON t8.materielBasicId=t1.id
+        <include refid="where_queryPageCount"/>  GROUP BY t1.materielModelId,t1.materielNewConfigId,specBatchNoValues limit #{startIndex},#{endIndex}
+    </select>
+
+    <!--售卖条件-->
+    <sql id="where_queryPageCount">
+        where 1=1 AND t3.productType = 3 and t7.enableFlag = 1 AND t6.enableFlag=1
+        <if test="materielClassId!=null and materielClassId>0">
+            AND t1.materielClassId= #{materielClassId}
+        </if>
+        <if test="materielBrandId!=null and materielBrandId>0">
+            AND t1.materielBrandId=#{materielBrandId}
+        </if>
+        <if test="materielModelId!=null and materielModelId>0">
+            AND t1.materielModelId=#{materielModelId}
+        </if>
+        <if test="materielNewConfigId!=null and materielNewConfigId>0">
+            AND t1.materielNewConfigId=#{materielNewConfigId}
+        </if>
+        <if test="warehouseLocationId!=null and warehouseLocationId>0">
+            AND t8.warehouseLocationId=#{warehouseLocationId}
+        </if>
+    </sql>
+    
+    <sql id="comm_queryAvailableProductCount">
+        FROM
+        warehouse_commodity_info t1
+        INNER JOIN (
+        SELECT
+        mbi.id,mbi.materielModelId,mbi.materielBrandId
+        FROM
+        materiel_basic_info mbi
+        INNER JOIN (
+        SELECT
+        t1.materielModelId
+        FROM
+        materiel_basic_info t1
+        INNER JOIN product_info t2 ON t1.id = t2.materielId
+        WHERE 1=1
+        AND t2.id in
+        <foreach item="item" collection="productIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY t1.materielModelId
+        ) mmq ON mbi.materielModelId = mmq.materielModelId
+        UNION
+        SELECT
+        mbi.id,mbi.materielModelId,mbi.materielBrandId
+        FROM
+        materiel_basic_info mbi
+        INNER JOIN (
+        SELECT
+        t1.materielBrandId
+        FROM
+        materiel_basic_info t1
+        INNER JOIN product_info t2 ON t1.id = t2.materielId
+        WHERE 1=1
+        AND t2.id in
+        <foreach item="item" collection="productIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY t1.materielBrandId
+        ) mmq ON mbi.materielBrandId = mmq.materielBrandId
+
+        UNION
+        SELECT
+        mbi.id,mbi.materielModelId,mbi.materielBrandId
+        FROM
+        materiel_basic_info mbi
+        INNER JOIN (
+        SELECT
+        t1.materielBrandId
+        FROM
+        materiel_basic_info t1
+        INNER JOIN product_info t2 ON t1.id = t2.materielId
+        WHERE t1.materielBrandId NOT in (SELECT
+        t1.materielBrandId
+        FROM
+        materiel_basic_info t1
+        INNER JOIN product_info t2 ON t1.id = t2.materielId
+        WHERE 1=1
+        AND t2.id in
+        <foreach item="item" collection="productIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        )
+        GROUP BY t1.materielBrandId
+        ) mmq ON mbi.materielBrandId = mmq.materielBrandId
+
+        ) t2 ON t1.materielBasicId = t2.id
+        INNER JOIN warehouse_info t3 ON t1.warehouseId = t3.id
+        INNER JOIN warehouse_location t4 ON t1.warehouseLocationId = t4.id
+        INNER JOIN product_info t5 ON t2.id = t5.materielId
+        WHERE 1 = 1
+        AND t1.imieNo IS NOT NULL
+        AND t1.snNo IS NOT NULL
+        AND t1.imieNo!=''
+        AND t1.snNo!=''
+        AND t3.warehouseCode = 'S011'
+        AND t4.locationCode = 'AVAILABLE'
+        AND t5.productType=3
+    </sql>
+    
+    <select id="queryAvailableProductCount" parameterType="org.gz.warehouse.common.vo.SaleProductReq" resultType="int">
+    	SELECT
+		  count(t5.id)
+		<include refid="comm_queryAvailableProductCount"/>
+    </select>
+    
+    <select id="queryAvailableProductList" parameterType="org.gz.warehouse.common.vo.SaleProductReq" resultType="org.gz.warehouse.common.vo.SaleProductResp">
+    	SELECT
+		  t5.id as productId,
+		  t5.productType,
+		  t2.id as materielBasicId,
+		  t2.materielModelId,
+		  t1.imieNo as imeiNo,
+		  t1.snNo
+		<include refid="comm_queryAvailableProductCount"/>
+		limit #{startIndex},#{endIndex}
+    </select>
+   
+   <select id="queryAvailableModelProductList" parameterType="org.gz.warehouse.common.vo.SaleProductReq" resultType="org.gz.warehouse.common.vo.SaleProductResp">
+   		SELECT
+	    	t5.id as productId,
+		  	t5.productType,
+			t2.id as materielBasicId,
+	    	t2.materielModelId,
+	    	t1.imieNo as imeiNo,
+	    	t1.snNo
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN (
+			SELECT
+				mbi.id,
+				mbi.materielModelId,
+				mbi.materielBrandId
+			FROM
+				materiel_basic_info mbi
+			INNER JOIN (
+				SELECT
+					t1.materielModelId
+				FROM
+					materiel_basic_info t1
+				INNER JOIN product_info t2 ON t1.id = t2.materielId
+				WHERE
+					1 = 1
+				AND t2.id IN 
+				<foreach item="item" collection="productIds" open="(" separator="," close=")">
+		            #{item}
+		        </foreach>
+				GROUP BY t1.materielModelId
+			) mmq ON mbi.materielModelId = mmq.materielModelId
+		) t2 ON t1.materielBasicId = t2.id
+		INNER JOIN warehouse_info t3 ON t1.warehouseId = t3.id
+		INNER JOIN warehouse_location t4 ON t1.warehouseLocationId = t4.id
+		INNER JOIN product_info t5 ON t2.id = t5.materielId
+		WHERE
+			1 = 1
+		AND t1.imieNo IS NOT NULL
+		AND t1.snNo IS NOT NULL
+		AND t1.imieNo != ''
+		AND t1.snNo != ''
+		AND t3.warehouseCode = 'S011'
+		AND t4.locationCode = 'AVAILABLE'
+		AND t5.productType=3
+		limit #{startIndex},#{endIndex}
+   </select>
+
+   <select id="queryAvailableBrandProductList" parameterType="org.gz.warehouse.common.vo.SaleProductReq" resultType="org.gz.warehouse.common.vo.SaleProductResp">
+   		SELECT
+    		t5.id as productId,
+	  		t5.productType,
+			t2.id as materielBasicId,
+    		t2.materielModelId,
+    		t1.imieNo as imeiNo,
+    		t1.snNo
+		FROM
+		warehouse_commodity_info t1
+		INNER JOIN (
+			SELECT
+				mbi.id,
+				mbi.materielModelId,
+					mbi.materielBrandId
+			FROM
+				materiel_basic_info mbi
+			INNER JOIN (
+				SELECT
+					t1.materielBrandId
+				FROM
+					materiel_basic_info t1
+				INNER JOIN product_info t2 ON t1.id = t2.materielId
+				WHERE
+					1 = 1
+				AND t2.id IN
+				<foreach item="item" collection="productIds" open="(" separator="," close=")">
+			            #{item}
+			    </foreach>
+				GROUP BY t1.materielBrandId
+			) mmq ON mbi.materielBrandId = mmq.materielBrandId
+		) t2 ON t1.materielBasicId = t2.id
+		INNER JOIN warehouse_info t3 ON t1.warehouseId = t3.id
+		INNER JOIN warehouse_location t4 ON t1.warehouseLocationId = t4.id
+		INNER JOIN product_info t5 ON t2.id = t5.materielId
+		WHERE
+			1 = 1
+		AND t1.imieNo IS NOT NULL
+		AND t1.snNo IS NOT NULL
+		AND t1.imieNo != ''
+		AND t1.snNo != ''
+		AND t3.warehouseCode = 'S011'
+		AND t4.locationCode = 'AVAILABLE'
+		AND t5.productType=3
+		limit #{startIndex},#{endIndex}
+   </select>
+
+   <select id="queryAvailableOtherBrandProductList" parameterType="org.gz.warehouse.common.vo.SaleProductReq" resultType="org.gz.warehouse.common.vo.SaleProductResp">
+   		SELECT
+   		 	t5.id as productId,
+	 		t5.productType,
+			t2.id as materielBasicId,
+    		t2.materielModelId,
+    		t1.imieNo as imeiNo,
+    		t1.snNo
+		FROM
+		warehouse_commodity_info t1
+		INNER JOIN (
+			SELECT
+				mbi.id,
+				mbi.materielModelId,
+				mbi.materielBrandId
+			FROM
+				materiel_basic_info mbi
+			INNER JOIN (
+				SELECT
+					t1.materielBrandId
+				FROM
+					materiel_basic_info t1
+				INNER JOIN product_info t2 ON t1.id = t2.materielId
+				WHERE
+					t1.materielBrandId NOT IN (
+						SELECT
+							t1.materielBrandId
+						FROM
+							materiel_basic_info t1
+						INNER JOIN product_info t2 ON t1.id = t2.materielId
+						WHERE
+							1 = 1
+						AND t2.id IN
+						<foreach item="item" collection="productIds" open="(" separator="," close=")">
+			            	#{item}
+			   			 </foreach>
+					)
+				GROUP BY
+					t1.materielBrandId
+			) mmq ON mbi.materielBrandId = mmq.materielBrandId
+		) t2 ON t1.materielBasicId = t2.id
+		INNER JOIN warehouse_info t3 ON t1.warehouseId = t3.id
+		INNER JOIN warehouse_location t4 ON t1.warehouseLocationId = t4.id
+		INNER JOIN product_info t5 ON t2.id = t5.materielId
+		WHERE
+			1 = 1
+		AND t1.imieNo IS NOT NULL
+		AND t1.snNo IS NOT NULL
+		AND t1.imieNo != ''
+		AND t1.snNo != ''
+		AND t3.warehouseCode = 'S011'
+		AND t4.locationCode = 'AVAILABLE'
+		AND t5.productType=3
+		limit #{startIndex},#{endIndex}
+   </select>
+
+   <select id="querySaleProductIdList" resultType="java.lang.Long">
+    	select id from product_info where productType=3 and materielId=#{materielId}
+    </select>
+</mapper>
+

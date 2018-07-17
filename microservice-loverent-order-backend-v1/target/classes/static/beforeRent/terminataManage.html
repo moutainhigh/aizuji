@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>提前解约订单管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">租前订单管理</a></li>
+		  <li class="active">提前解约订单管理</li>
+		</ol>
+	</div>
+	<div class='content before-order'>
+		<!-- 查询模块 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>订单编号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" style = "width:200px;"  placeholder="请输入订单编号">
+					</div>
+				</div>
+				<div class='button-box'>
+				<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+					<button type="button" class="btn btn-warning">查询</button>
+				</div>
+			</div>
+			<div class='height-srarch'>高级查询<span class='glyphicon  glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="firstname" class="col-sm-1 control-label">解约时间</label>
+					    <div class="col-sm-10">
+					    	<!-- 开始时间 -->
+					  		<div class='input-list clearfix' style="display:inline-block;width:430px;">
+								<!-- 开始时间 -->
+						    	<div class='time-list' style="float:left;width:180px">
+			      				 	<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input1">
+						    	</div>
+								<span class='time-split' style="float:left;margin:0px 10px;position:relative;top:8px">-</span>
+								<!-- 结束时间 -->
+								<div class='time-list' style="float:left;width:180px">
+								    <input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input2">
+								</div>
+							</div>
+					    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">用户姓名</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="lastname" placeholder="请输入姓名">
+				    </div>
+				   
+				  </div>
+				   <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">身份证号</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="lastname" placeholder="请输入身份证号">
+				    </div>
+				  </div>
+				</form>
+			</div>
+			<div class='table-box  table-responsive'>
+	      		<table class="table">
+	      			<thead>
+						<th>订单编号</th>
+						<th>用户姓名</th>
+						<th>手机号</th>
+						<th>商品类别</th>
+						<th>商品型号</th>
+						<th>租期</th>
+						<th>月租金</th>
+						<th>订单申请时间</th>
+						<th>支付完成时间</th>
+						<th>解约申请时间</th>
+						<th>操作</th>
+	      			</thead>
+	      			<tbody>
+						<tr>
+							<td>10213212121</td>
+							<td>王八</td>
+							<td>13632298563</td>
+							<td>441623199502356921</td>
+							<td>256G</td>
+							<td>12</td>
+							<td>500</td>
+							<td>2017-12-12 12:12:00</td>
+							<td>已签收</td>
+							<td>app</td>
+							<td>
+								<button type="button" class="btn btn-default btn-sm" onclick='finishTerminata()'>
+完成解约</button>
+							</td>
+						</tr>
+	      			</tbody>
+	      		</table>
+	      		<!-- 暂无数据 -->
+	      		<!-- <div class='no-data'>暂无数据</div> -->
+	      		<!-- 正在加载中 -->
+	      		<!-- <div class='loading-box'>
+	      			<img src="../image/loading.gif" alt="">正在加载中
+	      		</div> -->
+			</div>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script>
+		$('.height-srarch').click(function(){
+			$(this).find('span').toggleClass('active')
+			$('.form-box').slideToggle()
+		});
+		function finishTerminata(){
+			common.dialog('是否完成解约',function(){
+			})
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!--日志配置 -->
+	<property name="PROJECT_NAME" value="microservice-loverent-sf-print" />
+	<property name="LOG_BASE" value="/home/server/logs" />
+	<property name="LOG_BACK_DIR" value="${LOG_BASE}/${PROJECT_NAME}" />
+
+		<!-- logback 工程的日志配置 -->
+	<appender name="ERROR_ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_BACK_DIR}/error.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BACK_DIR}/error_%d{yyyyMMdd}.%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+			<totalSizeCap>2100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd
+				HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%.-512msg|%X{callChain}%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<appender name="WARN_ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_BACK_DIR}/warn.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BACK_DIR}/warn_%d{yyyyMMdd}.%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+			<totalSizeCap>2100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd
+				HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%.-512msg|%X{callChain}%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+   
+	<appender name="INFO_ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_BACK_DIR}/info.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BACK_DIR}/info_%d{yyyyMMdd}.%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+			<totalSizeCap>2100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd
+				HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%.-512msg|%X{callChain}%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<appender name="DEBUG_ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_BACK_DIR}/debug.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BACK_DIR}/debug_%d{yyyyMMdd}.%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+			<totalSizeCap>2100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd
+				HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%msg|%X{callChain}%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<appender name="TRACE_ROLLING"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_BACK_DIR}/trace.log</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_BACK_DIR}/trace_%d{yyyyMMdd}.%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>20</maxHistory>
+			<totalSizeCap>2100MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd
+				HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%.-512msg|%X{callChain}%n
+			</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>TRACE</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	<!-- logback 工程的日志配置 END -->
+
+
+	<!-- 开发环境使用 打印在控制台 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<param name="Pattern"
+				value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%X{threadId}|%X{traceId}-%X{rpcId}|%level|%C|%M|%L|uid=%X{uid},deviceId=%X{deviceId},sessionId=%X{sessionId},requestId=%X{requestId},tradeId=%X{tradeId},clientIp=%X{clientIp}|%msg|%X{callChain}%n" />
+		</layout>
+	</appender>
+
+
+    
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.gz" level="DEBUG" />
+	<logger name="java.sql.Connection" level="INFO" />
+	<logger name="java.sql.ResultSet" level="INFO" />
+	<logger name="org.apache.zookeeper.ClientCnxn" level="WARN" />
+	<logger name="org.mybatis.spring.SqlSessionUtils" level="WARN" />
+	
+	<!--开发环境为DEBUG等级 -->
+	<root level="INFO">
+		<appender-ref ref="INFO_ROLLING" />
+		<appender-ref ref="DEBUG_ROLLING" />
+		<appender-ref ref="ERROR_ROLLING" />
+		<appender-ref ref="TRACE_ROLLING" />
+		<appender-ref ref="WARN_ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.order.server.dao.OrderCreditDetailDao">
+    <resultMap id="OrderCreditDetailMap" type="org.gz.order.common.entity.OrderCreditDetail">
+        <result property="id" column="id"/>
+        <result property="creditType" column="creditType"/>
+        <result property="creditResult" column="creditResult"/>
+        <result property="refusalReason" column="refusalReason"/>
+        <result property="remark" column="remark"/>
+        <result property="orderNo" column="orderNo"/>
+        <result property="creditOn" column="creditOn"/>
+        <result property="createOn" column="createOn"/>
+        <result property="createBy" column="createBy"/>
+        <result property="updateBy" column="updateBy"/>
+        <result property="userId" column="userId"/>
+        <result property="hitRule" column="hitRule"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, creditType, creditResult, remark, orderNo, creditOn, createOn, createBy, updateBy,refusalReason,userId,hitRule
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.creditType, t.creditResult, t.remark, t.orderNo, t.creditOn, t.createOn, t.createBy, t.updateBy,t.refusalReason,t.userId,t.hitRule
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=creditType">
+                AND creditType = #{creditType}
+            </if>
+            <if test="null!=orderNo and ''!=orderNo">
+                AND orderNo = #{orderNo}
+            </if>
+            <if test="null!=updateBy and ''!=updateBy">
+                AND updateBy = #{updateBy}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="OrderCreditDetailMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                order_credit_detail
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO order_credit_detail (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=creditType">
+	                 creditType,
+	            </if>
+            	<if test="null!=creditResult">
+	                 creditResult,
+	            </if>
+            	<if test="null!=remark">
+	                 remark,
+	            </if>
+            	<if test="null!=orderNo">
+	                 orderNo,
+	            </if>
+            	<if test="null!=creditOn">
+	                 creditOn,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=createBy">
+	                 createBy,
+	            </if>
+            	<if test="null!=updateBy">
+	                 updateBy,
+	            </if>
+            	<if test="null!=refusalReason">
+	                 refusalReason,
+	            </if>
+            	<if test="null!=userId">
+	                 userId,
+	            </if>
+            	<if test="null!=hitRule">
+	                 hitRule,
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=creditType">
+                #{creditType},
+                </if>
+            	<if test="null!=creditResult">
+                #{creditResult},
+                </if>
+            	<if test="null!=remark">
+                #{remark},
+                </if>
+            	<if test="null!=orderNo">
+                #{orderNo},
+                </if>
+            	<if test="null!=creditOn">
+                #{creditOn},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=createBy">
+                #{createBy},
+                </if>
+            	<if test="null!=updateBy">
+                #{updateBy},
+                </if>
+            	<if test="null!=refusalReason">
+                #{refusalReason},
+                </if>
+            	<if test="null!=userId">
+                #{userId},
+                </if>
+            	<if test="null!=hitRule">
+                #{hitRule},
+                </if>
+            </trim>
+            )
+    </insert>
+
+    
+    <update id="update">
+            UPDATE	order_credit_detail
+            <set>
+            	<if test="null!=creditType">
+                	<![CDATA[ creditType = #{creditType} ]]>,
+                </if>
+            	<if test="null!=creditResult">
+                	<![CDATA[ creditResult = #{creditResult} ]]>,
+                </if>
+            	<if test="null!=remark">
+                	<![CDATA[ remark = #{remark} ]]>,
+                </if>
+            	<if test="null!=orderNo">
+                	<![CDATA[ orderNo = #{orderNo} ]]>,
+                </if>
+            	<if test="null!=creditOn">
+                	<![CDATA[ creditOn = #{creditOn} ]]>,
+                </if>
+            	<if test="null!=createOn">
+                	<![CDATA[ createOn = #{createOn} ]]>,
+                </if>
+            	<if test="null!=createBy">
+                	<![CDATA[ createBy = #{createBy} ]]>,
+                </if>
+            	<if test="null!=updateBy">
+                	<![CDATA[ updateBy = #{updateBy} ]]>,
+                </if>
+            	<if test="null!=refusalReason">
+                	<![CDATA[ refusalReason = #{refusalReason} ]]>,
+                </if>
+            	<if test="null!=userId">
+                	<![CDATA[ userId = #{userId} ]]>,
+                </if>
+            	<if test="null!=hitRule">
+                	<![CDATA[ hitRule = #{hitRule} ]]>,
+                </if>
+            </set>
+            <where>
+            	<if test="null!=id">
+                	AND <![CDATA[ id = #{id} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="OrderCreditDetailMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        order_credit_detail
+        <include refid="where" />
+         order by creditOn desc
+         limit #{startIndex},#{endIndex}
+    </select>
+
+    <select id="queryPageCount" resultType="java.lang.Integer">
+    	SELECT
+        COUNT(1)
+        FROM
+        order_credit_detail
+         <include refid="where" />
+    </select>
+    
+    <delete id="delete">
+    	delete from order_credit_detail where id = #{id}
+    </delete>
+   
+    <select id="queryCountByCustomerCreditList" resultType="java.lang.Integer">
+    	SELECT COUNT(*)
+		FROM order_credit_detail t
+		 <include refid="where_customer_credit_list" />
+    </select>
+
+    <select id="queryCustomerCreditList" resultMap="OrderCreditDetailMap">
+    	SELECT
+        <include refid="t_columns" />
+        FROM
+        order_credit_detail t
+        <include refid="where_customer_credit_list" />
+		order by creditOn desc
+         limit #{startIndex},#{endIndex}
+    </select>
+    
+    <select id="customerCreditList" resultMap="OrderCreditDetailMap">
+    	SELECT
+        <include refid="t_columns" />
+        FROM
+        order_credit_detail t
+        where t.orderNo=#{orderNo}
+		order by creditOn desc
+    </select>
+
+    <select id="queryHistoryCreditListByUserId" resultMap="OrderCreditDetailMap">
+    	SELECT
+        <include refid="t_columns" />
+        FROM
+        order_credit_detail t
+        where userId = #{userId}
+        and orderNo != #{orderNo}
+    </select>
+    
+    <sql id="where_customer_credit_list">
+        <where>
+            <if test="null!=creditType">
+                AND t.creditType = #{creditType}
+            </if>
+            <if test="null!=creditResult">
+                AND t.creditResult = #{creditResult}
+            </if>
+            <if test="null!=userId">
+                AND t.userId = #{userId}
+            </if>
+        </where>
+    </sql>
+</mapper>
+

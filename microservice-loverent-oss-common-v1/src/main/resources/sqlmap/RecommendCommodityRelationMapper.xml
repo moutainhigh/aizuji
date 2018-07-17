@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.RecommendCommodityRelationDao">
+
+    <resultMap id="RecommendCommodityRelationMap" type="org.gz.oss.common.entity.RecommendCommodityRelation">
+        <result property="id" column="id"/>
+        <result property="recommendId" column="recommendId"/>
+        <result property="productId" column="productId"/>
+        <result property="modelId" column="modelId"/>
+        <result property="imeiNo" column="imeiNo"/>
+        <result property="snNo" column="snNo"/>
+        <result property="name" column="name"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        a.id, a.recommendId, a.productId,a.modelId, a.imeiNo, a.snNo,b.name
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.recommendId, t.productId,modelId,t.imeiNo, t.snNo
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND a.id = #{id}
+            </if>
+            <if test="null!=recommendId">
+                AND a.recommendId = #{recommendId}
+            </if>
+            <if test="null!=productId">
+                AND a.productId = #{productId}
+            </if>
+            <if test="null!=modelId">
+                AND a.modelId = #{modelId}
+            </if>
+            <if test="null!=imeiNo and ''!=imeiNo">
+                AND a.imeiNo = #{imeiNo}
+            </if>
+            <if test="null!=snNo and ''!=snNo">
+                AND a.snNo = #{snNo}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RecommendCommodityRelationMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                recommend_commodity_relation a
+            WHERE 
+                a.id = #{id}
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RecommendCommodityRelationMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        recommend_commodity_relation a
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO recommend_commodity_relation (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=recommendId">
+	                 recommendId,
+	            </if>
+            	<if test="null!=productId">
+	                 productId,
+	            </if>
+            	<if test="null!=modelId">
+	                 modelId,
+	            </if>
+            	<if test="null!=imeiNo">
+	                 imeiNo,
+	            </if>
+            	<if test="null!=snNo">
+	                 snNo
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=recommendId">
+                #{recommendId},
+                </if>
+            	<if test="null!=productId">
+                #{productId},
+                </if>
+            	<if test="null!=modelId">
+                #{modelId},
+                </if>
+            	<if test="null!=imeiNo">
+                #{imeiNo},
+                </if>
+            	<if test="null!=snNo">
+                #{snNo}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO recommend_commodity_relation (
+                recommendId,
+                productId,
+                modelId,
+                imeiNo,
+                snNo
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.recommendId},#{item.productId},#{item.modelId},#{item.imeiNo},#{item.snNo})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	recommend_commodity_relation
+            <set>
+            	<if test="null!=updateCloumn.recommendId">
+                	<![CDATA[ recommendId = #{updateCloumn.recommendId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.productId">
+                	<![CDATA[ productId = #{updateCloumn.productId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.modelId">
+                	<![CDATA[ modelId = #{updateCloumn.modelId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.imeiNo">
+                	<![CDATA[ imeiNo = #{updateCloumn.imeiNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.snNo">
+                	<![CDATA[ snNo = #{updateCloumn.snNo} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.recommendId">
+                	AND <![CDATA[ recommendId = #{updateWhere.recommendId} ]]>
+                </if>
+            	<if test="null!=updateWhere.productId">
+                	AND <![CDATA[ productId = #{updateWhere.productId} ]]>
+                </if>
+            	<if test="null!=updateWhere.modelId">
+                	AND <![CDATA[ modelId = #{updateWhere.modelId} ]]>
+                </if>
+            	<if test="null!=updateWhere.imeiNo">
+                	AND <![CDATA[ imeiNo = #{updateWhere.imeiNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.snNo">
+                	AND <![CDATA[ snNo = #{updateWhere.snNo} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RecommendCommodityRelationMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        recommend_commodity_relation a left join recommend b on a.recommendId = b.id
+         <include refid="where" />
+    </select>
+
+    <!--根据推荐位ID，删除推荐位下的商品-->
+    <delete id="deleteByRecommendId">
+    	delete from recommend_commodity_relation where recommendId = #{recommendId}
+    </delete>
+   
+</mapper>
+

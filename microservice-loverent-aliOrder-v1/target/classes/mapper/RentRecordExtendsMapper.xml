@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.aliOrder.dao.RentRecordExtendsDao">
+
+    <resultMap id="RentRecordExtendsMap" type="org.gz.aliOrder.entity.RentRecordExtends">
+      <result property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="productId" column="productId"/>
+        <result property="productNo" column="productNo"/>
+        <result property="materielClassId" column="materielClassId"/>
+        <result property="materielClassName" column="materielClassName"/>
+        <result property="materielBrandId" column="materielBrandId"/>
+        <result property="materielBrandName" column="materielBrandName"/>
+        <result property="materielModelId" column="materielModelId"/>
+        <result property="materielModelName" column="materielModelName"/>
+        <result property="materielSpecName" column="materielSpecName"/>
+        <result property="leaseTerm" column="leaseTerm"/>
+        <result property="showAmount" column="showAmount"/>
+        <result property="leaseAmount" column="leaseAmount"/>
+        <result property="premium" column="premium"/>
+        <result property="floatAmount" column="floatAmount"/>
+        <result property="signContractAmount" column="signContractAmount"/>
+        <result property="sesameCredit" column="sesameCredit"/>
+        <result property="materielNo" column="materielNo"/>
+        <result property="matreielName" column="matreielName"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="realName" column="realName"/>
+        <result property="idNo" column="idNo"/>
+        <result property="prov" column="prov"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="address" column="address"/>
+        <result property="materielNewConfigId" column="materielNewConfigId"/>
+        <result property="configValue" column="configValue"/>
+        <result property="brokenScreenAmount" column="brokenScreenAmount"/>
+        <result property="brokenScreenBuyed" column="brokenScreenBuyed"/>
+        <result property="zmGrade" column="zmGrade"/>
+        <result property="creditAmount" column="creditAmount"/>
+        <result property="zmRisk" column="zmRisk"/>
+        <result property="zmFace" column="zmFace"/>
+        <result property="zmChannelId" column="zmChannelId"/>
+        <result property="fundType" column="fundType"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, userId, rentRecordNo, productId, productNo, materielClassId, materielClassName, materielBrandId, materielBrandName, materielModelId, materielModelName, materielSpecName, leaseTerm, showAmount, leaseAmount, premium, floatAmount, signContractAmount, sesameCredit, materielNo, matreielName, thumbnail, phoneNum, realName, idNo, prov, city, area, address, materielNewConfigId, configValue, brokenScreenAmount, brokenScreenBuyed, zmGrade, creditAmount, zmRisk, zmFace, zmChannelId, fundType
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.userId, t.rentRecordNo, t.productId, t.productNo, t.materielClassId, t.materielClassName, t.materielBrandId, t.materielBrandName, t.materielModelId, t.materielModelName, t.materielSpecName, t.leaseTerm, t.showAmount, t.leaseAmount, t.premium, t.floatAmount, t.signContractAmount, t.sesameCredit, t.materielNo, t.matreielName, t.thumbnail, t.phoneNum, t.realName, t.idNo, t.prov, t.city, t.area, t.address, t.materielNewConfigId, t.configValue, t.brokenScreenAmount, t.brokenScreenBuyed, t.zmGrade, t.creditAmount, t.zmRisk, t.zmFace, t.zmChannelId, t.fundType
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=userId">
+                AND userId = #{userId}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=productId">
+                AND productId = #{productId}
+            </if>
+            <if test="null!=productNo and ''!=productNo">
+                AND productNo = #{productNo}
+            </if>
+            <if test="null!=materielClassId">
+                AND materielClassId = #{materielClassId}
+            </if>
+            <if test="null!=materielClassName and ''!=materielClassName">
+                AND materielClassName = #{materielClassName}
+            </if>
+            <if test="null!=materielBrandId">
+                AND materielBrandId = #{materielBrandId}
+            </if>
+            <if test="null!=materielBrandName and ''!=materielBrandName">
+                AND materielBrandName = #{materielBrandName}
+            </if>
+            <if test="null!=materielModelId">
+                AND materielModelId = #{materielModelId}
+            </if>
+            <if test="null!=materielModelName and ''!=materielModelName">
+                AND materielModelName = #{materielModelName}
+            </if>
+            <if test="null!=materielSpecName and ''!=materielSpecName">
+                AND materielSpecName = #{materielSpecName}
+            </if>
+            <if test="null!=leaseTerm">
+                AND leaseTerm = #{leaseTerm}
+            </if>
+            <if test="null!=showAmount">
+                AND showAmount = #{showAmount}
+            </if>
+            <if test="null!=leaseAmount">
+                AND leaseAmount = #{leaseAmount}
+            </if>
+            <if test="null!=premium">
+                AND premium = #{premium}
+            </if>
+            <if test="null!=floatAmount">
+                AND floatAmount = #{floatAmount}
+            </if>
+            <if test="null!=signContractAmount">
+                AND signContractAmount = #{signContractAmount}
+            </if>
+            <if test="null!=sesameCredit">
+                AND sesameCredit = #{sesameCredit}
+            </if>
+            <if test="null!=materielNo and ''!=materielNo">
+                AND materielNo = #{materielNo}
+            </if>
+            <if test="null!=matreielName and ''!=matreielName">
+                AND matreielName = #{matreielName}
+            </if>
+            <if test="null!=thumbnail and ''!=thumbnail">
+                AND thumbnail = #{thumbnail}
+            </if>
+            <if test="null!=phoneNum and ''!=phoneNum">
+                AND phoneNum = #{phoneNum}
+            </if>
+            <if test="null!=realName and ''!=realName">
+                AND realName = #{realName}
+            </if>
+            <if test="null!=idNo and ''!=idNo">
+                AND idNo = #{idNo}
+            </if>
+            <if test="null!=prov and ''!=prov">
+                AND prov = #{prov}
+            </if>
+            <if test="null!=city and ''!=city">
+                AND city = #{city}
+            </if>
+            <if test="null!=area and ''!=area">
+                AND area = #{area}
+            </if>
+            <if test="null!=address and ''!=address">
+                AND address = #{address}
+            </if>
+            <if test="null!=materielNewConfigId">
+                AND materielNewConfigId = #{materielNewConfigId}
+            </if>
+            <if test="null!=configValue and ''!=configValue">
+                AND configValue = #{configValue}
+            </if>
+            <if test="null!=brokenScreenAmount">
+                AND brokenScreenAmount = #{brokenScreenAmount}
+            </if>
+            <if test="null!=brokenScreenBuyed and ''!=brokenScreenBuyed">
+                AND brokenScreenBuyed = #{brokenScreenBuyed}
+            </if>
+            <if test="null!=zmGrade and ''!=zmGrade">
+                AND zmGrade = #{zmGrade}
+            </if>
+            <if test="null!=creditAmount">
+                AND creditAmount = #{creditAmount}
+            </if>
+            <if test="null!=zmRisk and ''!=zmRisk">
+                AND zmRisk = #{zmRisk}
+            </if>
+            <if test="null!=zmFace and ''!=zmFace">
+                AND zmFace = #{zmFace}
+            </if>
+            <if test="null!=zmChannelId and ''!=zmChannelId">
+                AND zmChannelId = #{zmChannelId}
+            </if>
+            <if test="null!=fundType and ''!=fundType">
+                AND fundType = #{fundType}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentRecordExtendsMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_record_extends
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentRecordExtendsMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_record_extends
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_record_extends (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=userId">
+	                 userId,
+	            </if>
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=productId">
+	                 productId,
+	            </if>
+            	<if test="null!=productNo">
+	                 productNo,
+	            </if>
+            	<if test="null!=materielClassId">
+	                 materielClassId,
+	            </if>
+            	<if test="null!=materielClassName">
+	                 materielClassName,
+	            </if>
+            	<if test="null!=materielBrandId">
+	                 materielBrandId,
+	            </if>
+            	<if test="null!=materielBrandName">
+	                 materielBrandName,
+	            </if>
+            	<if test="null!=materielModelId">
+	                 materielModelId,
+	            </if>
+            	<if test="null!=materielModelName">
+	                 materielModelName,
+	            </if>
+            	<if test="null!=materielSpecName">
+	                 materielSpecName,
+	            </if>
+            	<if test="null!=leaseTerm">
+	                 leaseTerm,
+	            </if>
+            	<if test="null!=showAmount">
+	                 showAmount,
+	            </if>
+            	<if test="null!=leaseAmount">
+	                 leaseAmount,
+	            </if>
+            	<if test="null!=premium">
+	                 premium,
+	            </if>
+            	<if test="null!=floatAmount">
+	                 floatAmount,
+	            </if>
+            	<if test="null!=signContractAmount">
+	                 signContractAmount,
+	            </if>
+            	<if test="null!=sesameCredit">
+	                 sesameCredit,
+	            </if>
+            	<if test="null!=materielNo">
+	                 materielNo,
+	            </if>
+            	<if test="null!=matreielName">
+	                 matreielName,
+	            </if>
+            	<if test="null!=thumbnail">
+	                 thumbnail,
+	            </if>
+            	<if test="null!=phoneNum">
+	                 phoneNum,
+	            </if>
+            	<if test="null!=realName">
+	                 realName,
+	            </if>
+            	<if test="null!=idNo">
+	                 idNo,
+	            </if>
+            	<if test="null!=prov">
+	                 prov,
+	            </if>
+            	<if test="null!=city">
+	                 city,
+	            </if>
+            	<if test="null!=area">
+	                 area,
+	            </if>
+            	<if test="null!=address">
+	                 address,
+	            </if>
+            	<if test="null!=materielNewConfigId">
+	                 materielNewConfigId,
+	            </if>
+            	<if test="null!=configValue">
+	                 configValue,
+	            </if>
+            	<if test="null!=brokenScreenAmount">
+	                 brokenScreenAmount,
+	            </if>
+            	<if test="null!=brokenScreenBuyed">
+	                 brokenScreenBuyed,
+	            </if>
+            	<if test="null!=zmGrade">
+	                 zmGrade,
+	            </if>
+            	<if test="null!=creditAmount">
+	                 creditAmount,
+	            </if>
+            	<if test="null!=zmRisk">
+	                 zmRisk,
+	            </if>
+            	<if test="null!=zmFace">
+	                 zmFace,
+	            </if>
+            	<if test="null!=zmChannelId">
+	                 zmChannelId,
+	            </if>
+            	<if test="null!=fundType">
+	                 fundType
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=userId">
+                #{userId},
+                </if>
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=productId">
+                #{productId},
+                </if>
+            	<if test="null!=productNo">
+                #{productNo},
+                </if>
+            	<if test="null!=materielClassId">
+                #{materielClassId},
+                </if>
+            	<if test="null!=materielClassName">
+                #{materielClassName},
+                </if>
+            	<if test="null!=materielBrandId">
+                #{materielBrandId},
+                </if>
+            	<if test="null!=materielBrandName">
+                #{materielBrandName},
+                </if>
+            	<if test="null!=materielModelId">
+                #{materielModelId},
+                </if>
+            	<if test="null!=materielModelName">
+                #{materielModelName},
+                </if>
+            	<if test="null!=materielSpecName">
+                #{materielSpecName},
+                </if>
+            	<if test="null!=leaseTerm">
+                #{leaseTerm},
+                </if>
+            	<if test="null!=showAmount">
+                #{showAmount},
+                </if>
+            	<if test="null!=leaseAmount">
+                #{leaseAmount},
+                </if>
+            	<if test="null!=premium">
+                #{premium},
+                </if>
+            	<if test="null!=floatAmount">
+                #{floatAmount},
+                </if>
+            	<if test="null!=signContractAmount">
+                #{signContractAmount},
+                </if>
+            	<if test="null!=sesameCredit">
+                #{sesameCredit},
+                </if>
+            	<if test="null!=materielNo">
+                #{materielNo},
+                </if>
+            	<if test="null!=matreielName">
+                #{matreielName},
+                </if>
+            	<if test="null!=thumbnail">
+                #{thumbnail},
+                </if>
+            	<if test="null!=phoneNum">
+                #{phoneNum},
+                </if>
+            	<if test="null!=realName">
+                #{realName},
+                </if>
+            	<if test="null!=idNo">
+                #{idNo},
+                </if>
+            	<if test="null!=prov">
+                #{prov},
+                </if>
+            	<if test="null!=city">
+                #{city},
+                </if>
+            	<if test="null!=area">
+                #{area},
+                </if>
+            	<if test="null!=address">
+                #{address},
+                </if>
+            	<if test="null!=materielNewConfigId">
+                #{materielNewConfigId},
+                </if>
+            	<if test="null!=configValue">
+                #{configValue},
+                </if>
+            	<if test="null!=brokenScreenAmount">
+                #{brokenScreenAmount},
+                </if>
+            	<if test="null!=brokenScreenBuyed">
+                #{brokenScreenBuyed},
+                </if>
+            	<if test="null!=zmGrade">
+                #{zmGrade},
+                </if>
+            	<if test="null!=creditAmount">
+                #{creditAmount},
+                </if>
+            	<if test="null!=zmRisk">
+                #{zmRisk},
+                </if>
+            	<if test="null!=zmFace">
+                #{zmFace},
+                </if>
+            	<if test="null!=zmChannelId">
+                #{zmChannelId},
+                </if>
+            	<if test="null!=fundType">
+                #{fundType}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_record_extends (
+                userId,
+                rentRecordNo,
+                productId,
+                productNo,
+                materielClassId,
+                materielClassName,
+                materielBrandId,
+                materielBrandName,
+                materielModelId,
+                materielModelName,
+                materielSpecName,
+                leaseTerm,
+                showAmount,
+                leaseAmount,
+                premium,
+                floatAmount,
+                signContractAmount,
+                sesameCredit,
+                materielNo,
+                matreielName,
+                thumbnail,
+                phoneNum,
+                realName,
+                idNo,
+                prov,
+                city,
+                area,
+                address,
+                materielNewConfigId,
+                configValue,
+                brokenScreenAmount,
+                brokenScreenBuyed,
+                zmGrade,
+                creditAmount,
+                zmRisk,
+                zmFace,
+                zmChannelId,
+                fundType
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId},#{item.rentRecordNo},#{item.productId},#{item.productNo},#{item.materielClassId},#{item.materielClassName},#{item.materielBrandId},#{item.materielBrandName},#{item.materielModelId},#{item.materielModelName},#{item.materielSpecName},#{item.leaseTerm},#{item.showAmount},#{item.leaseAmount},#{item.premium},#{item.floatAmount},#{item.signContractAmount},#{item.sesameCredit},#{item.materielNo},#{item.matreielName},#{item.thumbnail},#{item.phoneNum},#{item.realName},#{item.idNo},#{item.prov},#{item.city},#{item.area},#{item.address},#{item.materielNewConfigId},#{item.configValue},#{item.brokenScreenAmount},#{item.brokenScreenBuyed},#{item.zmGrade},#{item.creditAmount},#{item.zmRisk},#{item.zmFace},#{item.zmChannelId},#{item.fundType})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_record_extends
+            <set>
+            	<if test="null!=updateCloumn.userId">
+                	<![CDATA[ userId = #{updateCloumn.userId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.productId">
+                	<![CDATA[ productId = #{updateCloumn.productId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.productNo">
+                	<![CDATA[ productNo = #{updateCloumn.productNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielClassId">
+                	<![CDATA[ materielClassId = #{updateCloumn.materielClassId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielClassName">
+                	<![CDATA[ materielClassName = #{updateCloumn.materielClassName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielBrandId">
+                	<![CDATA[ materielBrandId = #{updateCloumn.materielBrandId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielBrandName">
+                	<![CDATA[ materielBrandName = #{updateCloumn.materielBrandName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielModelId">
+                	<![CDATA[ materielModelId = #{updateCloumn.materielModelId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielModelName">
+                	<![CDATA[ materielModelName = #{updateCloumn.materielModelName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielSpecName">
+                	<![CDATA[ materielSpecName = #{updateCloumn.materielSpecName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.leaseTerm">
+                	<![CDATA[ leaseTerm = #{updateCloumn.leaseTerm} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.showAmount">
+                	<![CDATA[ showAmount = #{updateCloumn.showAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.leaseAmount">
+                	<![CDATA[ leaseAmount = #{updateCloumn.leaseAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.premium">
+                	<![CDATA[ premium = #{updateCloumn.premium} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.floatAmount">
+                	<![CDATA[ floatAmount = #{updateCloumn.floatAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.signContractAmount">
+                	<![CDATA[ signContractAmount = #{updateCloumn.signContractAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.sesameCredit">
+                	<![CDATA[ sesameCredit = #{updateCloumn.sesameCredit} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielNo">
+                	<![CDATA[ materielNo = #{updateCloumn.materielNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.matreielName">
+                	<![CDATA[ matreielName = #{updateCloumn.matreielName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.thumbnail">
+                	<![CDATA[ thumbnail = #{updateCloumn.thumbnail} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.phoneNum">
+                	<![CDATA[ phoneNum = #{updateCloumn.phoneNum} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.realName">
+                	<![CDATA[ realName = #{updateCloumn.realName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.idNo">
+                	<![CDATA[ idNo = #{updateCloumn.idNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.prov">
+                	<![CDATA[ prov = #{updateCloumn.prov} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.city">
+                	<![CDATA[ city = #{updateCloumn.city} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.area">
+                	<![CDATA[ area = #{updateCloumn.area} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.address">
+                	<![CDATA[ address = #{updateCloumn.address} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.materielNewConfigId">
+                	<![CDATA[ materielNewConfigId = #{updateCloumn.materielNewConfigId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.configValue">
+                	<![CDATA[ configValue = #{updateCloumn.configValue} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.brokenScreenAmount">
+                	<![CDATA[ brokenScreenAmount = #{updateCloumn.brokenScreenAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.brokenScreenBuyed">
+                	<![CDATA[ brokenScreenBuyed = #{updateCloumn.brokenScreenBuyed} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zmGrade">
+                	<![CDATA[ zmGrade = #{updateCloumn.zmGrade} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.creditAmount">
+                	<![CDATA[ creditAmount = #{updateCloumn.creditAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zmRisk">
+                	<![CDATA[ zmRisk = #{updateCloumn.zmRisk} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zmFace">
+                	<![CDATA[ zmFace = #{updateCloumn.zmFace} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zmChannelId">
+                	<![CDATA[ zmChannelId = #{updateCloumn.zmChannelId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.fundType">
+                	<![CDATA[ fundType = #{updateCloumn.fundType} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.userId">
+                	AND <![CDATA[ userId = #{updateWhere.userId} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.productId">
+                	AND <![CDATA[ productId = #{updateWhere.productId} ]]>
+                </if>
+            	<if test="null!=updateWhere.productNo">
+                	AND <![CDATA[ productNo = #{updateWhere.productNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielClassId">
+                	AND <![CDATA[ materielClassId = #{updateWhere.materielClassId} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielClassName">
+                	AND <![CDATA[ materielClassName = #{updateWhere.materielClassName} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielBrandId">
+                	AND <![CDATA[ materielBrandId = #{updateWhere.materielBrandId} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielBrandName">
+                	AND <![CDATA[ materielBrandName = #{updateWhere.materielBrandName} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielModelId">
+                	AND <![CDATA[ materielModelId = #{updateWhere.materielModelId} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielModelName">
+                	AND <![CDATA[ materielModelName = #{updateWhere.materielModelName} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielSpecName">
+                	AND <![CDATA[ materielSpecName = #{updateWhere.materielSpecName} ]]>
+                </if>
+            	<if test="null!=updateWhere.leaseTerm">
+                	AND <![CDATA[ leaseTerm = #{updateWhere.leaseTerm} ]]>
+                </if>
+            	<if test="null!=updateWhere.showAmount">
+                	AND <![CDATA[ showAmount = #{updateWhere.showAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.leaseAmount">
+                	AND <![CDATA[ leaseAmount = #{updateWhere.leaseAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.premium">
+                	AND <![CDATA[ premium = #{updateWhere.premium} ]]>
+                </if>
+            	<if test="null!=updateWhere.floatAmount">
+                	AND <![CDATA[ floatAmount = #{updateWhere.floatAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.signContractAmount">
+                	AND <![CDATA[ signContractAmount = #{updateWhere.signContractAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.sesameCredit">
+                	AND <![CDATA[ sesameCredit = #{updateWhere.sesameCredit} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielNo">
+                	AND <![CDATA[ materielNo = #{updateWhere.materielNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.matreielName">
+                	AND <![CDATA[ matreielName = #{updateWhere.matreielName} ]]>
+                </if>
+            	<if test="null!=updateWhere.thumbnail">
+                	AND <![CDATA[ thumbnail = #{updateWhere.thumbnail} ]]>
+                </if>
+            	<if test="null!=updateWhere.phoneNum">
+                	AND <![CDATA[ phoneNum = #{updateWhere.phoneNum} ]]>
+                </if>
+            	<if test="null!=updateWhere.realName">
+                	AND <![CDATA[ realName = #{updateWhere.realName} ]]>
+                </if>
+            	<if test="null!=updateWhere.idNo">
+                	AND <![CDATA[ idNo = #{updateWhere.idNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.prov">
+                	AND <![CDATA[ prov = #{updateWhere.prov} ]]>
+                </if>
+            	<if test="null!=updateWhere.city">
+                	AND <![CDATA[ city = #{updateWhere.city} ]]>
+                </if>
+            	<if test="null!=updateWhere.area">
+                	AND <![CDATA[ area = #{updateWhere.area} ]]>
+                </if>
+            	<if test="null!=updateWhere.address">
+                	AND <![CDATA[ address = #{updateWhere.address} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielNewConfigId">
+                	AND <![CDATA[ materielNewConfigId = #{updateWhere.materielNewConfigId} ]]>
+                </if>
+            	<if test="null!=updateWhere.configValue">
+                	AND <![CDATA[ configValue = #{updateWhere.configValue} ]]>
+                </if>
+            	<if test="null!=updateWhere.brokenScreenAmount">
+                	AND <![CDATA[ brokenScreenAmount = #{updateWhere.brokenScreenAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.brokenScreenBuyed">
+                	AND <![CDATA[ brokenScreenBuyed = #{updateWhere.brokenScreenBuyed} ]]>
+                </if>
+            	<if test="null!=updateWhere.zmGrade">
+                	AND <![CDATA[ zmGrade = #{updateWhere.zmGrade} ]]>
+                </if>
+            	<if test="null!=updateWhere.creditAmount">
+                	AND <![CDATA[ creditAmount = #{updateWhere.creditAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.zmRisk">
+                	AND <![CDATA[ zmRisk = #{updateWhere.zmRisk} ]]>
+                </if>
+            	<if test="null!=updateWhere.zmFace">
+                	AND <![CDATA[ zmFace = #{updateWhere.zmFace} ]]>
+                </if>
+            	<if test="null!=updateWhere.zmChannelId">
+                	AND <![CDATA[ zmChannelId = #{updateWhere.zmChannelId} ]]>
+                </if>
+            	<if test="null!=updateWhere.fundType">
+                	AND <![CDATA[ fundType = #{updateWhere.fundType} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentRecordExtendsMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_record_extends
+         <include refid="where" />
+    </select>
+   
+  <!-- 结束自动生成的=============================================================================================== -->
+     <select id="getByRentRecordNo" resultMap="RentRecordExtendsMap">
+        SELECT <include refid="columns" />
+            FROM
+                rent_record_extends
+            WHERE 
+              rentRecordNo = #{rentRecordNo}
+    </select>
+   
+</mapper>
+
+

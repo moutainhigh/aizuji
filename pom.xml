@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.gz</groupId>
+	<artifactId>microservice-loverent-v1</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>microservice-loverent-v1</name>
+	<description/>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.9.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<!--<version>Brixton.SR5</version> -->
+				<version>Edgware.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+	
+		<module>microservice-loverent-api-gateway-v1</module>
+		<module>microservice-loverent-cache-v1</module>
+		<module>microservice-loverent-aliOrder-v1</module>
+		<module>microservice-loverent-aliOrder-api-v1</module>
+		<module>microservice-loverent-common-v1</module>
+		<module>microservice-loverent-discovery-v1</module>
+		<module>microservice-loverent-mq-v1</module>
+        <module>microservice-loverent-app-ca-v1</module>
+		<module>microservice-loverent-app-v1</module>
+		<module>microservice-loverent-sms-api-v1</module>
+		<module>microservice-loverent-sms-v1</module>
+        <module>microservice-loverent-thirdParty-v1</module>
+        <module>microservice-loverent-warehouse-v1</module>
+        <module>microservice-loverent-warehouse-common-v1</module>
+		<module>microservice-loverent-oss-server-v1</module>
+        <module>microservice-loverent-oss-backend-v1</module>
+        <module>microservice-loverent-oss-common-v1</module>
+		<module>microservice-loverent-liquidation-common-v1</module>
+		<module>microservice-loverent-liquidation-backend-v1</module>
+		<module>microservice-loverent-order-api-v1</module>
+		<module>microservice-loverent-upload-v1</module>
+        <module>microservice-loverent-order-backend-v1</module>
+        <module>microservice-loverent-order-common-v1</module>
+        <module>microservice-loverent-order-server-v1</module>
+		<module>microservice-loverent-user-api-v1</module>
+		<module>microservice-loverent-user-v1</module> 
+		<module>microservice-loverent-risk-intf-v1</module>
+		<module>microservice-loverent-risk-v1</module> 
+		<module>microservice-loverent-webank-v1</module>
+		<module>microservice-loverent-sf-print-common-v1</module>
+		<module>microservice-loverent-sf-print-v1</module>
+		<module>microservice-loverent-timedTask-v1</module>
+  </modules>
+
+</project>

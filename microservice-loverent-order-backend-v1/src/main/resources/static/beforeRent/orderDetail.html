@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li>租前订单管理</li>
+		  <li onclick="javascript:history.back()">综合查询管理</li>
+		  <li class="active">订单详情</li>
+		</ol>
+
+	</div>
+	<div class='content'>
+		<div class='detail-info clearfix'>
+			<ul>
+				<li class='info-list'>
+					<div class="header">用户信息</div>
+					<div class='info-box'>
+						<div class="title">用户姓名:</div>
+						<div id="realName" class="text">王八蛋</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">手机号:</div>
+						<div id="phoneNum" class="text">13632298520</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">身份证号码:</div>
+						<div id="idNo" class="text">441623199602015463</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">配送地址:</div>
+						<div id="sendAddress" class="text">广东省深圳市南山区中科研发楼</div>
+					</div>
+				</li>
+				<li class='info-list'>
+					<div class="header">租赁信息</div>
+					<div class='info-box'>
+						<div class="title">租期:</div>
+						<div id="leaseTerm" class="text">12个月</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">租金:</div>
+						<div id="leaseAmount" class="text">1363元</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">订单申请时间:</div>
+						<div id="applyTime" class="text">2017-12-12 12:00:00</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">保险费用:</div>
+						<div id="premium" class="text">850元</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">签约价值:</div>
+						<div id="signContractAmount" class="text">850元</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">溢价费用:</div>
+						<div id="floatAmount" class="text">850元</div>
+					</div>
+				</li>
+				<li class='info-list'>
+					<div class="header">商品信息</div>
+					<div class='info-box'>
+						<div class="title">所属分类:</div>
+						<div id="materielClassBrandName" class="text">智能手机>>苹果</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">产品型号:</div>
+						<div id="materielModelName" class="text">Iphone  X</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">产品规格:</div>
+						<div id="materielSpecName" class="text">黑色|全网通|256G</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">产品SN编码:</div>
+						<div id="snCode" class="text">XXXXXXXXXXXXXXXXX</div>
+					</div>
+					<div class='info-box'>
+						<div class="title">产品IMIE编码:</div>
+						<div id="imei" class="text">XXXXXXXXXXXXXXXXX</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="table-title">订单流程</div>
+		<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+      		<table class="table">
+      			<thead>
+					<tr>
+						<th>时间</th>
+						<th>事件</th>
+						<th>操作人</th>
+      				</tr>
+      			</thead>
+      			<tbody>
+					<tr>
+						<td>2017-12-12 12:00:00</td>
+						<td>申请租机</td>
+						<td>张三</td>
+					</tr>
+      			</tbody>
+      		</table>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/bootstrap/bootstrap-datetimepicker.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-datetimepicker.zh-CN.js'></script>
+	<script src='../js/common.js'></script>
+	<script>
+	
+	var statemap={};
+	
+	//用户信息 租赁信息 商品信息
+	getOrderDetail();
+	function getOrderDetail(){
+		common.ajax('/integration/detail/'+GetQueryString('id'),{},function(data){
+			var _record=data.rentRecord;
+			var _extend=data.rentRecordExtends;
+			$('#realName').html(_extend.realName||"");
+        	$('#phoneNum').html(_extend.phoneNum||"");
+        	$('#idNo').html(_extend.idNo||"");
+        	$('#sendAddress').html((_extend.prov||"")+" "+(_extend.city||"")+" "+(_extend.area||"")+" "+(_extend.address||""));
+        	$('#leaseTerm').html(_extend.leaseTerm&&(_extend.leaseTerm+"个月")||"");
+        	$('#leaseAmount').html(_extend.leaseAmount&&(_extend.leaseAmount+"元")||"");
+        	$('#applyTime').html(_record.applyTime&&(new Date(_record.applyTime).Format('yyyy-MM-dd hh:mm:ss'))||"");
+        	$('#premium').html(_extend.premium&&(_extend.premium+"元")||"");
+        	$('#signContractAmount').html(_extend.signContractAmount&&(_extend.signContractAmount+"元")||"");
+        	$('#floatAmount').html(_extend.floatAmount&&(_extend.floatAmount+"元")||"");
+        	$('#materielClassBrandName').html(_extend.materielClassName+">>"+_extend.materielBrandName);
+        	$('#materielModelName').html(_extend.materielModelName||"");
+        	$('#materielSpecName').html(_extend.materielSpecName||"");
+        	$('#snCode').html(_record.snCode||"");
+        	$('#imei').html(_record.imei||"");
+        	getRentState(_record.rentRecordNo);
+		},null,null,'get');
+	}
+	//后台租赁状态集合
+	backRentStatesMap();
+	function backRentStatesMap(){
+		common.ajax('/common/backRentStates',{},function(data){
+           	var _list = data;
+			for(var i = 0;i < _list.length;i++){
+				statemap[_list[i].code]=_list[i].message;
+			}
+        });
+	}
+	
+	//订单流程
+	getRentState(rentRecordNo);
+	function getRentState(rentRecordNo){
+		common.ajax('/integration/rentState',"rentRecordNo="+rentRecordNo,function(data){
+			var _html='';
+			for(var i in data) {
+				_html+='<tr>';
+				_html+='<td>';
+				_html+=data[i].createOn&&(new Date(data[i].createOn).Format('yyyy-MM-dd hh:mm:ss'))||"";
+				_html+='</td>';
+				_html+='<td>';
+				_html+=statemap[data[i].state];
+				_html+='</td>';
+				_html+='<td>';
+				_html+=data[i].createMan;
+				_html+='</td>';
+				_html+='</tr>';
+			} 
+			$('tbody').html(_html);
+		});
+	}	
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.BrushFaceRecordMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.BrushFaceRecord" >
+    <id column="recordId" property="recordId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+    <result column="brushTime" property="brushTime" jdbcType="TIMESTAMP" />
+    <result column="brushStatus" property="brushStatus" jdbcType="TINYINT" />
+    <result column="fetchState" property="fetchState" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recordId, userId, mobile, orderNo, brushTime, brushStatus, fetchState
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from brush_face_record
+    where recordId = #{recordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from brush_face_record
+    where recordId = #{recordId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.BrushFaceRecord" >
+    insert into brush_face_record (recordId, userId, mobile, 
+      orderNo, brushTime, brushStatus, 
+      fetchState)
+    values (#{recordId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{brushTime,jdbcType=TIMESTAMP}, #{brushStatus,jdbcType=TINYINT}, 
+      #{fetchState,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.BrushFaceRecord" >
+    insert into brush_face_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        recordId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="orderNo != null" >
+        orderNo,
+      </if>
+      <if test="brushTime != null" >
+        brushTime,
+      </if>
+      <if test="brushStatus != null" >
+        brushStatus,
+      </if>
+      <if test="fetchState != null" >
+        fetchState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="brushTime != null" >
+        #{brushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brushStatus != null" >
+        #{brushStatus,jdbcType=TINYINT},
+      </if>
+      <if test="fetchState != null" >
+        #{fetchState,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.BrushFaceRecord" >
+    update brush_face_record
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        orderNo = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="brushTime != null" >
+        brushTime = #{brushTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brushStatus != null" >
+        brushStatus = #{brushStatus,jdbcType=TINYINT},
+      </if>
+      <if test="fetchState != null" >
+        fetchState = #{fetchState,jdbcType=TINYINT},
+      </if>
+    </set>
+    where recordId = #{recordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.BrushFaceRecord" >
+    update brush_face_record
+    set userId = #{userId,jdbcType=BIGINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      orderNo = #{orderNo,jdbcType=VARCHAR},
+      brushTime = #{brushTime,jdbcType=TIMESTAMP},
+      brushStatus = #{brushStatus,jdbcType=TINYINT},
+      fetchState = #{fetchState,jdbcType=TINYINT}
+    where recordId = #{recordId,jdbcType=BIGINT}
+  </update>
+</mapper>

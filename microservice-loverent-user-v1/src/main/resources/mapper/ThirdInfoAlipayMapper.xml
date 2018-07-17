@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.ThirdInfoAlipayMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.ThirdInfoAlipay" >
+    <id column="thirdPartInfoId" property="thirdPartInfoId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="alipayUserId" property="alipayUserId" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="isCertified" property="isCertified" jdbcType="VARCHAR" />
+    <result column="isStudentCertified" property="isStudentCertified" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    thirdPartInfoId, userId, alipayUserId, nickName, avatar, gender, isCertified, isStudentCertified, 
+    province, city, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from third_info_alipay
+    where thirdPartInfoId = #{thirdPartInfoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from third_info_alipay
+    where thirdPartInfoId = #{thirdPartInfoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.ThirdInfoAlipay" >
+    insert into third_info_alipay (thirdPartInfoId, userId, alipayUserId, 
+      nickName, avatar, gender, 
+      isCertified, isStudentCertified, province, 
+      city, createTime, updateTime
+      )
+    values (#{thirdPartInfoId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{alipayUserId,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{isCertified,jdbcType=VARCHAR}, #{isStudentCertified,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.ThirdInfoAlipay" >
+    insert into third_info_alipay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="thirdPartInfoId != null" >
+        thirdPartInfoId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="alipayUserId != null" >
+        alipayUserId,
+      </if>
+      <if test="nickName != null" >
+        nickName,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="isCertified != null" >
+        isCertified,
+      </if>
+      <if test="isStudentCertified != null" >
+        isStudentCertified,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="thirdPartInfoId != null" >
+        #{thirdPartInfoId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="alipayUserId != null" >
+        #{alipayUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="isCertified != null" >
+        #{isCertified,jdbcType=VARCHAR},
+      </if>
+      <if test="isStudentCertified != null" >
+        #{isStudentCertified,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.ThirdInfoAlipay" >
+    update third_info_alipay
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="alipayUserId != null" >
+        alipayUserId = #{alipayUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nickName = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="isCertified != null" >
+        isCertified = #{isCertified,jdbcType=VARCHAR},
+      </if>
+      <if test="isStudentCertified != null" >
+        isStudentCertified = #{isStudentCertified,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where thirdPartInfoId = #{thirdPartInfoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.ThirdInfoAlipay" >
+    update third_info_alipay
+    set userId = #{userId,jdbcType=BIGINT},
+      alipayUserId = #{alipayUserId,jdbcType=VARCHAR},
+      nickName = #{nickName,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      isCertified = #{isCertified,jdbcType=VARCHAR},
+      isStudentCertified = #{isStudentCertified,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where thirdPartInfoId = #{thirdPartInfoId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByAlipayUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+    <include refid="Base_Column_List" />
+    from third_info_alipay
+    where alipayUserId = #{alipayUserId,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

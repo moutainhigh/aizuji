@@ -1,0 +1,8 @@
+org\gz\workorder\commons\WorkOrderConstants.class
+org\gz\workorder\hystrix\SearchRecordServiceHystrixImpl.class
+org\gz\workorder\entity\SearchRecord.class
+org\gz\workorder\service\SearchRecordService.class
+org\gz\workorder\hystrix\UpdateRecordServiceHystrixImpl.class
+org\gz\workorder\entity\UpdateRecord.class
+org\gz\workorder\service\UpdateRecordService.class
+org\gz\workorder\dto\SearchRecordQueryDto.class

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.BannerV1Dao">
+
+    <resultMap id="BannerMap" type="org.gz.oss.common.entity.BannerV1">
+        <result property="id" column="id"/>
+        <result property="bannerImgUrl" column="banner_img_url"/>
+        <result property="linkValue" column="link_value"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="resource" column="resource"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="updateUserId" column="update_user_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, banner_img_url, link_value, sort_num, resource, create_user_id, update_user_id, create_time, last_update_time, is_deleted
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.banner_img_url, t.link_value, t.sort_num, t.resource, t.create_user_id, t.update_user_id, t.create_time, t.last_update_time, t.is_deleted
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=bannerImgUrl and ''!=bannerImgUrl">
+                AND banner_img_url = #{bannerImgUrl}
+            </if>
+            <if test="null!=linkValue and ''!=linkValue">
+                AND link_value = #{linkValue}
+            </if>
+            <if test="null!=sortNum">
+                AND sort_num = #{sortNum}
+            </if>
+            <if test="null!=resource">
+                AND resource = #{resource}
+            </if>
+            <if test="null!=createUserId">
+                AND create_user_id = #{createUserId}
+            </if>
+            <if test="null!=updateUserId">
+                AND update_user_id = #{updateUserId}
+            </if>
+            <if test="null!=createTime and ''!=createTime">
+                AND create_time = #{createTime}
+            </if>
+            <if test="null!=lastUpdateTime and ''!=lastUpdateTime">
+                AND last_update_time = #{lastUpdateTime}
+            </if>
+            <if test="null!=isDeleted">
+                AND is_deleted = #{isDeleted}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="BannerMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                banner_v1
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="BannerMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        banner_v1
+        WHERE is_deleted = 0
+        ORDER BY sort_num
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO banner_v1 (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=bannerImgUrl">
+	                 banner_img_url,
+	            </if>
+            	<if test="null!=linkValue">
+	                 link_value,
+	            </if>
+            	<if test="null!=sortNum">
+	                 sort_num,
+	            </if>
+            	<if test="null!=resource">
+	                 resource,
+	            </if>
+            	<if test="null!=createUserId">
+	                 create_user_id,
+	            </if>
+            	<if test="null!=updateUserId">
+	                 update_user_id,
+	            </if>
+            	<if test="null!=createTime">
+	                 create_time,
+	            </if>
+            	<if test="null!=lastUpdateTime">
+	                 last_update_time,
+	            </if>
+            	<if test="null!=isDeleted">
+	                 is_deleted
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=bannerImgUrl">
+                #{bannerImgUrl},
+                </if>
+            	<if test="null!=linkValue">
+                #{linkValue},
+                </if>
+            	<if test="null!=sortNum">
+                #{sortNum},
+                </if>
+            	<if test="null!=resource">
+                #{resource},
+                </if>
+            	<if test="null!=createUserId">
+                #{createUserId},
+                </if>
+            	<if test="null!=updateUserId">
+                #{updateUserId},
+                </if>
+            	<if test="null!=createTime">
+                #{createTime},
+                </if>
+            	<if test="null!=lastUpdateTime">
+                #{lastUpdateTime},
+                </if>
+            	<if test="null!=isDeleted">
+                #{isDeleted}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO banner_v1 (
+                banner_img_url,
+                link_value,
+                sort_num,
+                resource,
+                create_user_id,
+                update_user_id,
+                create_time,
+                last_update_time,
+                is_deleted
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.bannerImgUrl},#{item.linkValue},#{item.sortNum},#{item.resource},#{item.createUserId},#{item.updateUserId},#{item.createTime},#{item.lastUpdateTime},#{item.isDeleted})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	banner_v1
+            <set>
+            	<if test="null!=updateCloumn.bannerImgUrl">
+                	<![CDATA[ banner_img_url = #{updateCloumn.bannerImgUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.linkValue">
+                	<![CDATA[ link_value = #{updateCloumn.linkValue} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.sortNum">
+                	<![CDATA[ sort_num = #{updateCloumn.sortNum} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.resource">
+                	<![CDATA[ resource = #{updateCloumn.resource} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createUserId">
+                	<![CDATA[ create_user_id = #{updateCloumn.createUserId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.updateUserId">
+                	<![CDATA[ update_user_id = #{updateCloumn.updateUserId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createTime">
+                	<![CDATA[ create_time = #{updateCloumn.createTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.lastUpdateTime">
+                	<![CDATA[ last_update_time = #{updateCloumn.lastUpdateTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.isDeleted">
+                	<![CDATA[ is_deleted = #{updateCloumn.isDeleted} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.bannerImgUrl">
+                	AND <![CDATA[ banner_img_url = #{updateWhere.bannerImgUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.linkValue">
+                	AND <![CDATA[ link_value = #{updateWhere.linkValue} ]]>
+                </if>
+            	<if test="null!=updateWhere.sortNum">
+                	AND <![CDATA[ sort_num = #{updateWhere.sortNum} ]]>
+                </if>
+            	<if test="null!=updateWhere.resource">
+                	AND <![CDATA[ resource = #{updateWhere.resource} ]]>
+                </if>
+            	<if test="null!=updateWhere.createUserId">
+                	AND <![CDATA[ create_user_id = #{updateWhere.createUserId} ]]>
+                </if>
+            	<if test="null!=updateWhere.updateUserId">
+                	AND <![CDATA[ update_user_id = #{updateWhere.updateUserId} ]]>
+                </if>
+            	<if test="null!=updateWhere.createTime">
+                	AND <![CDATA[ create_time = #{updateWhere.createTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.lastUpdateTime">
+                	AND <![CDATA[ last_update_time = #{updateWhere.lastUpdateTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.isDeleted">
+                	AND <![CDATA[ is_deleted = #{updateWhere.isDeleted} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="BannerMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        banner_v1
+         <include refid="where" />
+    </select>
+   
+</mapper>
+

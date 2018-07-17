@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.SystemCommonConfigMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.SystemCommonConfigEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="configName" jdbcType="VARCHAR" property="configName" />
+    <result column="configCode" jdbcType="VARCHAR" property="configCode" />
+    <result column="configGroupCode" jdbcType="VARCHAR" property="configGroupCode" />
+    <result column="configGroupName" jdbcType="VARCHAR" property="configGroupName" />
+    <result column="configContent" jdbcType="VARCHAR" property="configContent" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="updateOn" jdbcType="TIMESTAMP" property="updateOn" />
+     <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, configName, configCode, configGroupCode, configGroupName, configContent, type, status,sort, createOn,updateOn,remark
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT 
+    	<include refid="Base_Column_List" />
+    FROM 
+    	system_common_config
+    WHERE id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT 
+    	<include refid="Base_Column_List" />
+    FROM 
+    	system_common_config
+    <include refid="where_clause"></include>
+    ORDER BY sort
+  </select>
+  
+  <select id="selectOne" resultMap="BaseResultMap">
+    SELECT 
+    	<include refid="Base_Column_List" />
+    FROM 
+    	system_common_config
+    <include refid="where_clause"></include>
+  </select>
+  
+  <sql id="where_clause">
+  	<where>
+  		 <if test="configGroupCode != null">
+            AND  configGroupCode = #{configGroupCode}
+      	 </if>
+      	  <if test="configCode != null and configCode !='' ">
+        	AND configCode = #{configCode}
+      	  </if>
+      	  <if test="status != null">
+        	AND status = #{status}
+      	  </if>
+  	</where>
+  </sql>
+  
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.SystemCommonConfigEntity">
+    INSERT INTO system_common_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="configName != null">
+        configName,
+      </if>
+      <if test="configCode != null">
+        configCode,
+      </if>
+      <if test="configGroupCode != null">
+        configGroupCode,
+      </if>
+      <if test="configGroupName != null">
+        configGroupName,
+      </if>
+      <if test="configContent != null">
+        configContent,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+      <if test="updateOn != null">
+        updateOn,
+      </if>
+       <if test="remark != null">
+        remark,
+       </if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+      <if test="configName != null">
+        #{configName,jdbcType=VARCHAR},
+      </if>
+      <if test="configCode != null">
+        #{configCode,jdbcType=VARCHAR},
+      </if>
+      <if test="configGroupCode != null">
+        #{configGroupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="configGroupName != null">
+        #{configGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="configContent != null">
+        #{configContent,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+         <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>

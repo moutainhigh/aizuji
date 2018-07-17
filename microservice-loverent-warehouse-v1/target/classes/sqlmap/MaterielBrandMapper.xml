@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielBrandMapper">
+ 	<select id="queryMaterielBrandListByClassId"  resultType="org.gz.warehouse.entity.MaterielBrand">
+ 		select t.* from materiel_brand t inner join materiel_class_brand t1
+ 		    on t.id = t1.materielBrandId where t1.materielClassId=#{classId}
+ 	</select>
+ 	
+ 	<!-- 查询重复数据量 -->
+ 	<select id="queryUniqueCount" parameterType="org.gz.warehouse.entity.MaterielBrandQuery" resultType="int">
+ 		select 
+ 			count(1) 
+ 		from materiel_brand 
+ 		where 1=1 and (brandName=#{brandName} or brandCode=#{brandCode})
+ 		<if test="id!=null and id>0">
+ 			and id!=#{id}
+ 		</if>
+ 	</select>
+ 	
+ 	<!-- 插入数据 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.MaterielBrand">
+		insert into materiel_brand(
+			brandName,
+			brandCode,
+			remark
+		)values(
+			#{brandName},
+			#{brandCode},
+			#{remark}
+		)
+	</insert>
+	
+	<!-- 修改数据 -->
+	<update id="update" parameterType="org.gz.warehouse.entity.MaterielBrand">
+		update materiel_brand set
+			brandName=#{brandName},
+			brandCode=#{brandCode},
+			remark=#{remark}
+		where id=#{id}
+	</update>
+
+	<!-- 批量删除 -->
+	<delete id="deleteByIds" parameterType="list">
+		delete from materiel_brand where id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</delete>
+
+	<!-- 查询详情 -->
+	<select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.MaterielBrand">
+		select * from materiel_brand where id=#{id}
+	</select>
+
+	<!-- 分页查询公共条件 -->
+	<sql id="where_queryPageCount">
+		where 1=1 
+		<if test="brandName!=null and brandName!=''">
+			and brandName like CONCAT('%',#{brandName},'%')
+		</if>
+	</sql>
+	
+	<!-- 分页总数 -->
+	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.MaterielBrandQuery" resultType="int">
+		select 
+			count(1) 
+		from materiel_brand
+		<include refid="where_queryPageCount"/>
+	</select>
+
+	<!-- 分页列表 -->
+	<select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielBrandQuery" resultType="org.gz.warehouse.entity.MaterielBrand">
+		select 
+			*
+		from materiel_brand
+		<include refid="where_queryPageCount"/>
+		limit #{startIndex},#{endIndex}
+	</select>
+
+	<!-- 查询使用数量 -->
+	<select id="queryUsedCount" parameterType="list" resultType="int">
+		select SUM(t.count) FROM 
+		(
+			select count(1) as count from materiel_basic_info mbi INNER JOIN materiel_brand mb on mbi.materielBrandId=mb.id 
+			where mbi.materielBrandId in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+            	#{item}
+        	</foreach>
+			UNION
+			select count(1) as count FROM materiel_class_brand mcb INNER JOIN materiel_brand mb on mcb.materielBrandId=mb.id 
+			where mcb.materielBrandId in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+            	#{item}
+        	</foreach>
+		)t 
+	
+	</select>
+</mapper>

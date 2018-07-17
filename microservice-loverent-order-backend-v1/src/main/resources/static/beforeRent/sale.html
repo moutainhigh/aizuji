@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+	
+</head>
+<body>
+	<div class='content before-order'>
+		<!-- 查询模块 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>订单编号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" style = "width:200px;" placeholder="请输入订单编号" id='numberInput'>
+					</div>
+				</div>
+				<div class='button-box'>
+					<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+					<button type="button" class="btn btn-warning" id='search'>查询</button>
+				</div>
+			</div>
+			<div class='height-srarch'>高级查询<span class='glyphicon glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label for="firstname" class="col-sm-1 control-label">下单时间</label>
+				    <div class="col-sm-10">
+						<div class='input-list clearfix' style="display:inline-block;width:430px;">
+							<!-- 开始时间 -->
+					    	<div class='time-list' style="float:left;width:180px">
+		      				 	<input type="text" name="" onclick="WdatePicker({dchanging:cDayFunc,dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input1">
+					    	</div>
+							<span class='time-split' style="float:left;margin:0px 10px;position:relative;top:8px">-</span>
+							<!-- 结束时间 -->
+							<div class='time-list' style="float:left;width:180px">
+							    <input type="text" name="" onclick="WdatePicker({dchanging:cDayFunc,dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input2">
+							</div>
+						</div>
+				      <div class="btn-group0" style='display:inline-block;vertical-align: top'>
+				          <button type="button" class="btn btn-default" value='0'>昨日</button>
+				          <button type="button" class="btn btn-default" value='0'>今日</button>
+				          <button type="button" class="btn btn-default" value='0'>最近一周</button>
+				          <button type="button" class="btn btn-default" value='0'>最近一月</button>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">手机号</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="phoneNum" placeholder="请输入手机号">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">下单渠道</label>
+				    <div class="col-sm-10">
+				      	<div class="btn-group1">
+				      	</div>
+				    </div>
+				   </div>
+				    <div class="form-group">
+				    	<label for="lastname" class="col-sm-1 control-label">产品类别</label>
+					    <div class="col-sm-10">
+					      	<div class="btn-group2">
+					      	</div>
+					    </div>
+				   </div>
+		   		    <div class="form-group">
+		   		    	<label for="lastname" class="col-sm-1 control-label">订单状态</label>
+		   			    <div class="col-sm-10">
+		   			      	<div class="btn-group3">
+		   			      	</div>
+		   			    </div>
+		   		   </div>
+				</form>
+			</div>
+			<div class='table-box  table-responsive'>
+	      		<table class="table" id='integrated-tab'>
+	      		</table>
+			</div>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script>
+		
+	var searObj = {}
+	var statemap = {}
+	var channelnosmap={}
+	
+	//默认加载下单渠道，产品类别，订单状态等标签
+	//下单渠道
+	channelNos();
+	function channelNos(){
+		common.ajax('/common/channelNos',{},function(data){
+        	var _list = data;
+			var _arr = new Array();
+			_arr.push('<button type="button" class="btn btn-default" value="">全部</button>');
+			for(var i = 0;i < _list.length;i++){
+				_arr.push('<button type="button" class="btn btn-default" value="'+_list[i].code+'">'+_list[i].message+'</button>');
+			}
+			$('.btn-group1').html(_arr.join("")); 
+			
+			//订单来源集合
+			for(var i = 0;i < _list.length;i++){
+				channelnosmap[_list[i].code]=_list[i].message;
+			}
+        });
+	}
+	//获取产品类别
+	allMaterielClassList();
+	
+	//后端租赁状态
+	backRentStates();
+	function backRentStates(){
+		common.ajax('/common/backRentStates',{},function(data){
+        	var _list = data;
+			var _arr = new Array();
+			_arr.push('<button type="button" class="btn btn-default" value="" id="stateAllBtn">全部</button>');
+			for(var i = 0;i < _list.length;i++){
+				if(_list[i].code==0)
+					continue;
+				_arr.push('<button type="button" class="btn btn-default" value="'+_list[i].code+'">'+_list[i].message+'</button>');
+			}
+			$('.btn-group3').html(_arr.join(""));
+			
+			//后台租赁状态集合
+			for(var i = 0;i < _list.length;i++){
+				if(_list[i].code==0)
+					continue;
+				statemap[_list[i].code]=_list[i].message;
+			}	
+        });
+	}
+	
+	
+	//加载列表数据
+	var _columns = [[
+	            {
+	            	  field: 'rentRecord.id',
+	  	              title: '订单Id',
+	  	              visible:false
+	            },
+	  			{
+	  	              field: 'rentRecord.rentRecordNo',
+	  	              title: '订单编号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.realName',
+	  	              title: '用户姓名'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.phoneNum',
+	  	              title: '手机号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.materielModelName',
+	  	              title: '商品型号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseTerm',
+	  	              title: '租期',
+	  	              formatter:function(value, row, index){
+	 		              return value && (value+"个月");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseAmount',
+	  	              title: '月租金',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.applyTime',
+	  	              title: '申请时间',
+	  	              formatter:function(value, row, index){
+		 		          return value && new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.state',
+	  	              title: '订单状态',
+	  	              formatter:function(value, row, index){
+		 		          return statemap[value];
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.channelNo',
+	  	              title: '订单来源',
+	  	              formatter:function(value, row, index){
+		 		          return channelnosmap[value];
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.materielSpecName',
+	  	              title: '规格',
+	  	              formatter:function(value, row, index){
+	 		              return value && value.replace(new RegExp(",","gm"),"&nbsp;&nbsp;");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'operate',
+	  	              title: '操作',
+	  	              formatter:function(value,row,index){
+	  	            	var btn = "<a href='./saleDetail.html?id="+row.rentRecord.id+"' target='iframe'><button type='button' class='btn btn-default btn-sm'>查看详情</button></a>";
+	                       return btn
+	     			  }
+	  	        }
+	 		]];
+	initParams();
+	initData();
+	function initData(){
+    	common.tableInit().init("integrated-tab",'/integration/list',function (pageParam) {
+    		var temp={};
+    		if(searObj['rentRecord.rentRecordNo'])
+    			temp['rentRecord.rentRecordNo']=searObj['rentRecord.rentRecordNo'];
+    		else
+    			temp=searObj;
+    		temp.currPage=pageParam.pageNumber;
+    		temp.pageSize=pageParam.pageSize;
+    		return $.param(temp);
+		}
+    	,_columns);	
+    }
+	
+	//查询
+	$('#search').click(function(){
+		$('#integrated-tab').bootstrapTable('destroy');
+		initParams();
+		initData();
+	})
+	$('.height-srarch').click(function(){
+		$(this).find('span').toggleClass('active')
+		$('.form-box').slideToggle()
+	})
+	$('.order-tab li').click(function(){
+		$(this).addClass('active').siblings().removeClass('active')
+		var index = $(this).index()
+		$('.content-list').hide().eq(index).show()
+	})
+	
+	// 查询方法以及table组件使用方法
+	$('.btn-group3').delegate('.btn','click',function(){
+    	$(this).toggleClass('btn-primary');
+    })
+
+	//表格标题
+	$('.btn-group0,.btn-group1,.btn-group2').delegate('.btn','click',function(){
+		$(this).toggleClass('btn-primary').siblings().removeClass('btn-primary')
+		 if($(this).hasClass('btn-primary')){
+			//下单时间
+			if($(this).parent().attr('class') == 'btn-group0'){
+				$('#dtp_input1').val(common.timeTemplate($(this).index())[0]);
+				$('#dtp_input2').val(common.timeTemplate($(this).index())[1]);
+			}
+		}
+	})
+	
+	function cDayFunc (){
+		$('.btn-group0 .btn').removeClass('btn-primary')
+		setTimeout(function(){
+	    	searObj.applyStartTime = $('#dtp_input1').val()
+	    	searObj.applyEndTime  = $('#dtp_input2').val()
+		},200)
+	}
+	function initParams(){
+		searObj={};
+		searObj['noRecordStates[0]']=0;
+		searObj['rentRecord.productType']=3;
+		if($('#numberInput').val()){
+			searObj['rentRecord.rentRecordNo']=$('#numberInput').val();
+		}
+		if($('#phoneNum').val()){
+			searObj['rentRecordExtends.phoneNum'] = $('#phoneNum').val();
+		}
+		if(($('#dtp_input1').val() && !$('#dtp_input2').val()) || ($('#dtp_input2').val() && !$('#dtp_input1').val())){
+			common.error('请正确填写下单开始和结束时间');
+		}
+		if($('#dtp_input1').val()&&$('#dtp_input2').val()){
+			searObj.applyStartTime=$('#dtp_input1').val();
+			searObj.applyEndTime=$('#dtp_input2').val();
+		} 
+		searObj['rentRecord.channelNo']=$('.btn-group1 .btn-primary').val();
+		searObj['rentRecordExtends.materielClassId']=$('.btn-group2 .btn-primary').val();
+		if(!$('#stateAllBtn').hasClass('btn-primary')){
+			$('.btn-group3 .btn-primary').each(function(index,dom){
+				searObj['recordStates['+index+']']=$(dom).val();
+			})
+		}
+	}
+</script>
+</body>
+</html>

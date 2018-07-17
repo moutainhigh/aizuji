@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.CardInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.CardInfo" >
+    <id column="cardId" property="cardId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+    <result column="cardCode" property="cardCode" jdbcType="VARCHAR" />
+    <result column="accountName" property="accountName" jdbcType="VARCHAR" />
+    <result column="idNo" property="idNo" jdbcType="VARCHAR" />
+    <result column="cardIssuing" property="cardIssuing" jdbcType="VARCHAR" />
+    <result column="reservedPhoneNum" property="reservedPhoneNum" jdbcType="VARCHAR" />
+    <result column="noAgree" property="noAgree" jdbcType="VARCHAR" />
+    <result column="cardStatus" property="cardStatus" jdbcType="TINYINT" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cardId, userId, cardNo, accountName, idNo, cardCode, cardIssuing, reservedPhoneNum, noAgree, cardStatus, 
+    createTime, updateTime
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from card_info
+    where cardId = #{cardId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	select 
+    <include refid="Base_Column_List" />
+    from card_info
+    where userId = #{userId,jdbcType=BIGINT}
+    and cardStatus = 1
+    order by createTime desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from card_info
+    where cardId = #{cardId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.CardInfo" >
+    insert into card_info (cardId, userId, cardNo, accountName, idNo,
+      cardCode, cardIssuing, reservedPhoneNum, 
+      noAgree, cardStatus, createTime, 
+      updateTime)
+    values (#{cardId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{cardNo,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, 
+      #{cardCode,jdbcType=VARCHAR}, #{cardIssuing,jdbcType=VARCHAR}, #{reservedPhoneNum,jdbcType=VARCHAR}, 
+      #{noAgree,jdbcType=VARCHAR}, #{cardStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.CardInfo" >
+    insert into card_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cardId != null" >
+        cardId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="cardNo != null" >
+        cardNo,
+      </if>
+      <if test="accountName != null" >
+        accountName,
+      </if>
+      <if test="idNo != null" >
+        idNo,
+      </if>
+      <if test="cardCode != null" >
+        cardCode,
+      </if>
+      <if test="cardIssuing != null" >
+        cardIssuing,
+      </if>
+      <if test="reservedPhoneNum != null" >
+        reservedPhoneNum,
+      </if>
+      <if test="noAgree != null" >
+        noAgree,
+      </if>
+      <if test="cardStatus != null" >
+        cardStatus,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cardId != null" >
+        #{cardId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCode != null" >
+        #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cardIssuing != null" >
+        #{cardIssuing,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhoneNum != null" >
+        #{reservedPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="noAgree != null" >
+        #{noAgree,jdbcType=VARCHAR},
+      </if>
+      <if test="cardStatus != null" >
+        #{cardStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.CardInfo" >
+    update card_info
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        cardNo = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardCode != null" >
+        cardCode = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        accountName = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        idNo = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardIssuing != null" >
+        cardIssuing = #{cardIssuing,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhoneNum != null" >
+        reservedPhoneNum = #{reservedPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="noAgree != null" >
+        noAgree = #{noAgree,jdbcType=VARCHAR},
+      </if>
+      <if test="cardStatus != null" >
+        cardStatus = #{cardStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cardId = #{cardId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.CardInfo" >
+    update card_info
+    set userId = #{userId,jdbcType=BIGINT},
+      cardNo = #{cardNo,jdbcType=VARCHAR},
+      cardCode = #{cardCode,jdbcType=VARCHAR},
+      accountName = #{accountName,jdbcType=VARCHAR},
+      idNo = #{idNo,jdbcType=VARCHAR},
+      cardIssuing = #{cardIssuing,jdbcType=VARCHAR},
+      reservedPhoneNum = #{reservedPhoneNum,jdbcType=VARCHAR},
+      noAgree = #{noAgree,jdbcType=VARCHAR},
+      cardStatus = #{cardStatus,jdbcType=TINYINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where cardId = #{cardId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByCardNo" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from card_info
+    where userId = #{userId,jdbcType=BIGINT}
+    and cardNo = #{cardNo,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateByUserId" parameterType="org.gz.user.entity.CardInfo" >
+    update card_info
+    <set >
+      <if test="cardCode != null" >
+        cardCode = #{cardCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accountName != null" >
+        accountName = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        idNo = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardIssuing != null" >
+        cardIssuing = #{cardIssuing,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhoneNum != null" >
+        reservedPhoneNum = #{reservedPhoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="noAgree != null" >
+        noAgree = #{noAgree,jdbcType=VARCHAR},
+      </if>
+      <if test="cardStatus != null" >
+        cardStatus = #{cardStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+    and cardNo = #{cardNo,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="org.gz.user.entity.CardInfo" >
+  	select 
+    <include refid="Base_Column_List" />
+    from card_info
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="cardId != null">
+    		AND cardId = #{cardId, jdbcType=BIGINT}
+    	</if>
+    	<if test="userId != null">
+    		AND userId = #{userId, jdbcType=BIGINT}
+    	</if>
+    	<if test="cardNo != null and cardNo != ''">
+    		AND cardNo = #{cardNo, jdbcType=VARCHAR}
+    	</if>
+    	<if test="cardCode != null and cardCode != ''">
+    		AND cardCode = #{cardCode, jdbcType=VARCHAR}
+    	</if>
+    	<if test="cardIssuing != null and cardIssuing != ''">
+    		AND cardIssuing = #{cardIssuing, jdbcType=VARCHAR}
+    	</if>
+    	<if test="reservedPhoneNum != null and reservedPhoneNum != ''">
+    		AND reservedPhoneNum = #{reservedPhoneNum, jdbcType=VARCHAR}
+    	</if>
+    	<if test="noAgree != null and noAgree != ''">
+    		AND noAgree = #{noAgree, jdbcType=VARCHAR}
+    	</if>
+    	<if test="cardStatus != null">
+    		AND cardStatus = #{cardStatus, jdbcType=TINYINT}
+    	</if>
+    	<if test="accountName != null and accountName !=''">
+    		AND accountName = #{accountName, jdbcType=VARCHAR}
+    	</if>
+    	<if test="idNo != null and idNo !=''">
+    		AND idNo = #{idNo, jdbcType=VARCHAR}
+    	</if>
+    </trim>
+  </select>
+  
+</mapper>

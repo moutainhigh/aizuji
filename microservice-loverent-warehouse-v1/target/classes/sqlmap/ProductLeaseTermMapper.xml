@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.warehouse.mapper.ProductLeaseTermMapper">
+
+    <resultMap id="baseMap" type="org.gz.warehouse.entity.ProductLeaseTerm">
+        <result property="id" column="id"/>
+        <result property="termValue" column="termValue"/>
+        <result property="termDesc" column="termDesc"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, termValue, termDesc
+        ]]>
+    </sql>
+    
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.termValue, t.termDesc
+        ]]>
+    </sql>
+    
+    <select id="findAll" resultMap="baseMap">
+        SELECT
+        <include refid="t_columns" />
+        FROM
+        product_lease_term t
+        <if test="null!=modelId">
+        WHERE EXISTS (
+		SELECT 1
+		FROM product_info t1
+		INNER JOIN materiel_basic_info t2 ON t2.id = t1.materielId
+		WHERE t2.materielModelId = #{modelId} AND t.id = t1.leaseTermId AND t1.isDeleted = 0)
+        </if>
+    </select>
+   
+</mapper>
+

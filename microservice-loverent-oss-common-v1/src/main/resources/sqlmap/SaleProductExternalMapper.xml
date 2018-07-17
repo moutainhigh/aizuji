@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.oss.common.dao.SaleProductExternalDao">
+
+	<sql id="where_querySaleProductCountList">
+		and a.snNo is not null and a.snNo!='' and a.imeiNo is not null and a.imeiNo!=''
+		<if test="productIds!=null and productIds.size>0">
+			and a.productId in
+			<foreach collection="productIds" item="productId" open="(" separator=","  close=")">
+				#{productId}
+			</foreach>
+		</if> 
+	</sql>
+    <!--查询售卖的产品ID-->
+    <select id="querySaleProductCountList" parameterType="org.gz.oss.common.dto.SaleProductCountReq" resultType="org.gz.oss.common.dto.SaleProductCountResp">
+		select 
+			a.snNo,a.imeiNo 
+		from alipay_shopwindow_commodity a 
+		where a.type=20 <include refid="where_querySaleProductCountList"/>
+		UNION 
+		select 
+			a.snNo,a.imeiNo 
+		from shopwindow_commodity_relation a 
+		where a.type=20 <include refid="where_querySaleProductCountList"/>
+		UNION 
+		select 
+			a.snNo,a.imeiNo 
+		from banner a 
+		where a.type=20 <include refid="where_querySaleProductCountList"/>
+		UNION 
+		select 
+			a.snNo,a.imeiNo 
+		from alipay_banner a 
+		where a.type=20 <include refid="where_querySaleProductCountList"/>
+		UNION
+		SELECT 
+			a.snNo,a.imeiNo 
+		from recommend_commodity_relation a 
+		where 1=1 <include refid="where_querySaleProductCountList"/>
+    </select>
+
+  
+
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielModelMapper">
+
+	<!-- 根据品牌ID查询型号列表 -->
+ 	<select id="queryMaterielModelListByBrandId" resultType="org.gz.warehouse.entity.MaterielModel">
+ 		select * from materiel_model where materielBrandId=#{brandId}
+ 	</select>
+
+	<select id="queryMaterielModelPicListByBrandId" parameterType="org.gz.warehouse.entity.MaterielModelQuery" resultType="org.gz.warehouse.entity.MaterielModel">
+		SELECT a.materielModelId,a.thumbnailUrl,d.materielModelName FROM materiel_basic_info a
+        INNER JOIN materiel_brand c ON a.materielBrandId=c.id
+        INNER JOIN materiel_model d ON a.materielModelId=d.id
+		  <include refid="where_queryPageCount"/>  limit #{startIndex},#{endIndex};
+	</select>
+ 	
+ 	<!-- 插入数据 -->
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.MaterielModel">
+ 		insert into materiel_model(
+ 			materielModelName,
+ 			materielModelDesc,
+ 			materielClassId,
+ 			materielBrandId,
+ 			enableFlag
+ 		)values(
+ 			#{materielModelName},
+ 			#{materielModelDesc},
+ 			#{materielClassId},
+ 			#{materielBrandId},
+ 			#{enableFlag}
+ 		)
+ 	</insert>
+ 	
+ 	<!-- 查询重复数量 -->
+ 	<select id="queryUniqueCount" parameterType="org.gz.warehouse.entity.MaterielModelQuery" resultType="int">
+ 		select 
+ 			count(1) 
+ 		from materiel_model
+ 		where 1=1 
+ 		and materielClassId=#{materielClassId} 
+ 		and materielBrandId=#{materielBrandId} 
+ 		and materielModelName=#{materielModelName}
+ 		<if test="id!=null and id>0">
+ 			and id!=#{id}
+ 		</if>
+ 	</select>
+ 	
+ 	<!-- 查询详情 -->
+ 	<select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.MaterielModel">
+ 		select * from materiel_model where id=#{id}
+ 	</select>
+ 	
+ 	<!-- 更新数据 -->
+ 	<update id="update" parameterType="org.gz.warehouse.entity.MaterielModel">
+ 		update materiel_model set 
+ 			materielModelName=#{materielModelName},
+ 			materielModelDesc=#{materielModelDesc},
+ 			materielClassId=#{materielClassId},
+ 			materielBrandId=#{materielBrandId}
+ 		where id=#{id}
+ 	</update>
+ 	
+ 	<!-- 更新启停标志 -->
+ 	<update id="setEnableFlag" parameterType="org.gz.warehouse.entity.MaterielModel">
+ 		update materiel_model set enableFlag=#{enableFlag} where id=#{id}
+ 	</update>
+ 	
+ 	<sql id="where_queryPageCount">
+ 		where 1=1
+		and d.enableFlag=1
+ 		<if test="id!=null and id>0">
+ 			and id=#{id}
+ 		</if>
+ 		<if test="materielModelName!=null and materielModelName!=''">
+ 			and materielModelName like CONCAT('%',#{materielModelName},'%')
+ 		</if>
+ 		<if test="materielClassId!=null and materielClassId>0">
+ 			and materielClassId=#{materielClassId}
+ 		</if>
+ 		<if test="materielBrandId!=null and materielBrandId>0">
+ 			and materielBrandId=#{materielBrandId}
+ 		</if>
+ 		<if test="enableFlag!=null and enableFlag>-1">
+ 			and enableFlag=#{enableFlag}
+ 		</if>
+		<if test="brandId!=null and brandId>0">
+			and c.id=#{brandId} and a.materielFlag=1
+		</if>
+
+ 	</sql>
+ 	
+ 	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.MaterielModelQuery" resultType="int">
+ 		select count(1) from materiel_model <include refid="where_queryPageCount"/>
+ 	</select>
+
+	<select id="queryPageTotal" resultType="int">
+		SELECT COUNT(a.materielModelId) FROM materiel_basic_info a
+        INNER JOIN materiel_brand c ON a.materielBrandId=c.id
+        INNER JOIN materiel_model d ON a.materielModelId=d.id
+        where c.id=#{brandId} and a.materielFlag=1;
+	</select>
+ 	
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielModelQuery" resultType="org.gz.warehouse.entity.MaterielModel">
+ 		select * from materiel_model <include refid="where_queryPageCount"/> limit #{startIndex},#{endIndex}
+ 	</select>
+	
+	<delete id="deleteByIds" parameterType="java.util.List">
+		delete from materiel_model where id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</delete>
+	
+	<select id="queryAllAvalibles" resultType="org.gz.warehouse.entity.MaterielModel" >
+		select mm.* from materiel_model mm where exists (select 1 from materiel_basic_info mb inner join product_info t  on t.materielId = mb.id where t.isDeleted=0 and  mm.id = mb.materielModelId) and mm.enableFlag = 1
+		<if test="materielClassId!=null and materielClassId>0">
+ 			and mm.materielClassId=#{materielClassId}
+ 		</if>
+ 		<if test="materielBrandId!=null and materielBrandId>0">
+ 			and mm.materielBrandId=#{materielBrandId}
+ 		</if>
+	</select>
+	
+	<select id="queryModelList" parameterType="java.util.List" resultType="org.gz.warehouse.common.vo.MaterielModelResp">
+		select * from materiel_model where id in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+
+	<select id="getMaterielModelById" resultType="org.gz.warehouse.common.vo.MaterielModelVo">
+		SELECT id,materielModelName,materielClassId,materielBrandId FROM materiel_model WHERE id in
+		<foreach collection="list" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<!--根据型号Id，查询最低月租金-->
+	<select id="getMinAmountByModelId" parameterType="java.lang.Long" resultType="org.gz.warehouse.common.vo.ProductInfo">
+        SELECT
+        b.materielModelId,
+        c.materielModelName,
+        a.dayLeaseAmount,
+        a.displayLeaseType,
+        min( a.leaseAmount) as leaseAmount
+        FROM
+        product_info a
+        INNER JOIN materiel_basic_info b ON a.materielId = b.id
+        INNER JOIN materiel_model c ON b.materielModelId = c.id
+        WHERE
+        a.productType IN (1, 2)
+		AND b.materielModelId in
+		<foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+        AND a.leaseAmount IS NOT NULL
+        GROUP BY
+        c.materielModelName,
+        b.materielModelId
+        ORDER BY
+        b.materielModelId ASC
+	</select>
+</mapper>

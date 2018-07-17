@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手机租赁 - 清算系统</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="fonts/iconfont.css">
+</head>
+<body>
+	<div class='content-wapper'>
+		<div class="header">
+			<div class='index-logo'></div>
+			<div class="exit">退出登录</div>
+			<span class='user'>欢迎您，<span class='userName'>admin</span></span>
+		</div>
+		<div class='view'>
+			<iframe src="./receivables/rentCollectionOrder.html" frameborder="0" name='iframe' class='iframe' id='iframe'></iframe>
+		</div>
+	</div>
+ 	<div class="menu" ref='menu'>
+		<div class="panel-group" id="accordion">
+		    <div class="panel panel-default">
+		        <div class="panel-heading">
+		            <h4 class="panel-title">
+		                <a data-toggle="collapse" data-parent="#accordion" 
+		                   href="#collapseOne"> 
+		                    <b class='iconfont'></b>收款管理<span class='iconfont panel-icon'>&#xe600;</span>
+		                </a>
+		            </h4>
+		        </div>
+		        <div id="collapseOne" class="panel-collapse collapse">
+		            <!--<div class="panel-body">-->
+						<!--<a href="./receivables/downPayment.html" target="iframe">首期款收款</a>-->
+		            <!--</div>-->
+		            <div class="panel-body">
+						<a href="./receivables/rentCollectionOrder.html" target="iframe">收款处理</a>
+		            </div> 
+		            <div class="panel-body">
+						<a href="./receivables/saleDealRecord.html" target="iframe">收款交易记录</a>
+		            </div>
+		            <div class="panel-body">
+						<a href="./receivables/accountRecordList.html" target="iframe">收款清算记录</a>
+		            </div>
+					<div class="panel-body">
+						<a href="./receivables/dueRecordList.html" target="iframe">滞纳金减免记录</a>
+					</div>
+		        </div>
+		</div>
+		<div class="panel-group" id="refundables">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion"
+						   href="#collapseTwo">
+							<b class='iconfont'></b>退款管理<span class='iconfont panel-icon'>&#xe600;</span>
+						</a>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse">
+					<div class="panel-body">
+						<a href="./refundables/refundables.html" target="iframe">订单退款处理</a>
+					</div>
+					<div class="panel-body">
+						<a href="./refundables/refundablesList.html" target="iframe">订单退款记录</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='js/jquery.min.js'></script>
+	<script src='js/common.js'></script>
+	<script src='js/bootstrap/bootstrap.min.js'></script>
+	<script src='js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script>
+		 $(function () {
+		 	$('.panel-group .panel-body a').click(function(){
+		 		$('.panel-group .panel-body a').removeClass('active')
+		 		$(this).addClass('active')
+		 	})
+		 	$('.panel').click(function(){
+		 		$(this).find('.panel-icon').toggleClass('active')
+		 		$(this).siblings().find('.panel-icon').removeClass('active')
+		 	})
+		 	$('.exit').click(function(){
+			 	common.promt('是否退出登录',function(){
+			 		common.ajax('/auth/logout',{},function(data){
+			 			window.location.href="login.html";
+			 		})
+			 	})
+		 	})
+		});
+//		getAdmin();
+//		function getAdmin(){
+//			common.ajax('/common/admin',{},function(data){
+//				$('.userName').html(data.userName);
+//	 		})
+//		}
+	</script>
+</body>
+</html>

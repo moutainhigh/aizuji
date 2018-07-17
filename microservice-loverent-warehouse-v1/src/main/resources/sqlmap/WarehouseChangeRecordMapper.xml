@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseChangeRecordMapper">
+    <!-- 插入数据 -->
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecord">
+ 		insert into warehouse_change_record(
+			  warehouseId,
+			  warehouseLocationId,
+			  materielBasicId,
+			  storageBatchNo,
+			  adjustBatchNo,
+			  adjustType,
+			  sourceOrderNo,
+			  changeQuantity,
+			  adjustReason,
+			  operatorId,
+			  operatorName,
+			  operateOn
+		)
+		values(
+			  #{warehouseId},
+			  #{warehouseLocationId},
+			  #{materielBasicId},
+			  #{storageBatchNo},
+			  #{adjustBatchNo},
+			  #{adjustType},
+			  #{sourceOrderNo},
+			  #{changeQuantity},
+			  #{adjustReason},
+			  #{operatorId},
+			  #{operatorName},
+			  #{operateOn}
+		)
+ 	</insert>
+ 	
+ 	
+ 	<sql id="where_queryPageCount">
+ 		WHERE 1=1 
+ 		<if test="warehouseId!=null and warehouseId>0">
+ 			AND t1.warehouseId=#{warehouseId}
+ 		</if>
+ 		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+ 			AND t1.warehouseLocationId=#{warehouseLocationId}
+ 		</if>
+ 		<if test="materielBasicId!=null and materielBasicId>0">
+ 			AND t1.materielBasicId=#{materielBasicId}
+ 		</if>
+ 		<if test="adjustBatchNo!=null and adjustBatchNo!=''">
+ 			AND t1.adjustBatchNo LIKE CONCAT('%',#{adjustBatchNo},'%')
+ 		</if>
+ 		<if test="adjustType!=null and adjustType>0">
+ 			AND t1.adjustType=#{adjustType}
+ 		</if>
+ 		<if test="sourceOrderNo!=null and sourceOrderNo!=''">
+ 			AND t1.sourceOrderNo LIKE CONCAT('%',#{sourceOrderNo},'%')
+ 		</if>
+ 		<if test="operatorName!=null and operatorName!=''">
+ 			AND t1.operatorName LIKE CONCAT('%',#{operatorName},'%')
+ 		</if>
+ 		<if test="startOperateTime!=null and startOperateTime!=''">
+ 			AND t1.operateOn &gt; CONCAT(#{startOperateTime},' ','00:00:00')
+ 		</if>
+ 		<if test="endOperateTime!=null and endOperateTime!=''">
+ 			AND t1.operateOn &lt; CONCAT(#{endOperateTime},' ','00:00:00')
+ 		</if>
+ 	</sql>
+ 	
+ 	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordQuery" resultType="int">
+ 		SELECT 
+ 			count(1)
+		FROM warehouse_change_record t1 
+		INNER JOIN materiel_basic_info t2 on t1.materielBasicId=t2.id
+		INNER JOIN materiel_brand t4 ON t2.materielBrandId = t4.id
+		INNER JOIN materiel_class t5 ON t2.materielClassId = t5.id
+		INNER JOIN materiel_model t6 ON t2.materielModelId = t6.id
+		INNER JOIN materiel_unit t7 ON t2.materielUnitId = t7.id
+		INNER JOIN warehouse_info t8 on t1.warehouseId=t8.id
+		INNER JOIN warehouse_location t9 ON t1.warehouseLocationId=t9.id
+ 		<include refid="where_queryPageCount"/>
+ 	</select>
+ 	
+ 	
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordVO">
+ 		SELECT 
+			t1.*,
+			t2.materielName,
+			t2.materielCode,
+			t8.warehouseName,
+			t9.locationName,
+			(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t2.specBatchNo)as materielSpecValues
+		FROM warehouse_change_record t1 
+		INNER JOIN materiel_basic_info t2 on t1.materielBasicId=t2.id
+		INNER JOIN materiel_brand t4 ON t2.materielBrandId = t4.id
+		INNER JOIN materiel_class t5 ON t2.materielClassId = t5.id
+		INNER JOIN materiel_model t6 ON t2.materielModelId = t6.id
+		INNER JOIN materiel_unit t7 ON t2.materielUnitId = t7.id
+		INNER JOIN warehouse_info t8 on t1.warehouseId=t8.id
+		INNER JOIN warehouse_location t9 ON t1.warehouseLocationId=t9.id
+		<include refid="where_queryPageCount"/> ORDER BY t1.id DESC
+ 		limit #{startIndex},#{endIndex}
+ 	</select>
+ 	
+ 	<sql id="where_queryDetailPageCount">
+ 		WHERE 1=1 
+ 		<if test="warehouseId!=null and warehouseId>0">
+ 			AND t1.warehouseId=#{warehouseId}
+ 		</if>
+ 		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+ 			AND t1.warehouseLocationId=#{warehouseLocationId}
+ 		</if>
+ 		<if test="materielBasicId!=null and materielBasicId>0">
+ 			AND t1.materielBasicId=#{materielBasicId}
+ 		</if>
+		<if test="storageBatchNo!=null and storageBatchNo!=''">
+			AND t1.storageBatchNo=#{storageBatchNo}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			AND t1.batchNo LIKE CONCAT('%',#{batchNo},'%')
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			AND t1.snNo LIKE CONCAT('%',#{snNo},'%')
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			AND t1.imieNo LIKE CONCAT('%',#{imieNo},'%')
+		</if>
+ 	</sql>
+ 	
+ 	<select id="queryDetailPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordDetailQuery" resultType="int">
+ 		SELECT 
+			count(1)
+		FROM warehouse_commodity_info t1 
+		INNER JOIN materiel_basic_info t2 on t1.materielBasicId=t2.id 
+		INNER JOIN materiel_brand t4 ON t2.materielBrandId = t4.id
+		INNER JOIN materiel_class t5 ON t2.materielClassId = t5.id
+		INNER JOIN materiel_model t6 ON t2.materielModelId = t6.id
+		INNER JOIN materiel_unit t7 ON t2.materielUnitId = t7.id
+ 		<include refid="where_queryDetailPageCount"/>
+ 	</select>
+ 	
+ 	
+	<select id="queryDetailPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordDetailQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecordDetailVO">
+		SELECT 
+			t1.batchNo,
+			t1.snNo,
+			t1.imieNo
+		FROM warehouse_commodity_info t1 
+		INNER JOIN materiel_basic_info t2 on t1.materielBasicId=t2.id 
+		INNER JOIN materiel_brand t4 ON t2.materielBrandId = t4.id
+		INNER JOIN materiel_class t5 ON t2.materielClassId = t5.id
+		INNER JOIN materiel_model t6 ON t2.materielModelId = t6.id
+		INNER JOIN materiel_unit t7 ON t2.materielUnitId = t7.id
+		<include refid="where_queryDetailPageCount"/>
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+	<!-- 降低库位数量 -->
+	<update id="decreaseWarehouseLocationQuantity" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecord">
+		update warehouse_change_record set 
+			adjustBatchNo=#{adjustBatchNo},
+			adjustReason=#{adjustReason},
+			adjustType=#{adjustType},
+			sourceOrderNo=#{sourceOrderNo},
+			changeQuantity=changeQuantity-#{changeQuantity},
+		    operateOn=#{operateOn}
+		 where warehouseId=#{warehouseId} and warehouseLocationId=#{warehouseLocationId} and materielBasicId=#{materielBasicId}
+	</update>
+	
+	<!-- 降低库位数量 -->
+	<update id="increaseWarehouseLocationQuantity" parameterType="org.gz.warehouse.entity.warehouse.WarehouseChangeRecord">
+		update warehouse_change_record set 
+			adjustBatchNo=#{adjustBatchNo},
+			adjustReason=#{adjustReason},
+			adjustType=#{adjustType},
+			sourceOrderNo=#{sourceOrderNo},
+			changeQuantity=changeQuantity+#{changeQuantity},
+		    operateOn=#{operateOn}
+		 where warehouseId=#{warehouseId} and warehouseLocationId=#{warehouseLocationId} and materielBasicId=#{materielBasicId}
+	</update>
+</mapper>

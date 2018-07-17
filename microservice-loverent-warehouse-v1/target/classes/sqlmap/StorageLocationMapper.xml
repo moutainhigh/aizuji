@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.StorageLocationMapper">
+  <resultMap id="BaseResultMap" type="org.gz.warehouse.entity.warehouse.StorageLocation">
+    <id column="id" jdbcType="SMALLINT" property="id" />
+    <result column="locationCode" jdbcType="CHAR" property="locationCode" />
+    <result column="locationName" jdbcType="VARCHAR" property="locationName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="delFlag" jdbcType="BIT" property="delFlag" />
+    <result column="enableFlag" jdbcType="BIT" property="enableFlag" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateBy" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="updateOn" jdbcType="TIMESTAMP" property="updateOn" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, locationCode, locationName, delFlag, enableFlag,remark, createBy, updateBy, createOn, 
+    updateOn
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_location
+    where id = #{id,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_location
+    where id = #{id,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.warehouse.entity.warehouse.StorageLocation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_location (locationCode, locationName, delFlag, 
+      enableFlag, createBy, updateBy, 
+      createOn, updateOn)
+    values (#{locationCode,jdbcType=CHAR}, #{locationName,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
+      #{enableFlag,jdbcType=BIT}, #{createBy,jdbcType=BIGINT}, #{updateBy,jdbcType=BIGINT}, 
+      #{createOn,jdbcType=TIMESTAMP}, #{updateOn,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.warehouse.entity.warehouse.StorageLocation">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_location
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="locationCode != null">
+        locationCode,
+      </if>
+      <if test="locationName != null">
+        locationName,
+      </if>
+      <if test="delFlag != null">
+        delFlag,
+      </if>
+      <if test="enableFlag != null">
+        enableFlag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="updateBy != null">
+        updateBy,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+      <if test="updateOn != null">
+        updateOn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="locationCode != null">
+        #{locationCode,jdbcType=CHAR},
+      </if>
+      <if test="locationName != null">
+        #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.warehouse.entity.warehouse.StorageLocation">
+    update warehouse_location
+    <set>
+      <if test="locationCode != null">
+        locationCode = #{locationCode,jdbcType=CHAR},
+      </if>
+      <if test="locationName != null">
+        locationName = #{locationName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        delFlag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="enableFlag != null">
+        enableFlag = #{enableFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null">
+        updateBy = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        updateOn = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.warehouse.entity.warehouse.StorageLocation">
+    update warehouse_location
+    set locationCode = #{locationCode,jdbcType=CHAR},
+      locationName = #{locationName,jdbcType=VARCHAR},
+      delFlag = #{delFlag,jdbcType=BIT},
+      enableFlag = #{enableFlag,jdbcType=BIT},
+      createBy = #{createBy,jdbcType=BIGINT},
+      updateBy = #{updateBy,jdbcType=BIGINT},
+      createOn = #{createOn,jdbcType=TIMESTAMP},
+      updateOn = #{updateOn,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=SMALLINT}
+  </update>
+  
+  <sql id="query_page_where">
+  	<where>
+  	   <if test="id != null">
+          and id = #{id,jdbcType=SMALLINT}
+      </if>
+  	   <if test="locationCode != null">
+          and locationCode = #{locationCode,jdbcType=CHAR}
+      </if>
+      <if test="locationName != null">
+         and locationName = #{locationName,jdbcType=VARCHAR}
+      </if>
+  	</where>
+  </sql>
+  
+   <select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.StorageLocationQuery" resultType="int">
+		select count(1) from warehouse_location <include refid="query_page_where"/>
+   </select>
+	
+   <select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.StorageLocationQuery" resultType="org.gz.warehouse.entity.warehouse.StorageLocation">
+		select * from warehouse_location <include refid="query_page_where"/> limit #{startIndex},#{endIndex}
+   </select>
+   
+   <select id="queryLocation" resultType="org.gz.warehouse.entity.warehouse.StorageLocation">
+   		select 
+			t1.* 
+		from warehouse_location t1 
+		INNER JOIN warehouse_location_relation t2 on t1.id=t2.locationId
+		WHERE t2.warehouseId=#{warehouseId} AND t1.locationCode=#{locationCode}
+   </select>
+</mapper>

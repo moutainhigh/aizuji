@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.oss.common.dao.CouponDao" >
+  <resultMap id="BaseResultMap" type="org.gz.oss.common.entity.Coupon" >
+    <id column="id" property="id" />
+    <result column="name" property="name"/>
+    <result column="status" property="status" />
+    <result column="amount" property="amount" />
+    <result column="coupon_type" property="couponType"  />
+    <result column="is_backage" property="isBackage" />
+    <result column="backage_id" property="backageId" />
+    <result column="validity_start_time" property="validityStartTime" />
+    <result column="validity_end_time" property="validityEndTime"  />
+    <result column="receive_start_time" property="receiveStartTime"  />
+    <result column="receive_end_time" property="receiveEndTime"  />
+    <result column="qualifications" property="qualifications" />
+    <result column="description" property="description" />
+    <result column="flag" property="flag" />
+    <result column="create_no" property="createNo" />
+    <result column="update_no" property="updateNo" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, status, amount, coupon_type as couponType, is_backage as isBackage, backage_id as backageId, validity_start_time as validityStartTime, 
+    validity_end_time as validityEndTime, qualifications, description, flag, create_no as createNo, update_no as updateNo, receive_start_time as receiveStartTime, 
+    receive_end_time as receiveEndTime
+  </sql>
+
+  <select id="queryPageCount" parameterType="org.gz.oss.common.entity.CouponQuery" resultType="int">
+    	select count(*) from coupon where is_backage = '0' order by id desc
+  </select>
+  
+  <select id="queryPageList" parameterType="org.gz.oss.common.entity.CouponQuery" resultType="org.gz.oss.common.entity.Coupon">
+		select 
+			<include refid="Base_Column_List"></include> 
+		from 
+			coupon 
+		where is_backage = '0' order by id desc
+		limit #{startIndex},#{endIndex}
+   </select>
+   
+   <select id="getCouponList" parameterType="org.gz.oss.common.entity.Coupon" resultType="org.gz.oss.common.entity.Coupon">
+		select 
+			<include refid="Base_Column_List"></include> 
+		from coupon 
+		where is_backage = '1' and backage_id = #{backageId} order by id desc
+   </select>
+   
+   <select id="queryCouponList" parameterType="org.gz.oss.common.entity.Coupon" resultType="org.gz.oss.common.entity.Coupon">
+		SELECT id FROM coupon c WHERE is_backage = '0' AND backage_id is null 
+		AND receive_start_time &lt;= #{nowDate} AND receive_end_time &gt;= #{nowDate} AND qualifications = 10
+   </select>
+   
+  <select id="selectByPrimaryKey" resultType="org.gz.oss.common.entity.Coupon" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from coupon
+    where id = #{id}
+  </delete>
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+    insert into coupon (
+    	name, 
+    	status, 
+        amount, 
+        coupon_type, 
+        is_backage, 
+      	backage_id, 
+      	validity_start_time, 
+      	validity_end_time, 
+      	qualifications, 
+      	description, flag, 
+      	create_no, 
+      	update_no, 
+      	receive_start_time,
+      	receive_end_time
+     )values (
+     	#{name}, 
+     	#{status}, 
+      	#{amount}, 
+      	#{couponType}, 
+      	#{isBackage}, 
+        #{backageId}, 
+        #{validityStartTime}, 
+        #{validityEndTime}, 
+        #{qualifications}, 
+        #{description}, 
+        #{flag}, 
+        #{createNo}, 
+        #{updateNo}, 
+        #{receiveStartTime}, 
+        #{receiveEndTime}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.oss.common.entity.Coupon" keyProperty="id" useGeneratedKeys="true">
+    insert into coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="couponType != null" >
+        coupon_type,
+      </if>
+      <if test="isBackage != null" >
+        is_backage,
+      </if>
+      <if test="backageId != null" >
+        backage_id,
+      </if>
+      <if test="validityStartTime != null" >
+        validity_start_time,
+      </if>
+      <if test="validityEndTime != null" >
+        validity_end_time,
+      </if>
+      <if test="qualifications != null" >
+        qualifications,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="createNo != null" >
+        create_no,
+      </if>
+      <if test="updateNo != null" >
+        update_no,
+      </if>
+       <if test="receiveStartTime != null" >
+        receive_start_time,
+      </if>
+      <if test="receiveEndTime != null" >
+        receive_end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="amount != null" >
+        #{amount},
+      </if>
+      <if test="couponType != null" >
+        #{couponType},
+      </if>
+      <if test="isBackage != null" >
+        #{isBackage},
+      </if>
+      <if test="backageId != null" >
+        #{backageId},
+      </if>
+      <if test="receiveStartTime != null" >
+        #{validityStartTime},
+      </if>
+      <if test="validityEndTime != null" >
+        #{validityEndTime},
+      </if>
+      <if test="qualifications != null" >
+        #{qualifications},
+      </if>
+      <if test="description != null" >
+        #{description},
+      </if>
+      <if test="flag != null" >
+        #{flag},
+      </if>
+      <if test="createNo != null" >
+        #{createNo},
+      </if>
+      <if test="updateNo != null" >
+        #{updateNo},
+      </if>
+      <if test="receiveStartTime != null" >
+        #{receiveStartTime},
+      </if>
+      <if test="receiveEndTime != null" >
+        #{receiveEndTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.oss.common.entity.Coupon" >
+    update coupon
+    <set >
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount},
+      </if>
+      <if test="couponType != null" >
+        coupon_type = #{couponType},
+      </if>
+      <if test="isBackage != null" >
+        is_backage = #{isBackage},
+      </if>
+      <if test="backageId != null" >
+        backage_id = #{backageId},
+      </if>
+      <if test="receiveStartTime != null" >
+        validity_start_time = #{validityStartTime},
+      </if>
+      <if test="validityEndTime != null" >
+        validity_end_time = #{validityEndTime},
+      </if>
+      <if test="qualifications != null" >
+        qualifications = #{qualifications},
+      </if>
+      <if test="description != null" >
+        description = #{description},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag},
+      </if>
+      <if test="createNo != null" >
+        create_no = #{createNo},
+      </if>
+      <if test="updateNo != null" >
+        update_no = #{updateNo},
+      </if>
+      <if test="receiveStartTime != null" >
+        receive_start_time = #{receiveStartTime},
+      </if>
+      <if test="receiveEndTime != null" >
+        receive_end_time = #{receiveEndTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.oss.common.entity.Coupon" >
+    update coupon
+    set name = #{name},
+      status = #{status},
+      amount = #{amount},
+      coupon_type = #{couponType},
+      is_backage = #{isBackage},
+      backage_id = #{backageId},
+      receive_start_time = #{validityStartTime},
+      validity_end_time = #{validityEndTime},
+      qualifications = #{qualifications},
+      description = #{description},
+      flag = #{flag},
+      create_no = #{createNo},
+      update_no = #{updateNo},
+      receive_start_time = #{receiveStartTime},
+      receive_end_time = #{receiveEndTime}
+    where id = #{id}
+  </update>
+</mapper>

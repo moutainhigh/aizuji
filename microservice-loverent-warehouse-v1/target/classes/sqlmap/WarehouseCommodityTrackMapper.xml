@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseCommodityTrackMapper">
+   
+   <select id="queryCommodityTrackPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrackQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrack">
+   		SELECT
+			t1.*
+		FROM
+			warehouse_commodity_track t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		WHERE  1=1
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t1.warehouseId=#{warehouseId}
+		</if>
+		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+			AND t1.warehouseLocationId=#{warehouseLocationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t1.materielBasicId=#{materielBasicId}
+		</if>
+		<if test="warehouseCode!=null and warehouseCode!=''">
+			AND t2.warehouseCode=#{warehouseCode}
+		</if>
+		<if test="locationCode!=null and locationCode!=''">
+			AND t3.locationCode=#{locationCode}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			AND t1.batchNo=#{batchNo}
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			AND t1.snNo=#{snNo}
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			AND t1.imieNo=#{imieNo}
+		</if>
+		<if test="sourceOrderNo!=null and sourceOrderNo!=''">
+			AND t1.sourceOrderNo=#{sourceOrderNo}
+		</if>
+		order by t1.operateOn desc limit #{startIndex},#{endIndex}
+   </select>
+
+   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrack">
+	   insert into warehouse_commodity_track(
+		   warehouseId,
+		   warehouseLocationId,
+		   materielBasicId,
+		   storageBatchNo,
+		   adjustBatchNo,
+		   adjustType,
+		   sourceOrderNo,
+		   batchNo,
+		   snNo,
+		   imieNo,
+		   adjustReason,
+		   operatorId,
+		   operatorName,
+		   operateOn
+	   )values(
+	   	   #{warehouseId},
+		   #{warehouseLocationId},
+		   #{materielBasicId},
+		   #{storageBatchNo},
+		   #{adjustBatchNo},
+		   #{adjustType},
+		   #{sourceOrderNo},
+		   #{batchNo},
+		   #{snNo},
+		   #{imieNo},
+		   #{adjustReason},
+		   #{operatorId},
+		   #{operatorName},
+		   #{operateOn}
+	   )
+   </insert>
+   
+    <!-- 批量插入 -->
+ 	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+ 		insert into warehouse_commodity_track(
+		   warehouseId,
+		   warehouseLocationId,
+		   materielBasicId,
+		   storageBatchNo,
+		   adjustBatchNo,
+		   adjustType,
+		   sourceOrderNo,
+		   batchNo,
+		   snNo,
+		   imieNo,
+		   adjustReason,
+		   operatorId,
+		   operatorName,
+		   operateOn
+		)
+		values  
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(
+	        	#{item.warehouseId},
+		   		#{item.warehouseLocationId},
+		   		#{item.materielBasicId},
+		   		#{item.storageBatchNo},
+		   		#{item.adjustBatchNo},
+		   		#{item.adjustType},
+		   		#{item.sourceOrderNo},
+		   		#{item.batchNo},
+		   		#{item.snNo},
+		   		#{item.imieNo},
+		   		#{item.adjustReason},
+		   		#{item.operatorId},
+		   		#{item.operatorName},
+		   		#{item.operateOn}
+        	)  
+    	</foreach>  
+ 	</insert>
+ 	
+ 	<sql id="where_queryPageCount">
+ 		WHERE  1=1
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t1.warehouseId=#{warehouseId}
+		</if>
+		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+			AND t1.warehouseLocationId=#{warehouseLocationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t1.materielBasicId=#{materielBasicId}
+		</if>
+		<if test="adjustBatchNo!=null and adjustBatchNo!=''">
+			AND t1.adjustBatchNo=#{adjustBatchNo}
+		</if>
+		<if test="warehouseCode!=null and warehouseCode!=''">
+			AND t2.warehouseCode=#{warehouseCode}
+		</if>
+		<if test="locationCode!=null and locationCode!=''">
+			AND t3.locationCode=#{locationCode}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			AND t1.batchNo=#{batchNo}
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			AND t1.snNo=#{snNo}
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			AND t1.imieNo=#{imieNo}
+		</if>
+		<if test="sourceOrderNo!=null and sourceOrderNo!=''">
+			AND t1.sourceOrderNo=#{sourceOrderNo}
+		</if>
+ 	</sql>
+ 	
+ 	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrackQuery" resultType="int">
+ 		SELECT
+			count(t1.id)
+		FROM
+			warehouse_commodity_track t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+    	INNER JOIN materiel_basic_info t4 on t1.materielBasicId=t4.id
+    	<include refid="where_queryPageCount"/>
+ 	</select>
+ 	
+ 	 	
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrackQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseCommodityTrackVO">
+ 		SELECT
+			t1.*,
+			DATE_FORMAT(t1.operateOn,'%Y-%m-%d %H:%i:%s')as operateOn_s,
+      		t4.materielName,
+      		t4.materielCode,
+      		t2.warehouseName,
+      		t3.locationName,
+      		CONCAT(t2.warehouseName,'-',t3.locationName) as ownLocation
+		FROM
+			warehouse_commodity_track t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+    	INNER JOIN materiel_basic_info t4 on t1.materielBasicId=t4.id
+    	<include refid="where_queryPageCount"/>
+    	order by t1.operateOn desc limit #{startIndex},#{endIndex}
+ 	</select>
+ 	
+</mapper>

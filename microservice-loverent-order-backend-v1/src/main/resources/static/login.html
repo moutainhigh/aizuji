@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="icon" href="image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class="login">
+	  <div class="login-wrapper">
+	    <div class="top-circle"></div>
+	    <div class="logo"></div>
+	    <div class="input-box">
+	      <div class="input-wapper">
+	        <input type='text' class='user' placeholder='用户名' v-model='userName'>
+	        <span class="icon-user"></span>
+	      </div>
+	      <div class="input-wapper">
+	        <input type='password' class='password' placeholder='密码' v-model='passWord'>
+	        <span class="icon-password"></span>
+	      </div>
+	    </div>
+	    <div class='tips' id='tips'></div>
+	    <div class="go-login">登录</div>
+	  </div>
+	</div>
+	<script src='js/jquery.min.js'></script>
+	<script src='js/common.js'></script>
+	<script src='js/bootstrap/bootstrap.min.js'></script>
+	<script src='js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script>
+		$(function(){
+			$('.go-login').click(function(){
+				if(!$('.user').val()){
+					$('#tips').text('用户名不能为空') 
+				}else if(!$('.password').val()){
+					$('#tips').text('用户名密码不能为空') 
+				}else{
+					var param= {"userName":$('.user').val(),"passWord":$('.password').val()};
+					common.ajax('/auth/login',param,function(data){
+	                	window.location.href="index.html";
+			        });
+				}
+			})
+		})
+	</script>
+</body>
+</html>

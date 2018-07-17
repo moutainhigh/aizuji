@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.order.server.dao.RentInvoiceDao">
+
+    <resultMap id="RentInvoiceMap" type="org.gz.order.common.entity.RentInvoice">
+          <result property="id" column="id"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="titleType" column="titleType"/>
+        <result property="title" column="title"/>
+        <result property="invoiceNumber" column="invoiceNumber"/>
+        <result property="content" column="content"/>
+        <result property="fee" column="fee"/>
+        <result property="feeTwo" column="feeTwo"/>
+        <result property="createOn" column="createOn"/>
+        <result property="invoiceType" column="invoiceType"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, rentRecordNo, titleType, title, invoiceNumber, content, fee, feeTwo, createOn, invoiceType
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.rentRecordNo, t.titleType, t.title, t.invoiceNumber, t.content, t.fee, t.feeTwo, t.createOn, t.invoiceType
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=titleType">
+                AND titleType = #{titleType}
+            </if>
+            <if test="null!=title and ''!=title">
+                AND title = #{title}
+            </if>
+            <if test="null!=invoiceNumber and ''!=invoiceNumber">
+                AND invoiceNumber = #{invoiceNumber}
+            </if>
+            <if test="null!=content and ''!=content">
+                AND content = #{content}
+            </if>
+            <if test="null!=fee">
+                AND fee = #{fee}
+            </if>
+            <if test="null!=feeTwo">
+                AND feeTwo = #{feeTwo}
+            </if>
+            <if test="null!=createOn and ''!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=invoiceType">
+                AND invoiceType = #{invoiceType}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentInvoiceMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_invoice
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentInvoiceMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_invoice
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_invoice (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=titleType">
+	                 titleType,
+	            </if>
+            	<if test="null!=title">
+	                 title,
+	            </if>
+            	<if test="null!=invoiceNumber">
+	                 invoiceNumber,
+	            </if>
+            	<if test="null!=content">
+	                 content,
+	            </if>
+            	<if test="null!=fee">
+	                 fee,
+	            </if>
+            	<if test="null!=feeTwo">
+	                 feeTwo,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=invoiceType">
+	                 invoiceType
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=titleType">
+                #{titleType},
+                </if>
+            	<if test="null!=title">
+                #{title},
+                </if>
+            	<if test="null!=invoiceNumber">
+                #{invoiceNumber},
+                </if>
+            	<if test="null!=content">
+                #{content},
+                </if>
+            	<if test="null!=fee">
+                #{fee},
+                </if>
+            	<if test="null!=feeTwo">
+                #{feeTwo},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=invoiceType">
+                #{invoiceType}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_invoice (
+                rentRecordNo,
+                titleType,
+                title,
+                invoiceNumber,
+                content,
+                fee,
+                feeTwo,
+                createOn,
+                invoiceType
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rentRecordNo},#{item.titleType},#{item.title},#{item.invoiceNumber},#{item.content},#{item.fee},#{item.feeTwo},#{item.createOn},#{item.invoiceType})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_invoice
+            <set>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.titleType">
+                	<![CDATA[ titleType = #{updateCloumn.titleType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.title">
+                	<![CDATA[ title = #{updateCloumn.title} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.invoiceNumber">
+                	<![CDATA[ invoiceNumber = #{updateCloumn.invoiceNumber} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.content">
+                	<![CDATA[ content = #{updateCloumn.content} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.fee">
+                	<![CDATA[ fee = #{updateCloumn.fee} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.feeTwo">
+                	<![CDATA[ feeTwo = #{updateCloumn.feeTwo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createOn">
+                	<![CDATA[ createOn = #{updateCloumn.createOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.invoiceType">
+                	<![CDATA[ invoiceType = #{updateCloumn.invoiceType} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.titleType">
+                	AND <![CDATA[ titleType = #{updateWhere.titleType} ]]>
+                </if>
+            	<if test="null!=updateWhere.title">
+                	AND <![CDATA[ title = #{updateWhere.title} ]]>
+                </if>
+            	<if test="null!=updateWhere.invoiceNumber">
+                	AND <![CDATA[ invoiceNumber = #{updateWhere.invoiceNumber} ]]>
+                </if>
+            	<if test="null!=updateWhere.content">
+                	AND <![CDATA[ content = #{updateWhere.content} ]]>
+                </if>
+            	<if test="null!=updateWhere.fee">
+                	AND <![CDATA[ fee = #{updateWhere.fee} ]]>
+                </if>
+            	<if test="null!=updateWhere.feeTwo">
+                	AND <![CDATA[ feeTwo = #{updateWhere.feeTwo} ]]>
+                </if>
+            	<if test="null!=updateWhere.createOn">
+                	AND <![CDATA[ createOn = #{updateWhere.createOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.invoiceType">
+                	AND <![CDATA[ invoiceType = #{updateWhere.invoiceType} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentInvoiceMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_invoice
+         <include refid="where" />
+    </select>
+   
+   
+</mapper>
+

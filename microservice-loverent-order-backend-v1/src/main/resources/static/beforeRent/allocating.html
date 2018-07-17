@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单配货管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='content before-order'>
+		<!-- 待付款 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>订单编号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" style = "width:200px;" placeholder="请输入订单编号" id='numberInput'>
+					</div>
+				</div>
+				<div class='button-box'>
+				<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+					<button type="button" class="btn btn-warning" id='search'>查询</button>
+				</div>
+			</div> 
+			<div class='height-srarch'>高级查询<span class='glyphicon  glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label for="firstname" class="col-sm-1 control-label" style="padding-top:0">
+						<select class="form-control" id="dtp_type" onchange="changeDtpType()">
+							<option value='apply'>申请时间</option>
+						    <option value='pay'>支付完成时间</option>
+						    <option value='sign'>签约时间</option>
+						</select>
+				    </label>
+				    <div class="col-sm-10">
+				    		<!-- 开始时间 -->
+				  		<div class='input-list clearfix' style="display:inline-block;width:430px;">
+							<!-- 开始时间 -->
+					    	<div class='time-list' style="float:left;width:180px">
+		      				 	<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input1">
+					    	</div>
+							<span class='time-split' style="float:left;margin:0px 10px;position:relative;top:8px">-</span>
+							<!-- 结束时间 -->
+							<div class='time-list' style="float:left;width:180px">
+							    <input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input2">
+							</div>
+						</div>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">用户姓名</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="userName" placeholder="请输入姓名">
+				    </div>
+				   
+				  </div>
+				   <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">身份证号</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="idCard" placeholder="请输入身份证号">
+				    </div>
+				  </div>
+				    <div class="form-group">
+				    	<label for="lastname" class="col-sm-1 control-label">商品类别</label>
+					    <div class="col-sm-10">
+					      	<div class="btn-group2">
+					      	</div>
+					    </div>
+				   </div>
+				   <div class="form-group">
+		   		    	<label for="lastname" class="col-sm-1 control-label">配货状态</label>
+		   			    <div class="col-sm-10">
+		   			      	<div class="btn-group3">
+		   			      	</div>
+		   			    </div>
+		   		   </div>
+				</form>
+			</div>
+			<div class='table-box  table-responsive'>
+	      		<table class="table" id='integrated-tab'>
+	      		</table>
+			</div>
+		</div>
+	</div>
+	<!-- 查看物流信息 -->
+	<div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">订单213212112物流信息</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="table-box margin-none" style="margin-top:30px">
+						<table class="table">
+							<thead>
+								<tr>
+									<th width='100'>运单号</th>
+									<th width='200'>下单时间</th>
+									<th>物流方向</th>
+									<th>物流信息</th>
+								</tr>
+							</thead>
+							<tbody id="mymodelbody">
+							</tbody>
+						</table>
+  		            </div>
+	            </div>
+	            <!-- <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div> -->
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	</div>
+	<!-- 查看物流信息 -->
+	<div class="modal fade" id="wlModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title">物流详情</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="table-box margin-none" style="margin-top:10px;" id="wltable">
+  		            </div>
+	            </div>
+	           <!--  <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div> -->
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script>
+	var searObj = {};
+	var statemap = {};
+	
+	//获取产品类别
+	allMaterielClassList();
+	
+	//后端租赁配货状态
+	backRentStates();
+	function backRentStates(){
+		common.ajax('/common/backRentStates',{},function(data){
+           	var _list = data;
+			var _arr = new Array();
+			_arr.push('<button type="button" class="btn btn-default" value="">全部</button>');
+			for(var i = 0;i < _list.length;i++){
+				if('7,8,9'.indexOf(_list[i].code)!=-1){
+					_arr.push('<button type="button" class="btn btn-default" value="'+_list[i].code+'">'+_list[i].message+'</button>');
+				}
+			}
+			$('.btn-group3').html(_arr.join(""));
+			
+			//后台租赁配货状态集合
+			for(var i = 0;i < _list.length;i++){
+				if('7,8,9'.indexOf(_list[i].code)!=-1){
+					statemap[_list[i].code]=_list[i].message;
+				}
+			}
+        });
+	}
+	
+	
+	/*
+	 * 操作项格式化
+	 */
+	function operateFormatter(value, row, index){
+		return [
+		    '<button type="button" class="updatestate btn btn-default  btn-sm" style="margin-right:15px;">更新配货状态</button>',
+		    '<button type="button" class="logistics btn btn-default  btn-sm" style="margin-right:15px;">查看物流信息</button>',
+/* 		    '<button type="button" class="terminationapply btn btn-default  btn-sm" style="margin-right:15px;">申请提前解约</button>', */
+		    '<button type="button" class="confirmreceive btn btn-default  btn-sm" style="margin-right:15px;">确认收货</button>'
+		].join('');
+	};
+	
+	/**
+	 * 操作项绑定事件
+	 */
+	window.operateEvents={
+	   'click .updatestate': function (e, value, row, index) {
+		    var _param = {};
+			_param.rentRecordNo = row.rentRecord.rentRecordNo;
+	 		common.promt("更新配货状态？",updatestate,_param)
+	   },
+	   'click .logistics': function (e, value, row, index) {
+		    var _param = {};
+			_param.id = row.rentRecord.id;
+			logisticsmodal(_param);
+	   },
+	   'click .terminationapply': function (e, value, row, index) {
+		    var _param = {};
+			_param.rentRecordNo = row.rentRecord.rentRecordNo;
+			common.promt("申请提前解约？",terminationapply,_param)
+	   },
+	   'click .confirmreceive': function (e, value, row, index) {
+		    var _param = {};
+			_param.rentRecordNo = row.rentRecord.rentRecordNo;
+			common.promt("确认收货？",confirmreceive,_param)
+	   }
+	};
+	var _logisticsdetail;  //发出物流
+	var __returnLogisticsdetail; //收回物流
+	//获取物流信息
+	function logisticsmodal(param){
+		_logisticsdetail=new Array();
+		__returnLogisticsdetail=new Array();
+		common.ajax('/distribute/logistics',param,function(data){
+			var _logistics=data.logistics;
+			var _returnLogistics=data.returnLogistics;
+			var _tr=new Array();
+			if(_logistics){
+				_tr.push('<tr>');
+				_tr.push('<td>'+_logistics[_logistics.length-1].mailNo+'</td>');
+				_tr.push('<td>'+_logistics[_logistics.length-1].acceptTime+'</td>');
+				_tr.push('<td>发出</td>');
+				_tr.push("<td><input type='button' class='btn' value='查看物流' onclick='logisticsdetail(1)'></td>");
+				_tr.push('</tr>');
+				_logisticsdetail.push("<div class='wl-title'><span>订单编号:"+data.rentRecord.rentRecordNo+" </span><span>运单编号:"+_logistics[0].mailNo+"</span></div>");
+				_logisticsdetail.push('<div class="wl-box">');
+				for(var i = 0;i < _logistics.length;i++){
+					_logisticsdetail.push('<div class="wl-list">');
+					_logisticsdetail.push("<span class='time'>"+_logistics[i].acceptTime+"</span><span class='text'>"+_logistics[i].remark+"</span>");
+					_logisticsdetail.push('</div>');
+				}
+				_logisticsdetail.push('</div>');
+			}
+			if(_returnLogistics){
+				_tr.push('<tr>');
+				_tr.push('<td>'+_returnLogistics[_logistics.length-1].mailNo+'</td>');
+				_tr.push('<td>'+_returnLogistics[_logistics.length-1].acceptTime+'</td>');
+				_tr.push('<td>收回</td>');
+				_tr.push("<td><input type='button' class='btn' value='查看物流' onclick='logisticsdetail(2)'></td>");
+				_tr.push('</tr>');
+				__returnLogisticsdetail.push("<div class='wl-title'><span>订单编号:"+data.rentRecord.rentRecordNo+" </span><span>运单编号:"+_returnLogistics[0].mailNo+"</span></div>");
+				__returnLogisticsdetail.push('<div class="wl-box">');
+				for(var i = 0;i < _logistics.length;i++){
+					__returnLogisticsdetail.push('<div class="wl-list">');
+					__returnLogisticsdetail.push("<span class='time'>"+_returnLogistics[i].acceptTime+"</span><span class='text'>"+_returnLogistics[i].remark+"</span>");
+					__returnLogisticsdetail.push('</div>');
+				}
+				__returnLogisticsdetail.push('</div>');
+			}
+			console.log(_tr.join(''));
+			$('#mymodelbody').html(_tr.join(''));
+			$("#myModalLabel").html('订单'+data.rentRecord.rentRecordNo+'物流信息');
+			$("#myModal").modal('show');
+		});
+	}
+	//物流详情
+	function logisticsdetail(type){
+		if(type&&type==1)
+			$("#wltable").html(_logisticsdetail.join(''));
+		else if(type&&type==2)
+			$("#wltable").html(__returnLogisticsdetail.join(''));
+		$("#wlModal").modal('show');
+	}
+	
+	/**
+	* 更新配货状态
+	*/
+	function updatestate(param){
+		common.ajax('/distribute/updatestate',param,function(data){
+			$('#integrated-tab').bootstrapTable('refresh');
+		});
+	}
+	/**
+	* 申请提前解约
+	*/
+	function terminationapply(param){
+		common.ajax('/distribute/terminationapply',param,function(data){
+			$('#integrated-tab').bootstrapTable('refresh');
+		}); 
+	}
+	/**
+	* 确认收货
+	*/
+	function confirmreceive(param){
+		common.ajax('/distribute/confirmreceive',param,function(data){
+			$('#integrated-tab').bootstrapTable('refresh');
+		});
+	}
+	
+	//加载列表数据
+	var _columns = [[
+	            {
+	            	  field: 'rentRecord.id',
+	  	              title: '订单Id',
+	  	              visible:false
+	            },
+	  			{
+	  	              field: 'rentRecord.rentRecordNo',
+	  	              title: '订单编号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.realName',
+	  	              title: '用户姓名'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.phoneNum',
+	  	              title: '手机号'
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.materielClassName',
+	  	              title: '商品类别'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.materielModelName',
+	  	              title: '商品型号'
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.materielSpecName',
+	  	              title: '商品规格',
+	  	              formatter:function(value, row, index){
+	 		              return value && value.replace(new RegExp(",","gm"),"&nbsp;&nbsp;");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseTerm',
+	  	              title: '租期',
+	  	              formatter:function(value, row, index){
+	 		              return value && (value+"个月");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseAmount',
+	  	              title: '月租金',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.applyTime',
+	  	              title: '申请时间',
+	  	              formatter:function(value, row, index){
+		 		          return value && new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.payTime',
+	  	              title: '支付完成时间',
+	  	              formatter:function(value, row, index){
+		 		          return value && new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+		 		      }
+	  	        },
+	  	      	{
+	  	              field: 'rentRecord.signTime',
+	  	              title: '签约时间',
+	  	              formatter:function(value, row, index){
+		 		          return value && new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.state',
+	  	              title: '配货状态',
+	  	              formatter:function(value, row, index){
+		 		          return statemap[value];
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.logisticsNo',
+	  	              title: '快递单号',
+	  	              formatter:function(value, row, index){
+		 		          return value||'空';
+		 		      }
+	  	        },
+		        {
+		              field: 'operate',
+		              title: '操作',
+		              align: 'center',
+		              events: operateEvents,
+		              formatter: operateFormatter
+		        }
+	 		]];
+	
+	
+	
+	
+	initData();
+	function initData(){
+    	common.tableInit().init("integrated-tab",'/integration/list',function (pageParam) {
+    		var temp={};
+    		if(searObj['rentRecord.rentRecordNo'])
+    			temp['rentRecord.rentRecordNo']=searObj['rentRecord.rentRecordNo'];
+    		else
+    			temp=searObj;
+    		temp.currPage=pageParam.pageNumber;
+    		temp.pageSize=pageParam.pageSize;
+    		temp.sortId=4;
+    		if(!searObj['rentRecord.state']){
+    			temp['recordStates[0]']=7;
+    			temp['recordStates[1]']=8;
+    			temp['recordStates[2]']=9;
+    		}else{
+    			temp['rentRecord.state']=searObj['rentRecord.state'];
+    		}
+    		return $.param(temp);
+		}
+    	,_columns);	
+    }
+	
+	//查询
+	$('#search').click(function(){
+		$('#integrated-tab').bootstrapTable('destroy');
+		initParams();
+		initData();
+	})
+	$('.height-srarch').click(function(){
+		$(this).find('span').toggleClass('active')
+		$('.form-box').slideToggle()
+	})
+	
+	// 查询方法以及table组件使用方法
+
+	//表格标题
+	$('.btn-group2,.btn-group3').delegate('.btn','click',function(){
+		$(this).toggleClass('btn-primary').siblings().removeClass('btn-primary')
+		if($(this).hasClass('btn-primary')){
+			//产品类别
+			if($(this).parent().attr('class') == 'btn-group2'){
+				searObj['rentRecordExtends.materielClassId']=$(this).val();
+			}
+			//订单状态
+			if($(this).parent().attr('class') == 'btn-group3'){
+				searObj['rentRecord.state']=$(this).val();
+			}
+		}else{
+			//产品类别
+			if($(this).parent().attr('class') == 'btn-group2'){
+				searObj['rentRecordExtends.materielClassId']='';
+			}
+			//订单状态
+			if($(this).parent().attr('class') == 'btn-group3'){
+				searObj['rentRecord.state']='';
+			}
+		}
+	})
+	
+	function changeDtpType(){
+		searObj.applyStartTime='';
+		searObj.applyEndTime='';
+		searObj.approvalStartTime='';
+		searObj.approvalEndTime='';
+		searObj.payStartTime='';
+		searObj.payEndTime='';
+	}
+	
+	function initParams(){
+		if($('#numberInput').val()){
+			searObj['rentRecord.rentRecordNo']=$('#numberInput').val();
+		}else{
+			searObj['rentRecord.rentRecordNo']='';
+		}
+		if($('#userName').val()){
+			searObj['rentRecordExtends.realName'] = $('#userName').val();
+		}else{
+			searObj['rentRecordExtends.realName'] = '';
+		}
+		if($('#idCard').val()){
+			if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test($('#idCard').val())){
+				common.error('身份证号码格式错误，请重新输入')
+			}else{ 
+				searObj['rentRecordExtends.idNo'] = $('#idCard').val();
+			}
+		}else{
+			searObj['rentRecordExtends.idNo'] ='';
+		} 
+		if(($('#dtp_input1').val() && !$('#dtp_input2').val()) || ($('#dtp_input2').val() && !$('#dtp_input1').val())){
+			common.error('请正确填写开始和结束时间');
+		}
+		if($('#dtp_input1').val()&&$('#dtp_input2').val()){
+			if($('#dtp_type').val()=='apply'){
+				searObj.applyStartTime=$('#dtp_input1').val();
+				searObj.applyEndTime=$('#dtp_input2').val();
+			}else if($('#dtp_type').val()=='approval'){
+				searObj.approvalStartTime=$('#dtp_input1').val();
+				searObj.approvalEndTime=$('#dtp_input2').val();
+			}else if($('#dtp_type').val()=='pay'){
+				searObj.payStartTime=$('#dtp_input1').val();
+				searObj.payEndTime=$('#dtp_input2').val();
+			}
+		} 
+	}
+	</script>
+</body>
+</html>

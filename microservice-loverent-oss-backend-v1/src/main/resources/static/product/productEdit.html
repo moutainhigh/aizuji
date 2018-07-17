@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增/编辑产品</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">产品管理</a></li>
+		  <li class="active"><span id="menuSpan"></span></li>
+		</ol>
+	</div>
+	<div class="content">
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">产品分类</label>
+		    <div class="col-sm-3">
+		      	<select class="form-control" id="materielClass">
+					  <option value="">请选择分类</option>
+					</select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">产品品牌</label>
+		    <div class="col-sm-3">
+				<select class="form-control" id="materielBrand">
+				  <option value="">请选择品牌</option>
+				</select>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		  	<label for="inputPassword3" class="col-sm-2 control-label">产品型号</label>
+		    <div class="col-sm-3">
+		      <select class="form-control" id="materielModel">
+					  <option value="">请选择型号</option>
+					</select>
+		    </div>
+		  </div>
+	    <div class="form-group">
+	    	<label for="inputPassword3" class="col-sm-2 control-label">产品规格</label>
+		    <div class="col-sm-3">
+		        <select class="form-control" id="materielSpec">
+					  <option value="">请选择规格</option>
+					</select>
+		    </div>
+	    </div>
+	    <div class="form-group">
+	    	<label for="inputPassword3" class="col-sm-2 control-label">产品成色:</label>
+		    <div class="col-sm-3">
+		        <select class="form-control" id="materielNewConfigSel">
+					  <option value="">请选择成色</option>
+					</select>
+		    </div>
+	    </div>
+	    <div class="form-group">
+	    	<label for="inputPassword3" class="col-sm-2 control-label">产品类型:</label>
+		    <div class="col-sm-3">
+		        <select class="form-control" id="productTypeSel">
+					  <option value='1'>租赁</option>
+					  <option value='2'>以租代购</option>
+					  <option value='3'>出售</option>
+				</select>
+		    </div>
+	    </div>
+	      <div class="form-group leaseDiv">
+		  	<label for="inputPassword3" class="col-sm-2 control-label">产品租期</label>
+		    <div class="col-sm-3">
+		      <select class="form-control lease" id="leaseTerm">
+		      	</select>
+		    </div>
+		    <a class="col-sm-2 control-label" id="configDepreciateAmout">配置折旧费</a>
+		  </div> 
+		  <div class="form-group leaseDiv">
+		  	<label for="inputPassword3" class="col-sm-2 control-label">产品月租金</label>
+		    <div class="col-sm-3">
+		     	<input type="text" class="form-control" id="leaseAmount">
+		    </div>
+		  </div>
+			<div class="form-group leaseDiv">
+				<label for="inputPassword3" class="col-sm-2 control-label">产品一次性保险费</label>
+			  <div class="col-sm-3">
+			   	<input type="text" class="form-control" id="premium">
+			  </div>
+			</div>
+			<div class="form-group leaseDiv">
+				<label for="inputPassword3" class="col-sm-2 control-label">产品溢价</label>
+			  <div class="col-sm-3">
+			   	<input type="text" class="form-control" id="floatAmount">
+			  </div>
+			</div>	
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-2 control-label">产品签约价值</label>
+			  <div class="col-sm-3">
+			   	<input type="text" class="form-control" id="signContractAmount">
+			  </div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword3" class="col-sm-2 control-label">产品页显示价值</label>
+			  <div class="col-sm-3">
+			   	<input type="text" class="form-control" id="showAmount">
+			  </div>
+			</div>
+			<div class="form-group leaseDiv">
+				<label for="inputPassword3" class="col-sm-2 control-label">产品所需芝麻信用值</label>
+			  <div class="col-sm-3">
+			   	<input type="text" class="form-control" id="sesameCredit">
+			  </div>
+			</div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-3">
+		      <button type="button" class="btn btn-warning" id="back">返回</button>
+		      <button type="button" class="btn btn-primary" id="addOrUpdatePdt">确定</button>
+		    </div>
+		  </div>
+		</form>
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">提示</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='table-box  table-responsive'>
+						<table id='integrated-tab'>
+
+						</table>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" id="updateDepreciateAmout">提交更改</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/materiel/materiel.js'></script>
+	<script src='../js/product/addOrUpdateProduct.js'></script>
+</body>
+</html>

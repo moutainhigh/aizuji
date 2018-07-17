@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.purchase.PurchaseApplyOrderDetailMapper">
+    
+    <!-- 批量插入 -->
+ 	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+ 		insert into purchase_order_detail(
+			 purchaseApplyOrderId,
+  			 materielBasicId,
+			 sortOrder,
+			 suggestQuantity,
+			 applyQuantity,
+			 approvedQuantity,
+			 unitPrice
+		)
+		values  
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(
+	        	#{item.purchaseApplyOrderId},
+	        	#{item.materielBasicId},
+	        	#{item.sortOrder},
+	        	#{item.suggestQuantity},
+	        	#{item.applyQuantity},
+	        	#{item.approvedQuantity},
+	        	#{item.unitPrice}
+        	)  
+    	</foreach>  
+ 	</insert>
+ 	
+ 	<select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderDetail">
+ 		select * from purchase_order_detail where id=#{id}
+ 	</select>
+ 	
+ 	
+ 	<!-- 根据采购申请主键获取采购物料清单 -->
+ 	<select id="queryByPurchaseApplyOrderId" resultType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderDetailVO">
+ 		SELECT 
+			t1.*,
+			t3.materielName,
+			t3.materielCode,
+			t4.materielModelName,
+			(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t3.specBatchNo)as specValues,
+			t5.unitName
+		FROM purchase_order_detail t1 
+		INNER JOIN purchase_order t2 on t1.purchaseApplyOrderId=t2.id
+		INNER JOIN materiel_basic_info t3 on t1.materielBasicId=t3.id 
+		INNER JOIN materiel_model t4 on t3.materielModelId=t4.id
+		INNER JOIN materiel_unit t5 on t3.materielUnitId=t5.id
+ 		where t1.purchaseApplyOrderId=#{purchaseApplyOrderId}
+ 	</select>
+ 	
+ 	<select id="queryCountByIDList" parameterType="java.util.List" resultType="int">
+ 		select count(1) from purchase_order_detail where id in
+ 		<foreach item="item" collection="list" open="(" close=")" separator=",">
+ 			#{item}
+ 		</foreach>
+ 	</select>
+ 	
+ 	<!-- 更新审批数量 -->	
+ 	<update id="updateApprovedQuantity" parameterType="org.gz.warehouse.entity.purchase.PurchaseApprovedOrderDetailVO">
+ 		update purchase_order_detail set approvedQuantity=#{approvedQuantity} where id=#{id}
+ 	</update>
+ 	
+ 	<!-- 更新收货数量，差异数量 -->	
+ 	<update id="updateRecvQuantity" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderDetail">
+ 		update purchase_order_detail set realRecvQuantity=#{realRecvQuantity},diffQuantity=#{diffQuantity} where id=#{id}
+ 	</update>
+</mapper>

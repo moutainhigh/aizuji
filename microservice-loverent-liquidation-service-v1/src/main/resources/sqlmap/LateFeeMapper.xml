@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.LateFeeMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.LateFeeEntity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="orderSN" jdbcType="VARCHAR" property="orderSN" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="repayAmount" jdbcType="DECIMAL" property="repayAmount" />
+    <result column="currentBalance" jdbcType="DECIMAL" property="currentBalance" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="billDate" jdbcType="TIMESTAMP" property="billDate" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="updateOn" jdbcType="TIMESTAMP" property="updateOn" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, orderSN, amount, repayAmount, currentBalance,billDate, remark, createOn, updateOn,updateBy
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		<if test="orderSN != null">
+  			 AND orderSN = #{orderSN}
+  		</if>
+  		<if test="userId != null">
+  			 AND userId = #{userId}
+  		</if>
+  		<if test="billDate != null">
+  			 AND billDate = #{billDate}
+  		</if>
+  	</where>
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM late_fee
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCondition" resultMap="BaseResultMap">
+  	SELECT 
+    <include refid="Base_Column_List" />
+    FROM 
+    	late_fee
+    <include refid="where_clause" />
+  </select>
+  
+  <insert id="insert" parameterType="org.gz.liquidation.entity.LateFeeEntity">
+    INSERT INTO late_fee (id, userId, orderSN, 
+      amount, repayAmount, currentBalance, 
+      remark, createOn, updateOn,updateBy
+      )
+    VALUES (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{orderSN,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{repayAmount,jdbcType=DECIMAL}, #{currentBalance,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createOn,jdbcType=TIMESTAMP}, #{updateOn,jdbcType=TIMESTAMP},#{updateBy,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.LateFeeEntity">
+    INSERT INTO late_fee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="repayAmount != null">
+        repayAmount,
+      </if>
+      <if test="currentBalance != null">
+        currentBalance,
+      </if>
+      <if test="billDate != null">
+        billDate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+      <if test="updateOn != null">
+        updateOn,
+      </if>
+      <if test="updateBy != null">
+        updateBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayAmount != null">
+        #{repayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentBalance != null">
+        #{currentBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.liquidation.entity.LateFeeEntity">
+    UPDATE late_fee
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSN != null">
+        orderSN = #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = amount + #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="repayAmount != null">
+        repayAmount = repayAmount + #{repayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="currentBalance != null">
+        currentBalance = amount - repayAmount,
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        updateOn = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.liquidation.entity.LateFeeEntity">
+    UPDATE late_fee
+    set userId = #{userId,jdbcType=BIGINT},
+      orderSN = #{orderSN,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      repayAmount = #{repayAmount,jdbcType=DECIMAL},
+      currentBalance = #{currentBalance,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      createOn = #{createOn,jdbcType=TIMESTAMP},
+      updateOn = #{updateOn,jdbcType=TIMESTAMP}
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="batchInsert" parameterType="list">
+  	 INSERT INTO late_fee 
+	  	 (
+	  	 	userId, 
+	  	 	orderSN, 
+	      	amount, 
+	      	repayAmount, 
+	      	currentBalance, 
+	      	remark,
+	      	createOn, 
+	      	updateOn,
+	      	updateBy
+	      )
+	     VALUES
+  		<foreach collection="list" item="item" index="index" separator=",">
+      		 (
+	      		 #{item.userId,jdbcType=BIGINT},
+	      		 #{item.orderSN,jdbcType=VARCHAR},
+	      		 #{item.amount,jdbcType=DECIMAL},
+			     #{item.repayAmount,jdbcType=DECIMAL},
+			     #{item.currentBalance,jdbcType=DECIMAL},
+			     #{item.remark,jdbcType=VARCHAR},
+			     #{item.createOn,jdbcType=TIMESTAMP},
+			     #{item.updateOn,jdbcType=TIMESTAMP},
+			     #{item.updateBy,jdbcType=BIGINT}
+		     )
+  		</foreach>
+  </insert>
+  
+  <select id="selectListByOrderSNs" resultMap="BaseResultMap">
+  	SELECT 
+  		 <include refid="Base_Column_List" />
+  	FROM
+  		late_fee
+  	WHERE
+  	 	enableFlag = 1
+  	 	currentBalance > 0
+  	 AND orderSN IN
+  	<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+          #{item}
+    </foreach>
+  </select>
+  
+  <update id="batchUpdate">
+    	UPDATE 
+    		late_fee
+        <trim prefix="set" suffixOverrides=",">  
+	        <trim prefix="amount =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.amount!=null">  
+	                    when id=#{item.id} then #{item.amount}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	         <trim prefix="repayAmount = case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.repayAmount!=null">  
+	                    when id=#{item.id} then repayAmount + #{item.repayAmount}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="currentBalance = case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.currentBalance!=null">  
+	                    when id=#{item.id} then #{item.currentBalance}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="updateOn =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.updateOn!=null">  
+	                    when id=#{item.id} then #{item.updateOn}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	        <trim prefix="updateBy =case" suffix="end,">  
+	            <foreach collection="list" item="item">  
+	                <if test="item.updateBy !=null">  
+	                    when id=#{item.id} then #{item.updateBy}  
+	                </if>  
+	            </foreach>  
+	        </trim>  
+	       
+    	</trim> 
+    	WHERE
+    		id in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.id}
+        	</foreach>
+    </update>
+    
+    <update id="batchUpdateEnableFlag">
+    	UPDATE 
+    		late_fee
+    	SET
+    		enableFlag = 0
+    	WHERE
+    		orderSN in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item.orderSN}
+        	</foreach>
+    </update>
+    
+    <select id="batchQueryIsExist" resultMap="BaseResultMap">
+    	SELECT 
+    		orderSN,
+    		userId 
+    	FROM 
+    		late_fee
+    	WHERE
+    		orderSN in
+    		 <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item}
+        	</foreach>
+    </select>
+    <!-- 查询未还滞纳金 -->
+    <select id="lateFeePayable" resultType="BigDecimal">
+    	SELECT 
+    		SUM(currentBalance)
+    	FROM
+    		late_fee
+    	WHERE
+    		orderSN = #{orderSN}
+    </select>
+    <select id="selectLateFeeInfo" resultMap="BaseResultMap">
+    	SELECT 
+    		IFNULL(SUM(currentBalance), 0)   currentBalance,
+    		IFNULL(SUM(repayAmount), 0)	  repayAmount
+    	FROM
+    		late_fee
+    	WHERE
+    		orderSN = #{orderSN}
+    </select>
+    
+     <select id="selectUnsettledList" resultMap="BaseResultMap">
+	  	SELECT 
+	    <include refid="Base_Column_List" />
+	    FROM 
+	    	late_fee
+	    WHERE 
+	    	orderSN = #{orderSN}
+	    	AND currentBalance > 0
+	    ORDER BY billDate
+    </select>
+</mapper>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单管理首页</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">订单管理</a></li>
+		  <li class="active">订单管理首页</li>
+		</ol>
+	</div>
+	<ul class="order-tab">
+	  <li class="active"><a href="./rent.html" target="sIframe">租赁</a></li>
+	  <li><a href="./sale.html" target="sIframe">售卖</a></li>
+	</ul>
+	<iframe src="./rent.html" frameborder="0" name='sIframe' class='iframe' id='sIframe' style="width:100%;height:100%"></iframe>
+	<script src='../js/jquery.min.js'></script>
+	<script>
+	$('.order-tab li').click(function(){
+	      $(this).addClass('active').siblings().removeClass('active')
+	      var index = $(this).index()
+	      $('.content-list').hide().eq(index).show()
+	    })
+	</script>
+</body>
+</html>

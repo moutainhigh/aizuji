@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.RepaymentStatisticsMapper">
+  <sql id="Base_Column_List">
+    id, userId,orderSN, performanceCount, breachCount, createOn, updateOn
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="RepaymentStatistics">
+    select 
+    <include refid="Base_Column_List" />
+    from repayment_satistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectOne" resultType="RepaymentStatistics">
+    select 
+    <include refid="Base_Column_List" />
+    from repayment_satistics
+    <include refid="where_clause"></include>
+  </select>
+  <sql id="where_clause">
+  	<where>
+      	  <if test="orderSN != null">
+        	AND orderSN = #{orderSN}
+      	  </if>
+      	  <if test="userId != null">
+        	AND userId = #{userId}
+      	  </if>
+  	</where>
+  </sql>
+  <insert id="insertSelective" parameterType="RepaymentStatistics">
+    insert into repayment_satistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="performanceCount != null">
+        performanceCount,
+      </if>
+      <if test="breachCount != null">
+        breachCount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceCount != null">
+        #{performanceCount,jdbcType=INTEGER},
+      </if>
+      <if test="breachCount != null">
+        #{breachCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+     ON DUPLICATE KEY UPDATE 
+     <trim suffixOverrides=",">
+	     <if test="performanceCount != null">
+	     	performanceCount = performanceCount +1 ,
+	     </if>
+	     <if test="breachCount != null">
+	     	breachCount = breachCount+1
+	     </if>
+     </trim>
+     
+  </insert>
+  <insert id="insertPerformanceCountBatch">
+  	INSERT INTO repayment_satistics
+  		(
+  			userId, 
+  			orderSN, 
+  			performanceCount
+  		)
+  	 VALUES
+  	 <foreach collection="list" item="item" index="index" separator=",">
+            (
+            	#{item.userId},
+            	#{item.orderSN},
+            	#{item.performanceCount}
+            )
+        </foreach>
+      ON DUPLICATE KEY UPDATE performanceCount = performanceCount +1 
+  </insert>
+  <insert id="insertBreachCountBatch">
+  	INSERT INTO repayment_satistics
+  		(
+  			userId, 
+  			orderSN, 
+  			breachCount
+  		)
+  	 VALUES
+  	 <foreach collection="list" item="item" index="index" separator=",">
+            (
+            	#{item.userId},
+            	#{item.orderSN},
+            	#{item.breachCount}
+            )
+        </foreach>
+      ON DUPLICATE KEY UPDATE breachCount = breachCount+1
+  </insert>
+  <select id="queryList" parameterType="java.util.List" resultType="RepaymentStatistics">
+     	SELECT 
+     		<include refid="Base_Column_List"></include>
+     	FROM
+     		repayment_satistics
+     	WHERE orderSN in 
+     		<foreach collection="list" item="item" separator="," open="(" close=")">
+     			#{item}
+     		</foreach>	
+     </select>
+</mapper>

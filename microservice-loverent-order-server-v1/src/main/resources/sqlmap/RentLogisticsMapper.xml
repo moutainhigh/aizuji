@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.order.server.dao.RentLogisticsDao">
+
+    <resultMap id="RentLogisticsMap" type="org.gz.order.common.entity.RentLogistics">
+        <result property="id" column="id"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="createBy" column="createBy"/>
+        <result property="createOn" column="createOn"/>
+        <result property="createMan" column="createMan"/>
+        <result property="logisticsNo" column="logisticsNo"/>
+        <result property="businessNo" column="businessNo"/>
+        <result property="state" column="state"/>
+        <result property="type" column="type"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, rentRecordNo, createBy, createOn, createMan, logisticsNo, businessNo, state, type
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.rentRecordNo, t.createBy, t.createOn, t.createMan, t.logisticsNo, t.businessNo, t.state, t.type
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=createBy">
+                AND createBy = #{createBy}
+            </if>
+            <if test="null!=createOn and ''!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=createMan and ''!=createMan">
+                AND createMan = #{createMan}
+            </if>
+            <if test="null!=logisticsNo and ''!=logisticsNo">
+                AND logisticsNo = #{logisticsNo}
+            </if>
+            <if test="null!=businessNo and ''!=businessNo">
+                AND businessNo = #{businessNo}
+            </if>
+            <if test="null!=state">
+                AND state = #{state}
+            </if>
+            <if test="null!=type">
+                AND type = #{type}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentLogisticsMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_logistics
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentLogisticsMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_logistics
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_logistics (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=createBy">
+	                 createBy,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=createMan">
+	                 createMan,
+	            </if>
+            	<if test="null!=logisticsNo">
+	                 logisticsNo,
+	            </if>
+            	<if test="null!=businessNo">
+	                 businessNo,
+	            </if>
+            	<if test="null!=state">
+	                 state,
+	            </if>
+            	<if test="null!=type">
+	                 type
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=createBy">
+                #{createBy},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=createMan">
+                #{createMan},
+                </if>
+            	<if test="null!=logisticsNo">
+                #{logisticsNo},
+                </if>
+            	<if test="null!=businessNo">
+                #{businessNo},
+                </if>
+            	<if test="null!=state">
+                #{state},
+                </if>
+            	<if test="null!=type">
+                #{type}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_logistics (
+                rentRecordNo,
+                createBy,
+                createOn,
+                createMan,
+                logisticsNo,
+                businessNo,
+                state,
+                type
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rentRecordNo},#{item.createBy},#{item.createOn},#{item.createMan},#{item.logisticsNo},#{item.businessNo},#{item.state},#{item.type})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_logistics
+            <set>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createBy">
+                	<![CDATA[ createBy = #{updateCloumn.createBy} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createOn">
+                	<![CDATA[ createOn = #{updateCloumn.createOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createMan">
+                	<![CDATA[ createMan = #{updateCloumn.createMan} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.logisticsNo">
+                	<![CDATA[ logisticsNo = #{updateCloumn.logisticsNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.businessNo">
+                	<![CDATA[ businessNo = #{updateCloumn.businessNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.state">
+                	<![CDATA[ state = #{updateCloumn.state} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.type">
+                	<![CDATA[ type = #{updateCloumn.type} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.createBy">
+                	AND <![CDATA[ createBy = #{updateWhere.createBy} ]]>
+                </if>
+            	<if test="null!=updateWhere.createOn">
+                	AND <![CDATA[ createOn = #{updateWhere.createOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.createMan">
+                	AND <![CDATA[ createMan = #{updateWhere.createMan} ]]>
+                </if>
+            	<if test="null!=updateWhere.logisticsNo">
+                	AND <![CDATA[ logisticsNo = #{updateWhere.logisticsNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.businessNo">
+                	AND <![CDATA[ businessNo = #{updateWhere.businessNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.state">
+                	AND <![CDATA[ state = #{updateWhere.state} ]]>
+                </if>
+            	<if test="null!=updateWhere.type">
+                	AND <![CDATA[ type = #{updateWhere.type} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentLogisticsMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_logistics
+         <include refid="where" />
+    </select>
+   
+</mapper>
+

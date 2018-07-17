@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielClassMapper">
+ 	
+ 	<!-- 查询所有分类 -->
+ 	<select id="queryAllMaterielClassList"  resultType="org.gz.warehouse.entity.MaterielClass">
+ 		select * from materiel_class order by typeLevel
+ 	</select>
+ 	
+ 	<!-- 插入数据 -->
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.MaterielClass">
+		insert into materiel_class(
+			typeName,
+			typeCode,
+			typeLevel,
+			sortOrder,
+			parentId
+		)values(
+			#{typeName},
+			#{typeCode},
+			#{typeLevel},
+			#{sortOrder},
+			#{parentId}
+		)
+ 	</insert>
+ 	
+ 	<!-- 更新数据 -->
+	<update id="update" parameterType="org.gz.warehouse.entity.MaterielClass">
+		update materiel_class set 
+			typeName=#{typeName},
+			typeCode=#{typeCode},
+			typeLevel=#{typeLevel},
+			sortOrder=#{sortOrder},
+			parentId=#{parentId}
+		where id=#{id}
+	</update>
+	
+	<!-- 批量删除 -->
+	<delete id="deleteByIds" parameterType="list">
+		delete from materiel_class where id in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</delete>
+
+	<!-- 查询使用数量 -->
+	<select id="queryUsedCount" parameterType="list" resultType="int">
+		select SUM(t.count) FROM 
+		(
+			select count(1) as count from materiel_basic_info mbi INNER JOIN materiel_class mc on mbi.materielClassId=mc.id 
+			where mbi.materielClassId in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+            	#{item}
+        	</foreach>
+			UNION
+			select count(1) as count FROM materiel_class_brand mcb INNER JOIN materiel_class mc on mcb.materielClassId=mc.id 
+			where mcb.materielBrandId in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+            	#{item}
+        	</foreach>
+		)t 
+	</select>
+	
+	<!-- 查询详情 -->
+	<select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.MaterielClass">
+		select * from materiel_class where id=#{id}
+	</select>
+
+	<sql id="where_queryPageCount">
+		where 1=1 
+		<if test="id!=null and id>0">
+			and id=#{id}
+		</if>
+		<if test="typeName!=null and typeName!=''">
+			and typeName like CONCAT('%',#{typeName},'%')
+		</if>
+		<if test="typeCode!=null and typeCode!=''">
+			and typeCode like CONCAT('%',#{typeCode},'%')
+		</if>
+		<if test="typeLevel!=null and typeLevel>0">
+			and typeLevel=#{typeLevel}
+		</if>
+		<if test="parentId!=null and parentId>0">
+			and parentId=#{parentId}
+		</if>
+	</sql>
+	
+	<!-- 分页查询 -->
+	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.MaterielClassQuery" resultType="int">
+		select count(1) from materiel_class <include refid="where_queryPageCount"/>
+	</select>
+	
+	<select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielClassQuery" resultType="org.gz.warehouse.entity.MaterielClass">
+		select * from materiel_class <include refid="where_queryPageCount"/> limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryUniqueCount" parameterType="org.gz.warehouse.entity.MaterielClassQuery" resultType="int">
+		select count(1) from materiel_class 
+		where parentId=#{parentId} and typeName=#{typeName}
+		<if test="id!=null and id>0">
+			and id!=#{id}
+		</if>
+	</select>
+	
+	<select id="queryChildList"  resultType="org.gz.warehouse.entity.MaterielClass">
+		select * from materiel_class where parentId=#{parentId} order by sortOrder
+	</select>
+	
+	<select id="getNodeById" resultType="org.gz.common.constants.ZTreeSimpleNode">
+		SELECT id as id,typeName as `name`, parentId as pId FROM materiel_class where id=#{id}
+	</select>
+	
+	<select id="getChildrenByParentId" resultType="org.gz.common.constants.ZTreeSimpleNode">
+		SELECT id as id,typeName as `name`, parentId as pId FROM materiel_class where parentId=#{parentId}
+	</select>
+
+
+</mapper>

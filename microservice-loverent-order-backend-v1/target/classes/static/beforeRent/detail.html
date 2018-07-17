@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li>订单管理</li>
+		  <li onclick="javascript:history.back()">订单管理首页</li>
+		  <li class="active">订单详情</li>
+		</ol>
+
+	</div>
+	<ul class="order-tab">
+	  <li id="userInfo_li">个人信息</li>
+	  <li id="orderInfo_li">订单信息</li>
+	  <li id="creditRecord_li">信用记录</li>
+	  <li id="auditRecord_li">审核记录</li>
+	  <li id="addressList_li">通讯录</li>
+	</ul>
+	<div class='content order-check'>
+		<div>
+			<!-- 个人信息 -->
+			<div class='tab-content'>
+				<button class='btn btn-sm btn-default' data-toggle="modal" data-target="#addUserInfo">补充个人信息</button>
+				<span class='approve-text' id="userInfo_realnameCertState">已实名认证</span>
+				<div class='detail-info user-info clearfix'>
+					<div class="sm-title">个人信息</div>
+					<ul class='clearfix'>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">姓名:</div>
+								<div class="text" id="userInfo_userName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">出生日期:</div>
+								<div class="text" id="userInfo_birthday"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">婚姻状况:</div>
+								<div class="text" id="userInfo_marriage"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">电子邮箱:</div>
+								<div class="text" id="userInfo_email"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">合同:</div>
+								<div class="text" id="userInfo_hetong"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">性别:</div>
+								<div class="text" id="userInfo_sex"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">身份证:</div>
+								<div class="text" id="userInfo_idNo"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">教育程度:</div>
+								<div class="text" id="userInfo_level"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">支付宝账号:</div>
+								<div class="text" id="userInfo_zhifubao"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">手机号:</div>
+								<div class="text" id="userInfo_mobile"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">身份证有效期:</div>
+								<div class="text" id="userInfo_IdEffectiveTime"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">户籍详细地址:</div>
+								<div class="text" id="userInfo_residenceAddress"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">用户来源:</div>
+								<div class="text" id="userInfo_resource"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">年龄:</div>
+								<div class="text" id="userInfo_ages"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">签发机关:</div>
+								<div class="text" id="userInfo_issuingAuthority"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">手机号使用时长:</div>
+								<div class="text" id="userInfo_phoneUse"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">芝麻信用分:</div>
+								<div class="text" id="userInfo_zhimaScore"></div>
+							</div>
+						</li>
+					</ul>
+					<div class="sm-title">单位/学校信息</div>
+					<ul class='clearfix'>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">行业:</div>
+								<div class="text" id="userInfo_industry"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">职务:</div>
+								<div class="text" id="userInfo_post"></div>
+							</div>
+							<!-- <div class='info-box'>
+								<div class="title">学校名称:</div>
+								<div class="text" id="userInfo_schoolname"></div>
+							</div> -->
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">职业:</div>
+								<div class="text" id="userInfo_occupation"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">联系电话:</div>
+								<div class="text" id="userInfo_contactNumber"></div>
+							</div>
+							<!-- <div class='info-box'>
+								<div class="title">月生活费:</div>
+								<div class="text" id="userInfo_livingMoney"></div>
+							</div> -->
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">单位/学校名称:</div>
+								<div class="text" id="userInfo_company"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">现单位/学校地址:</div>
+								<div class="text" id="userInfo_unitAddress"></div>
+							</div>
+							<!-- <div class='info-box'>
+								<div class="title">学校地址:</div>
+								<div class="text" id="userInfo_schoolAddress"></div>
+							</div> -->
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">入职/入学时间:</div>
+								<div class="text" id="userInfo_entryTime"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">工作收入/月生活费:</div>
+								<div class="text" id="userInfo_workIncome"></div>
+							</div>
+						</li>
+					</ul>
+					<div class="sm-title">贷款信息</div>
+					<ul class='clearfix'>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">有无贷款:</div>
+								<div class="text" id="userInfo_loanRecord"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">贷款金额:</div>
+								<div class="text" id="userInfo_loanMoney"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class='info-box'>
+								<div class="title">月还款:</div>
+								<div class="text" id="userInfo_repaymentMoney"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class='user-img-box'>
+					<ul class='clearfix'>
+						<li style="width: 33.3%;margin-left:0px">
+							<img name="image" id="userInfo_cardFaceUrl" width="100%" height="auto" src="../image/default.png" alt="">
+							<p>正面照</p>
+						</li>
+						<li style="width: 33.3%;margin-left:0px">
+							<img name="image" id="userInfo_cardBackUrl" width="100%" height="auto" src="../image/default.png" alt="">
+							<p>反面照</p>
+						</li>
+						<li style="width: 33.3%;margin-left:0px">
+							<img name="image" id="userInfo_faceAuthUrl" width="100%" height="auto" src="../image/default.png" alt="">
+							<p>认证视频</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 订单信息 -->
+			<div class='tab-content'>
+				<button class='btn btn-default pay' style="display:none">完成支付</button>
+				<button class='btn btn-default cancel' style="display:none">取消订单</button>
+				<button class='btn btn-default signnotice' style="display:none">下发签约通知</button>
+				<button class='btn btn-default confirmreceive' style="display:none">确认收货</button>
+				<div class='header-title'>订单号：<span id="orderInfo_orderNo"></span></div>
+				<div class='header-title'>订单状态：<span id="orderInfo_orderState"></span><span id="orderInfo_hetong"></span></div>
+				<div class='detail-info clearfix'>
+					<ul class='clearfix'>
+						<li class='info-list'>
+							<div class="header">用户信息</div>
+							<div class='info-box'>
+								<div class="title">用户姓名:</div>
+								<div class="text" id="orderInfo_userName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">手机号:</div>
+								<div class="text" id="orderInfo_mobile"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">身份证号码:</div>
+								<div class="text" id="orderInfo_IdNo"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">配送地址:</div>
+								<div class="text" id="orderInfo_address"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">紧急联系人:</div>
+								<div class="text" id="orderInfo_emergencyContact"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">紧急联系人电话:</div>
+								<div class="text" id="orderInfo_emergencyContactPhone"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">申请时GPS定位:</div>
+								<div class="text" id="orderInfo_applyLngLat"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">申请时手机型号:</div>
+								<div class="text" id="orderInfo_applyModel"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">签约时GPS定位:</div>
+								<div class="text" id="orderInfo_signLngLat"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">签约时手机型号:</div>
+								<div class="text" id="orderInfo_signModel"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class="header">租赁信息</div>
+							<div class='info-box'>
+								<div class="title">租期:</div>
+								<div class="text" id="orderInfo_leaseTerm"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">租金:</div>
+								<div class="text" id="orderInfo_leaseAmount"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">订单申请时间:</div>
+								<div class="text" id="orderInfo_applyTime"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">保险费用:</div>
+								<div class="text" id="orderInfo_premium"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">签约价值:</div>
+								<div class="text" id="orderInfo_signContractAmount"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">溢价费用:</div>
+								<div class="text" id="orderInfo_floatAmount"></div>
+							</div>
+						</li>
+						<li class='info-list'>
+							<div class="header">商品信息</div>
+							<div class='info-box'>
+								<div class="title">所属分类:</div>
+								<div class="text" id="orderInfo_classAndBrandName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品型号:</div>
+								<div class="text" id="orderInfo_materielModelName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品规格:</div>
+								<div class="text" id="orderInfo_materielSpecName"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品SN编码:</div>
+								<div class="text" id="orderInfo_sn"></div>
+							</div>
+							<div class='info-box'>
+								<div class="title">产品IMIE编码:</div>
+								<div class="text" id="orderInfo_imei"></div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="table-box  table-responsive">
+					<div class="sm-title">订单物流信息</div>
+		      		<table class="table" id="logistics_tab">
+		      		</table>
+				</div>
+				<div class="table-box  table-responsive" style="margin-top:20px">
+					<div class="sm-title">订单流程信息</div>
+		      		<table class="table" id="rentState_tab">
+		      		</table>
+				</div>
+			</div>
+			<!-- 信用记录 -->
+			<div class='tab-content'>
+				<div class='header-title'>历史订单记录</div>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table">
+		      			<tbody>
+							<tr>
+								<td>申请次数：</td>
+								<td id="creditRecord_apply_count"></td>
+								<td>通过次数：</td>
+								<td id="creditRecord_pass_count"></td>
+								<td>拒绝次数：</td>
+								<td id="creditRecord_refusal_count"></td>
+								<td>回收次数：</td>
+								<td id="creditRecord_recover_count"></td>
+								<td>买断次数：</td>
+								<td id="creditRecord_buyOut_count"></td>
+								<td>提前解约次数：</td>
+								<td id="creditRecord_rescind_contract_count"></td>
+								<td>进行中：</td>
+								<td id="creditRecord_coming_count"></td>
+							</tr>
+		      			</tbody>
+		      		</table>
+				</div>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table" id="creditRecord_tab"></table>
+				</div>
+			</div>
+			<!-- 审核记录 -->
+			<div class='tab-content'>
+				<!-- 审核记录 -->
+				<div class='header-title' style="margin-top:20px">审核记录</div>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table" id="currAuditRecord_tab"></table>
+				</div>
+				<div class='btn-box'>
+					<button class='btn btn-default' id="passBtn" data-toggle="modal" data-target="#checkPass">审批通过</button>
+					<button class='btn btn-default' id="refuseBtn" data-toggle="modal" data-target="#checkrefuse">审批拒绝</button>
+				</div>
+				<!-- 电核记录 -->
+				<div class='header-title' style="margin-top:20px">电核信息</div>
+				<button class='btn btn-default' data-toggle="modal" id="addPhoneAuditRecord">新增电核记录</button>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table" id="phone_audit_tab"></table>
+				</div>
+				<!-- 历史订单审核记录 -->
+				<div class='header-title' style="margin-top:20px">历史订单审核记录</div>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table" id="auditRecord_tab"></table>
+				</div>
+			</div>
+		</div>
+			<!-- 通讯录 -->
+			<div class='tab-content'>
+				<div class='header-title'>通讯录</div>
+				<div class="table-box  table-responsive" style="height:auto;margin-top:20px;">
+		      		<table class="table" id="contact_tab">
+		      		</table>
+				</div>
+			</div>
+		</div>
+	<!-- 弹窗部分 -->
+	<!-- 审核通过 -->
+	<div class="modal fade" id="checkPass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">审批通过</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class="header">是否确认审批通过？</div>
+						<div class="approve-content clearfix">
+							<div class='list'>
+								<div class="titlt">审核备注</div>
+								<div class="text">
+									 <textarea class="form-control col-sm-1" rows="3" id="auditPassRemark"></textarea>
+								</div>
+							</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" id="auditPassBtn">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 审核拒绝 -->
+	<div class="modal fade" id="checkrefuse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">审批拒绝</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class="header">是否确认审批拒绝？</div>
+						<div class="approve-content">
+							<div class='list  clearfix'>
+								<div class="titlt">拒绝理由</div>
+								<div class="text">
+									<select class="form-control" id="refusal_reason_sel">
+									</select>
+								</div>
+							</div>
+							<div class='list  clearfix'>
+								<div class="titlt">审核备注</div>
+								<div class="text">
+									 <textarea class="form-control col-sm-1" rows="3" id="auditRefusalRemark"></textarea>
+								</div>
+							</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" id="auditRefusalBtn">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 新增电核记录 -->
+	<div class="modal fade" id="addVerify" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">新增电核记录</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class="approve-content">
+							<div class='list  clearfix'>
+								<div class="titlt">电核结果</div>
+								<div class="text">
+									<select class="form-control" id="phone_audit_result_sel">
+									</select>
+								</div>
+							</div>
+							<div class='list  clearfix'>
+								<div class="titlt">电核意见</div>
+								<div class="text">
+									<select class="form-control" id="phone_audit_suggest_sel">
+									</select>
+								</div>
+							</div>
+							<div class='list  clearfix'>
+								<div class="titlt">电核备注</div>
+								<div class="text">
+									 <textarea class="form-control col-sm-1" rows="3" id="phone_audit_remark"></textarea>
+								</div>
+							</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" id="addOrUpdatePhoneAuditBtn">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- 补充个人信息 -->
+	<div class="modal fade" id="addUserInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="width:1300px">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">补充信息</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<div class='approve-modal'>
+						<div class='list  clearfix form-horizontal'>
+							<div class="title">个人信息</div>
+							<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">性别</label>
+							    <div class="col-sm-8">
+							      	<select  class="form-control" id="gender">
+							      		<option value="0">未知</option>
+							            <option value="1">男</option>
+							            <option value="2">女</option>
+							        </select>
+							    </div>
+						 	</div>
+						 	<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">婚姻状况</label>
+							    <div class="col-sm-8">
+							      	<select  class="form-control" id="marital">
+							      		<option value="0">未婚</option>
+  							            <option value="1">已婚</option>
+  							            <option value="2">离婚</option>
+							      	</select>
+							    </div>
+						 	</div>
+						 	<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">教育程度</label>
+							    <div class="col-sm-8">
+							       <select  class="form-control" id="education">
+							            <option value="1">初中及以下</option>
+							            <option value="2">高中/中专</option>
+							            <option value="3">大专</option>
+							            <option value="4">本科</option>
+							            <option value="5">硕士</option>
+							            <option value="6">博士及以上</option>
+							      	</select>
+							    </div>
+						 	</div>
+						 	<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">出生日期</label>
+							    <div class="col-sm-8">
+									<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd',autoPickDate:true})"  class="date form-control" id="birthday">
+							    </div>
+						 	</div>
+					 	 	<div class="form-group col-sm-4">
+					 		    <label for="firstname" class="col-sm-4 control-label">电子邮箱</label>
+					 		    <div class="col-sm-8">
+					 				<input type="text" name=""   class="form-control" id="userEmail">
+					 		    </div>
+					 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">支付宝账号</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="authAlipayUserId">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">手机使用时长</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="phoneUserTime">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	<div class="form-group col-sm-8">
+				 	 		    <label for="firstname" class="col-sm-2 control-label">户籍详细地址</label>
+				 	 		    <div class="col-sm-10">
+				 	 				<input type="text" name=""   class="form-control" id="residenceAddress">
+				 	 		    </div>
+				 	 	 	</div>
+						</div>
+						<div class='list  clearfix form-horizontal'>
+							<div class="title">单位/学校信息</div>
+							<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">行业</label>
+							    <div class="col-sm-8">
+							      	<select  class="form-control trade-list" id="industry">
+							      		<option value="1">政府机关</option>
+							      		<option value="2">医院</option>
+							      		<option value="3">教育</option>
+							      		<option value="4">培训</option>
+							      		<option value="5">IT相关</option>
+							      		<option value="6">金融</option>
+							      		<option value="7">保险</option>
+							      		<option value="8">家政</option>
+							      		<option value="9">餐饮</option>
+							      		<option value="10">旅游</option>
+							      		<option value="11">商业</option>
+							      		<option value="12">农业</option>
+							      		<option value="13">其他</option>
+							        </select>
+							    </div>
+						 	</div>
+					 		<div class="form-group col-sm-4">
+					 		    <label for="firstname" class="col-sm-4 control-label">职业</label>
+					 		    <div class="col-sm-8">
+					 		      	<select  class="form-control occupation-list" id="job">
+					 		      		<option value="1">学生</option>
+					 		      		<option value="2">工程师</option>
+					 		      		<option value="3">行政人员</option>
+					 		      		<option value="4">自由职业</option>
+					 		      		<option value="5">公务员</option>
+					 		      		<option value="6">销售</option>
+					 		      		<option value="7">个体户</option>
+					 		      		<option value="8">教师</option>
+					 		      		<option value="9">医生</option>
+					 		      		<option value="10">护士</option>
+					 		      		<option value="11">导游</option>
+					 		      		<option value="12">教练</option>
+					 		      		<option value="13">翻译</option>
+					 		      		<option value="14">产品经理</option>
+					 		      		<option value="15">会计师</option>
+					 		      		<option value="16">商务</option>
+					 		      		<option value="17">快递</option>
+					 		      		<option value="18">企业高管</option>
+					 		      		<option value="19">项目经理</option>
+					 		      		<option value="20">其他</option>
+					 		        </select>
+					 		    </div>
+					 	 	</div>
+					 	 	<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">入职/入学时间</label>
+							    <div class="col-sm-8">
+									<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd',autoPickDate:true})"  class="date form-control" id="entryTime">
+							    </div>
+						 	</div>
+						 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">单位/学校名称</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="companyName">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">联系电话</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="companyContactNumber">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">职务</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="position">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">工作收入/月生活费</label>
+				 	 		    <div class="col-sm-8">
+				 	 		    	<input type="text" name=""   class="form-control" id="monthIncome">
+				 	 		    </div>
+				 	 	 	</div>
+			 	 	 	 	<div class="form-group col-sm-8">
+			 	 	 		    <label for="firstname" class="col-sm-2 control-label">现单位/学校地址</label>
+			 	 	 		    <div class="col-sm-10">
+			 	 	 				<input type="text" name=""   class="form-control" id="companyAddress">
+			 	 	 		    </div>
+			 	 	 	 	</div>
+						</div>
+						<div class='list  clearfix form-horizontal'>
+							<div class="title">贷款信息</div>
+							<div class="form-group col-sm-4">
+							    <label for="firstname" class="col-sm-4 control-label">有无贷款</label>
+							    <div class="col-sm-8">
+							      	<select  class="form-control" id="hasLoanRecord">
+							      		<option value="0">无</option>
+							      		<option value="1">有</option>
+							        </select>
+							    </div>
+						 	</div>
+						 	<div class="clearfix" id="loanDetailDiv">
+					 	 	<div class="form-group col-sm-4">
+					 		    <label for="firstname" class="col-sm-4 control-label">贷款金额</label>
+					 		    <div class="col-sm-8">
+					 				<input type="text" name=""   class="form-control" id="loanAmount">
+					 		    </div>
+					 	 	</div>
+				 	 	 	<div class="form-group col-sm-4">
+				 	 		    <label for="firstname" class="col-sm-4 control-label">月还款</label>
+				 	 		    <div class="col-sm-8">
+				 	 				<input type="text" name=""   class="form-control" id="monthRepayment">
+				 	 		    </div>
+				 	 	 	</div>
+				 	 	 	</div>
+						</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" id="updateUserBtn">提交更改</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+			<!-- 查看物流信息 -->
+		<div class="modal fade" id="logisticsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">物流节点信息</h4>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="table-box margin-none" style="margin-top:10px">
+		            		<div class="wl-box" id="logisticsBox">
+		            		</div>
+	  		            </div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/detail/addressList.js'></script>
+	<script src='../js/detail/auditRecord.js'></script>
+	<script src='../js/detail/creditRecord.js'></script>
+	<script src='../js/detail/orderInfo.js'></script>
+	<script src='../js/detail/userInfo.js'></script>
+	<script src='../js/detail/orderAudit.js'></script>
+	<style type="text/css">
+		.approve-modal .approve-content .list .title{float:left; width: 140px; padding: 5px 10px 0px 30px; text-align: right;}
+		.approve-modal .approve-content .list .textd{margin-left: 140px;}
+		.income button, .occupation-list button, .trade-list button{width: auto; min-width: 70px;}
+	</style>
+	<script>
+	
+	</script>
+</body>
+</html>

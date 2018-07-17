@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.BannerDao">
+
+    <resultMap id="BannerMap" type="org.gz.oss.common.entity.Banner">
+        <result property="id" column="id"/>
+        <result property="image" column="image"/>
+        <result property="type" column="type"/>
+        <result property="linkUrl" column="linkUrl"/>
+        <result property="modelId" column="modelId"/>
+        <result property="position" column="position"/>
+        <result property="productId" column="productId"/>
+        <result property="imeiNo" column="imeiNo"/>
+        <result property="snNo" column="snNo"/>
+        <result property="createUserId" column="createUserId"/>
+        <result property="updateUserId" column="updateUserId"/>
+        <result property="createTime" column="createTime"/>
+        <result property="lastUpdateTime" column="lastUpdateTime"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id,image,type,linkUrl,modelId,position,productId,imeiNo,snNo,createUserId,updateUserId,createTime,lastUpdateTime
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id,t.image,t.type,t.linkUrl,t.modelId,t.position,t.productId,t.imeiNo,t.snNo,t.createUserId,t.updateUserId,t.createTime,t.lastUpdateTime
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="BannerMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                banner
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="BannerMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        banner
+        ORDER BY position
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO banner (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=image">
+	                 image,
+	            </if>
+            	<if test="null!=type">
+	                 type,
+	            </if>
+            	<if test="null!=linkUrl">
+	                 linkUrl,
+	            </if>
+            	<if test="null!=modelId">
+	                 modelId,
+	            </if>
+            	<if test="null!=position">
+	                 position,
+	            </if>
+            	<if test="null!=productId">
+	                 productId,
+	            </if>
+            	<if test="null!=imeiNo">
+	                 imeiNo,
+	            </if>
+            	<if test="null!=snNo">
+	                 snNo,
+	            </if>
+            	<if test="null!=createUserId">
+	                 createUserId,
+	            </if>
+            	<if test="null!=updateUserId">
+	                 updateUserId,
+	            </if>
+            	<if test="null!=createTime">
+	                 createTime,
+	            </if>
+            	<if test="null!=lastUpdateTime">
+	                 lastUpdateTime
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=image">
+                #{image},
+                </if>
+                <if test="null!=type">
+	                 #{type},
+	            </if>
+            	<if test="null!=linkUrl">
+	                 #{linkUrl},
+	            </if>
+            	<if test="null!=modelId">
+	                #{modelId},
+	            </if>
+            	<if test="null!=position">
+	                 #{position},
+	            </if>
+            	<if test="null!=productId">
+	                 #{productId},
+	            </if>
+            	<if test="null!=imeiNo">
+	                 #{imeiNo},
+	            </if>
+            	<if test="null!=snNo">
+	                 #{snNo},
+	            </if>
+            	<if test="null!=createUserId">
+	                 #{createUserId},
+	            </if>
+            	<if test="null!=updateUserId">
+	                 #{updateUserId},
+	            </if>
+            	<if test="null!=createTime">
+	                 #{createTime},
+	            </if>
+            	<if test="null!=lastUpdateTime">
+	                 #{lastUpdateTime}
+	            </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO banner (
+                id,image,type,linkUrl,modelId,position,productId,imeiNo,snNo,createUserId,updateUserId,createTime,lastUpdateTime
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.image},#{item.type},#{item.linkUrl},#{item.modelId},#{item.position},#{item.productId},#{item.imeiNo},#{item.snNo},#{item.createUserId},#{item.updateUserId},#{item.createTime},#{item.lastUpdateTime})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	banner
+            <set>
+            	<if test="null!=updateCloumn.image">
+                	<![CDATA[ image = #{updateCloumn.image} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.type">
+                	<![CDATA[ type = #{updateCloumn.type} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.linkUrl">
+                	<![CDATA[ linkUrl = #{updateCloumn.linkUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.modelId">
+                	<![CDATA[ modelId = #{updateCloumn.modelId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.position">
+                	<![CDATA[ position = #{updateCloumn.position} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.productId">
+                	<![CDATA[ productId = #{updateCloumn.productId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.imeiNo">
+                	<![CDATA[ imeiNo = #{updateCloumn.imeiNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.snNo">
+                	<![CDATA[ snNo = #{updateCloumn.snNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createUserId">
+                	<![CDATA[ createUserId = #{updateCloumn.createUserId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.updateUserId">
+                	<![CDATA[ updateUserId = #{updateCloumn.updateUserId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createTime">
+                	<![CDATA[ createTime = #{updateCloumn.createTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.lastUpdateTime">
+                	<![CDATA[ lastUpdateTime = #{updateCloumn.lastUpdateTime} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="BannerMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        banner
+         <include refid="where" />
+    </select>
+    
+    <delete id="delete">
+    	delete from banner where id = #{id}
+    </delete>
+   
+</mapper>
+

@@ -1,0 +1,2 @@
+microservice-loverent-app-v1
+本项目为爱租机APP后台应用

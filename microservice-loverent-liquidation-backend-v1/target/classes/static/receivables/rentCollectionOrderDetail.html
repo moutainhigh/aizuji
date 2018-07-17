@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<style>
+		.button-list{
+			margin-bottom:30px 
+		}
+	</style>
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li>收款管理</li>
+		  <li><a href="#">收款处理</a></li>
+		  <li class="active">订单详情</li>
+		</ol>
+	</div>
+	<div class='content before-order'>
+		<input type="hidden" id="ipt_hid_orderSN">
+		<div class='content-list'>
+			<div class="button-list">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#deduct">实时代扣</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#div_manualSettle">手动清偿</button>
+				<button class="btn btn-primary" data-toggle="modal" data-target="#div_lateFeeRemission">滞纳金减免</button>
+				<a href="./dueRecordList.html" class="btn btn-primary">滞纳金减免记录</a>
+			</div>
+			<div class="order-check">
+				<div class="tab-content" style="display: block;min-height:auto">
+					<div class="header-title" style='margin:20px 0;'>订单基本信息</div>
+					<div class="table-box  table-responsive" style="height:auto;">
+			      		<table class="table">
+			      			<tbody>
+								<tr>
+									<td>订单编号：</td>
+									<td id="td-orderSN"></td>
+									<td>姓名：</td>
+									<td id="td-realName"></td>
+									<td>身份证号码：</td>
+									<td id="td-identityCard"></td>
+									<td>租期截止日:</td>
+									<td id="td-rentEndDate"></td>
+									<td>订单状态:</td>
+									<td id="td-stateDesc"></td>
+									<td>应还租日:</td>
+									<td id="td-repaymentDate"></td>
+									<td>履约状况：</td>
+									<td id="td-performance"></td>
+								</tr>
+			      			</tbody>
+			      		</table>
+					</div>
+					<div class="header-title" style='margin:20px 0;'>订单还款汇总<button class="btn btn-sm btn-default" data-toggle="modal" data-target="#leaseSchedule" style='margin-left:30px'>查看租赁计划</button></div>
+					<div class='repay-box'>
+						<ul class='clearfix'>
+							<li>
+								<div class="title">截止系统当前时间已还</div>
+								<div class="text">已还滞纳金：<span id="span_totalLateFees">11000</span>元</div>
+								<div class="text">已还租金：<span id="span_totalRepaymentRent">11000</span>元</div>
+							</li>
+							<li>
+								<div class="title">截止系统当前时间应还</div>
+								<div class="text" >应还滞纳金：<span id="span_currentLateFees">11000</span>元</div>
+								<div class="text" >应还租金：<span id="span_currentRent">11000</span>元</div>
+							</li>
+						</ul>
+					</div>
+					
+					<!-- 订单还款明细 -->
+					<div class="header-title" style='margin:20px 0;'>订单还款明细</div>
+					<div class='table-box  table-responsive'>
+						<!-- 订单还款明细表格 -->
+			      		<table class="table" id='repay-grid-tab'></table>
+			      		<!-- 暂无数据 -->
+			      		<!-- <div class='no-data'>暂无数据</div> -->
+			      		<!-- 正在加载中 -->
+			      		<!-- 	<div class='loading-box'>
+			      			<img src="../image/loading.gif" alt="">正在加载中
+			      		</div> -->
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!-- 实时代扣（Modal） -->
+		<div class="modal fade" id="deduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel4">实时代扣</h4>
+		            </div>
+		            <div class="modal-body">
+						<div class="form-horizontal" role="form">
+						  <div class="form-group">
+						    <label class="col-sm-2 control-label">代扣类型</label>
+						    <div class="col-sm-8">
+					          <div class="checkbox">
+					            <label><input type="radio" name="deduct" checked="">收租</label>
+					            <label><input type="radio" name="deduct">归还</label>
+					            <label><input type="radio" name="deduct">买断</label>
+					          </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-2 control-label">租金</label>
+						    <div class="col-sm-8">
+						      <input type="text" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]" class="form-control">
+						    </div>
+						  </div>  
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		                <button type="button" class="btn btn-primary">提交</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 手动偿清（Modal） -->
+		<div class="modal fade" id="div_manualSettle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel1">手动清偿</h4>
+		            </div>
+		            <div class="modal-body">
+						<div class="form-horizontal" role="form">
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易流水号:</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control" id="ipt_transactionSN">
+						    </div>
+						  </div> 
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易金额:</label>
+						    <div class="col-sm-8">
+						      <input type="text" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]" class="form-control" id="ipt_transactionAmount">
+						    </div>
+						  </div> 
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易方式:</label>
+						    <div class="col-sm-8">
+					          <div class="checkbox">
+					            <label><input type="radio" name="radio_transactionWay" checked="" value="alipay">支付宝</label>
+					            <label><input type="radio" name="radio_transactionWay" value="WeChat">微信</label>
+					            <label><input type="radio" name="radio_transactionWay" value="LianLian">连连支付</label>
+					            <label><input type="radio" name="radio_transactionWay" value="BankCard">银行卡代扣</label>
+					          </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易类型:</label>
+						    <div class="col-sm-8">
+					          <div class="checkbox">
+					            <label><input type="radio" name="radio_transactionType" checked="" value="RENT">租金</label>
+					            <label><input type="radio" name="radio_transactionType" value="RETURN">回收</label>
+					            <label><input type="radio" name="radio_transactionType" value="BUYOUT">正常买断</label>
+					            <label><input type="radio" name="radio_transactionType" value="OVERDUE_BUYOUT">逾期买断</label>
+					          </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易发起时间:</label>
+						    <div class="col-sm-8">
+		      				 	<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="dtp_input1">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">交易完成时间:</label>
+						    <div class="col-sm-8">
+		      				 	<input type="text" name="" onclick="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss',autoPickDate:true})"  class="date form-control" id="ipt_finishTime">
+						    </div>
+						  </div>   
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		                <button type="button" class="btn btn-primary" onclick="manualSettle()">提交</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 滞纳金减免（Modal） -->
+		<div class="modal fade" id="div_lateFeeRemission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel3">滞纳金减免</h4>
+		            </div>
+		            <div class="modal-body">
+						<div class="form-horizontal" role="form">
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">总滞纳金:</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control" id="ipt_total_lateFee" disabled="disabled">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">已还滞纳金:</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control" id="ipt_clearedLateFees" disabled="disabled">
+						    </div>
+						  </div>  
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">减免金额:</label>
+						    <div class="col-sm-8">
+						      <input type="text" onkeyup="this.value=(this.value.match(/\d+(\.\d{0,2})?/)||[''])[0]" class="form-control" id="ipt_remission_lateFee">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label class="col-sm-3 control-label">减免原因:</label>
+						    <div class="col-sm-8">
+						      <textarea class="form-control" rows="3" style="resize:none" id="tta_desc"></textarea>
+						    </div>
+						  </div>      
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		                <button type="button" class="btn btn-primary" onclick="doLateFeeRemission()">提交</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 租赁计划 -->
+		<div class="modal fade" id="leaseSchedule" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog" style='width:80%'>
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">租赁计划</h4>
+		            </div>
+		            <div class="modal-body">
+						<div class='table-box  table-responsive'>
+				      		<!-- 租赁计划表格 -->
+				      		<table class="table" id='lease-tab'></table>
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<!-- 交易流水 -->
+		<div class="modal fade" id="transaction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog" style='width:80%'>
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel2">交易流水</h4>
+		            </div>
+		            <div class="modal-body">
+						<div class='table-box  table-responsive'>
+				      		<table class="table" id='transaction-tab'>
+				      		</table>
+						</div>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/rentCollectionOrderDetail.js'></script>
+</body>
+</html>

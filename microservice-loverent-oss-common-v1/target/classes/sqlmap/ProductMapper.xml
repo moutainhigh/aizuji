@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.ProductDao">
+
+
+    <select id="queryProductIsHasConfig"  resultType="java.lang.Integer">
+        SELECT sum(t.count) AS count FROM
+        ( SELECT COUNT(t1.id) as count FROM shopwindow t1 INNER JOIN shopwindow_commodity_relation t2 ON t1.id=t2.shopwindowId WHERE t1.type=10 AND t2.productId=#{productId}
+        UNION ALL
+        SELECT COUNT(t1.id) FROM shopwindow t1 INNER JOIN shopwindow_commodity_relation t2 ON t1.id=t2.shopwindowId WHERE t1.type=20 AND t2.productId=#{productId}
+        UNION ALL
+        SELECT COUNT(t1.id) FROM shopwindow t1 INNER JOIN shopwindow_commodity_relation t2 ON t1.id=t2.shopwindowId WHERE t1.type=30 AND t2.productId=#{productId}
+        UNION ALL
+        SELECT COUNT(t1.id) FROM banner t1 WHERE t1.productId=#{productId} )
+        t
+    </select>
+
+
+</mapper>
+

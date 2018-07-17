@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.MiniAppDao">
+
+    <resultMap id="BannerMap" type="org.gz.oss.common.entity.MiniAppBanner">
+        <result property="id" column="id"/>
+        <result property="image" column="image"/>
+        <result property="type" column="type"/>
+        <result property="modelId" column="modelId"/>
+        <result property="position" column="position"/>
+    </resultMap>
+
+    <!--====================================================================Banner部分sql====================================================================-->
+    <sql id="columns">
+        <![CDATA[
+
+        id,image,type,linkUrl,modelId,position,productId,imeiNo,snNo,createUserId,updateUserId,createTime,lastUpdateTime
+
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+
+        t.id,t.image,t.type,t.linkUrl,t.modelId,t.position,t.productId,t.imeiNo,t.snNo,t.createUserId,t.updateUserId,t.createTime,t.lastUpdateTime
+
+        ]]>
+    </sql>
+
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="findAllBanner" resultMap="BannerMap">
+        SELECT
+        <include refid="columns"/>
+        FROM
+        alipay_banner t
+        ORDER BY position
+    </select>
+
+
+    <insert id="addBanner" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO alipay_banner (
+        <trim suffix="" suffixOverrides=",">
+            <if test="null!=image">
+                image,
+            </if>
+            <if test="null!=type">
+                type,
+            </if>
+            <if test="null!=linkUrl">
+                linkUrl,
+            </if>
+            <if test="null!=modelId">
+                modelId,
+            </if>
+            <if test="null!=position">
+                position,
+            </if>
+            <if test="null!=productId">
+                productId,
+            </if>
+            <if test="null!=imeiNo">
+                imeiNo,
+            </if>
+            <if test="null!=snNo">
+                snNo,
+            </if>
+            <if test="null!=createUserId">
+                createUserId,
+            </if>
+            <if test="null!=updateUserId">
+                updateUserId,
+            </if>
+            <if test="null!=createTime">
+                createTime,
+            </if>
+            <if test="null!=lastUpdateTime">
+                lastUpdateTime
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffix="" suffixOverrides=",">
+            <if test="null!=image">
+                #{image},
+            </if>
+            <if test="null!=type">
+                #{type},
+            </if>
+            <if test="null!=linkUrl">
+                #{linkUrl},
+            </if>
+            <if test="null!=modelId">
+                #{modelId},
+            </if>
+            <if test="null!=position">
+                #{position},
+            </if>
+            <if test="null!=productId">
+                #{productId},
+            </if>
+            <if test="null!=imeiNo">
+                #{imeiNo},
+            </if>
+            <if test="null!=snNo">
+                #{snNo},
+            </if>
+            <if test="null!=createUserId">
+                #{createUserId},
+            </if>
+            <if test="null!=updateUserId">
+                #{updateUserId},
+            </if>
+            <if test="null!=createTime">
+                #{createTime},
+            </if>
+            <if test="null!=lastUpdateTime">
+                #{lastUpdateTime}
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <!--<insert id="addBatch">-->
+    <!--<![CDATA[-->
+    <!--INSERT INTO alipay_banner (-->
+    <!--id,image,type,linkUrl,modelId,position,productId,imeiNo,snNo,createUserId,updateUserId,createTime,lastUpdateTime-->
+    <!--) VALUES-->
+    <!--]]>-->
+    <!--<foreach collection="list" item="item" index="index" separator=",">-->
+    <!--(#{item.id},#{item.image},#{item.type},#{item.linkUrl},#{item.modelId},#{item.position},#{item.productId},#{item.imeiNo},#{item.snNo},#{item.createUserId},#{item.updateUserId},#{item.createTime},#{item.lastUpdateTime})-->
+    <!--</foreach>-->
+    <!--</insert>-->
+    <update id="batchUpdateBanner">
+        UPDATE alipay_banner
+        <set>
+            <if test="null!=updateCloumn.image">
+                <![CDATA[ image = #{updateCloumn.image} ]]>,
+            </if>
+            <if test="null!=updateCloumn.type">
+                <![CDATA[ type = #{updateCloumn.type} ]]>,
+            </if>
+            <if test="null!=updateCloumn.linkUrl">
+                <![CDATA[ linkUrl = #{updateCloumn.linkUrl} ]]>,
+            </if>
+            <if test="null!=updateCloumn.modelId">
+                <![CDATA[ modelId = #{updateCloumn.modelId} ]]>,
+            </if>
+            <if test="null!=updateCloumn.position">
+                <![CDATA[ position = #{updateCloumn.position} ]]>,
+            </if>
+            <if test="null!=updateCloumn.productId">
+                <![CDATA[ productId = #{updateCloumn.productId} ]]>,
+            </if>
+            <if test="null!=updateCloumn.imeiNo">
+                <![CDATA[ imeiNo = #{updateCloumn.imeiNo} ]]>,
+            </if>
+            <if test="null!=updateCloumn.snNo">
+                <![CDATA[ snNo = #{updateCloumn.snNo} ]]>,
+            </if>
+            <if test="null!=updateCloumn.createUserId">
+                <![CDATA[ createUserId = #{updateCloumn.createUserId} ]]>,
+            </if>
+            <if test="null!=updateCloumn.updateUserId">
+                <![CDATA[ updateUserId = #{updateCloumn.updateUserId} ]]>,
+            </if>
+            <if test="null!=updateCloumn.createTime">
+                <![CDATA[ createTime = #{updateCloumn.createTime} ]]>,
+            </if>
+            <if test="null!=updateCloumn.lastUpdateTime">
+                <![CDATA[ lastUpdateTime = #{updateCloumn.lastUpdateTime} ]]>
+            </if>
+        </set>
+        <where>
+            <if test="null!=updateWhere.id">
+                AND <![CDATA[ id = #{updateWhere.id} ]]>
+            </if>
+        </where>
+    </update>
+
+
+    <update id="updateBannner">
+        UPDATE alipay_banner
+        <set>
+            <if test="null!=image">
+                <![CDATA[ image = #{image} ]]>,
+            </if>
+            <if test="null!=type">
+                <![CDATA[ type = #{type} ]]>,
+            </if>
+            <if test="null!=linkUrl">
+                <![CDATA[ linkUrl = #{linkUrl} ]]>,
+            </if>
+            <if test="null!=modelId">
+                <![CDATA[ modelId = #{modelId} ]]>,
+            </if>
+            <if test="null!=position">
+                <![CDATA[ position = #{position} ]]>,
+            </if>
+            <if test="null!=productId">
+                <![CDATA[ productId = #{productId} ]]>,
+            </if>
+            <if test="null!=imeiNo">
+                <![CDATA[ imeiNo = #{imeiNo} ]]>,
+            </if>
+            <if test="null!=snNo">
+                <![CDATA[ snNo = #{snNo} ]]>,
+            </if>
+            <if test="null!=createUserId">
+                <![CDATA[ createUserId = #{createUserId} ]]>,
+            </if>
+            <if test="null!=updateUserId">
+                <![CDATA[ updateUserId = #{updateUserId} ]]>,
+            </if>
+            <if test="null!=createTime">
+                <![CDATA[ createTime = #{createTime} ]]>,
+            </if>
+            <if test="null!=lastUpdateTime">
+                <![CDATA[ lastUpdateTime = #{lastUpdateTime} ]]>
+            </if>
+        </set>
+        <where>
+            <if test="null!=id">
+                AND <![CDATA[ id = #{id} ]]>
+            </if>
+        </where>
+    </update>
+
+    <!--<select id="queryList" resultMap="BannerMap">-->
+    <!--SELECT-->
+    <!--<include refid="columns" />-->
+    <!--FROM-->
+    <!--banner-->
+    <!--<include refid="where" />-->
+    <!--</select>-->
+
+    <delete id="deleteBannerById">
+        delete from alipay_banner where id = #{id}
+    </delete>
+
+
+    <!--====================================================================橱窗位部分sql====================================================================-->
+    <resultMap id="ShopwindowMap" type="org.gz.oss.common.entity.MiniAppShopwindow">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="totalCount" column="totalCount"/>
+        <result property="position" column="position"/>
+    </resultMap>
+
+
+    <select id="findShopwindowCount" resultMap="ShopwindowMap">
+        SELECT
+        a.*,
+        count(b.id) AS totalCount
+        FROM
+        alipay_shopwindow a
+        LEFT JOIN alipay_shopwindow_commodity b ON a.id = b.shopwindowId
+        GROUP BY
+        a.id
+        ORDER BY
+        a.position
+    </select>
+
+    <insert id="addShopwindow" useGeneratedKeys="true" keyProperty="id"
+            parameterType="org.gz.oss.common.dto.MiniAppShopwindowDto">
+        INSERT INTO alipay_shopwindow (
+        `name`,
+        `type`,
+        `position`
+        )
+        VALUES
+        (#{name},
+        #{type},
+        #{position}
+        );
+    </insert>
+
+    <insert id="addShopwindowCommodity" parameterType="org.gz.oss.common.dto.MiniAppShopwindowCommodityDto">
+        INSERT INTO alipay_shopwindow_commodity (
+        `shopwindowId`,
+        `productId`,
+        `imeiNo`,
+        `snNo`,
+        `position`,
+        `type`,
+        `modelId`,
+        `activityId`,
+        `image`
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.shopwindowId},
+            #{item.productId},
+            #{item.imeiNo},
+            #{item.snNo},
+            #{item.position},
+            #{item.productType},
+            #{item.modelId},
+            #{item.activityId},
+            #{item.image})
+        </foreach>
+    </insert>
+
+    <delete id="deleteShopwindow">
+        delete from alipay_shopwindow where  id= #{id}
+    </delete>
+
+    <delete id="deleteShopwindowCommodity">
+        DELETE FROM alipay_shopwindow_commodity WHERE shopwindowId=#{id}
+    </delete>
+
+    <update id="updateShopwindow" parameterType="org.gz.oss.common.dto.MiniAppShopwindowDto">
+        UPDATE `alipay_shopwindow`
+        <set>
+            <if test="null!=name and name!=''">
+                `name` = #{name},
+            </if>
+            <if test="null!=type and type>0">
+                `type` = #{type},
+            </if>
+            <if test="null!=position and position!=''">
+                `position` = #{position}
+            </if>
+        </set>
+        <where>
+            `id` = #{id}
+        </where>
+    </update>
+
+
+    <update id="batchUpdateShopwindow" parameterType="org.gz.oss.common.dto.MiniAppShopwindowVo">
+        UPDATE `alipay_shopwindow`
+        <set>
+            <if test="null!=name and name!=''">
+                `name` = #{name},
+            </if>
+            <if test="null!=type and type>0">
+                `type` = #{type},
+            </if>
+            <if test="null!=position and position!=''">
+                `position` = #{position}
+            </if>
+        </set>
+        <where>
+            `id` = #{id}
+        </where>
+    </update>
+
+    <select id="getShopwindowDetailById" resultType="org.gz.oss.common.dto.MiniAppShopwindowDetail">
+        SELECT a.id,a.`name`,a.type,a.position,b.shopwindowId,b.image,b.position as imageposition,b.modelId,b.type as productType
+        FROM
+        alipay_shopwindow a
+        INNER JOIN  alipay_shopwindow_commodity b ON a.id = b.shopwindowId
+				WHERE a.id=#{id}
+    </select>
+
+    <select id="queryAllShopwindow" resultType="org.gz.oss.common.dto.MiniAppShopwindowVo">
+        SELECT id,`name`,type,position FROM alipay_shopwindow ORDER BY position
+    </select>
+</mapper>
+

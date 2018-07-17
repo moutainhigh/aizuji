@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.order.server.dao.UserHistoryDao">
+
+    <resultMap id="UserHistoryMap" type="org.gz.order.common.entity.UserHistory">
+        <result property="id" column="id"/>
+        <result property="userId" column="userId"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="phoneNum" column="phoneNum"/>
+        <result property="loginPassword" column="loginPassword"/>
+        <result property="gender" column="gender"/>
+        <result property="channelType" column="channelType"/>
+        <result property="deviceId" column="deviceId"/>
+        <result property="deviceType" column="deviceType"/>
+        <result property="osType" column="osType"/>
+        <result property="appVersion" column="appVersion"/>
+        <result property="sourceType" column="sourceType"/>
+        <result property="avatar" column="avatar"/>
+        <result property="nickName" column="nickName"/>
+        <result property="realName" column="realName"/>
+        <result property="idNo" column="idNo"/>
+        <result property="zhimaScore" column="zhimaScore"/>
+        <result property="cardFaceUrl" column="cardFaceUrl"/>
+        <result property="cardBackUrl" column="cardBackUrl"/>
+        <result property="faceAuthUrl" column="faceAuthUrl"/>
+        <result property="realnameCertState" column="realnameCertState"/>
+        <result property="residenceAddress" column="residenceAddress"/>
+        <result property="issuingAuthority" column="issuingAuthority"/>
+        <result property="effectiveStartDate" column="effectiveStartDate"/>
+        <result property="effectiveEndDate" column="effectiveEndDate"/>
+        <result property="authAlipayUserId" column="authAlipayUserId"/>
+        <result property="authWeixinOpenId" column="authWeixinOpenId"/>
+        <result property="userStatus" column="userStatus"/>
+        <result property="birthday" column="birthday"/>
+        <result property="age" column="age"/>
+        <result property="job" column="job"/>
+        <result property="education" column="education"/>
+        <result property="industry" column="industry"/>
+        <result property="monthIncome" column="monthIncome"/>
+        <result property="phoneUserTime" column="phoneUserTime"/>
+        <result property="userEmail" column="userEmail"/>
+        <result property="companyName" column="companyName"/>
+        <result property="entryTime" column="entryTime"/>
+        <result property="position" column="position"/>
+        <result property="companyContactNumber" column="companyContactNumber"/>
+        <result property="companyAddress" column="companyAddress"/>
+        <result property="schoolName" column="schoolName"/>
+        <result property="livingExpenses" column="livingExpenses"/>
+        <result property="schoolAddress" column="schoolAddress"/>
+        <result property="hasLoanRecord" column="hasLoanRecord"/>
+        <result property="loanAmount" column="loanAmount"/>
+        <result property="monthRepayment" column="monthRepayment"/>
+        <result property="marital" column="marital"/>
+        <result property="createTime" column="createTime"/>
+        <result property="updateTime" column="updateTime"/>
+        <result property="zhimaScoreRefreshTime" column="zhimaScoreRefreshTime"/>
+        <result property="watchListValue" column="watchListValue"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, userId, rentRecordNo, phoneNum, loginPassword, gender, channelType, deviceId, deviceType, osType, appVersion, sourceType, avatar, nickName, realName, idNo, zhimaScore, cardFaceUrl, cardBackUrl, faceAuthUrl, realnameCertState, residenceAddress, issuingAuthority, effectiveStartDate, effectiveEndDate, authAlipayUserId, authWeixinOpenId, userStatus, birthday, age, job, education, industry, monthIncome, phoneUserTime, userEmail, companyName, entryTime, position, companyContactNumber, companyAddress, schoolName, livingExpenses, schoolAddress, hasLoanRecord, loanAmount, monthRepayment, marital, createTime, updateTime, zhimaScoreRefreshTime, watchListValue
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.userId, t.rentRecordNo, t.phoneNum, t.loginPassword, t.gender, t.channelType, t.deviceId, t.deviceType, t.osType, t.appVersion, t.sourceType, t.avatar, t.nickName, t.realName, t.idNo, t.zhimaScore, t.cardFaceUrl, t.cardBackUrl, t.faceAuthUrl, t.realnameCertState, t.residenceAddress, t.issuingAuthority, t.effectiveStartDate, t.effectiveEndDate, t.authAlipayUserId, t.authWeixinOpenId, t.userStatus, t.birthday, t.age, t.job, t.education, t.industry, t.monthIncome, t.phoneUserTime, t.userEmail, t.companyName, t.entryTime, t.position, t.companyContactNumber, t.companyAddress, t.schoolName, t.livingExpenses, t.schoolAddress, t.hasLoanRecord, t.loanAmount, t.monthRepayment, t.marital, t.createTime, t.updateTime, t.zhimaScoreRefreshTime, t.watchListValue
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=userId">
+                AND userId = #{userId}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=phoneNum and ''!=phoneNum">
+                AND phoneNum = #{phoneNum}
+            </if>
+            <if test="null!=loginPassword and ''!=loginPassword">
+                AND loginPassword = #{loginPassword}
+            </if>
+            <if test="null!=gender">
+                AND gender = #{gender}
+            </if>
+            <if test="null!=channelType and ''!=channelType">
+                AND channelType = #{channelType}
+            </if>
+            <if test="null!=deviceId and ''!=deviceId">
+                AND deviceId = #{deviceId}
+            </if>
+            <if test="null!=deviceType and ''!=deviceType">
+                AND deviceType = #{deviceType}
+            </if>
+            <if test="null!=osType and ''!=osType">
+                AND osType = #{osType}
+            </if>
+            <if test="null!=appVersion and ''!=appVersion">
+                AND appVersion = #{appVersion}
+            </if>
+            <if test="null!=sourceType and ''!=sourceType">
+                AND sourceType = #{sourceType}
+            </if>
+            <if test="null!=avatar and ''!=avatar">
+                AND avatar = #{avatar}
+            </if>
+            <if test="null!=nickName and ''!=nickName">
+                AND nickName = #{nickName}
+            </if>
+            <if test="null!=realName and ''!=realName">
+                AND realName = #{realName}
+            </if>
+            <if test="null!=idNo and ''!=idNo">
+                AND idNo = #{idNo}
+            </if>
+            <if test="null!=zhimaScore">
+                AND zhimaScore = #{zhimaScore}
+            </if>
+            <if test="null!=cardFaceUrl and ''!=cardFaceUrl">
+                AND cardFaceUrl = #{cardFaceUrl}
+            </if>
+            <if test="null!=cardBackUrl and ''!=cardBackUrl">
+                AND cardBackUrl = #{cardBackUrl}
+            </if>
+            <if test="null!=faceAuthUrl and ''!=faceAuthUrl">
+                AND faceAuthUrl = #{faceAuthUrl}
+            </if>
+            <if test="null!=realnameCertState">
+                AND realnameCertState = #{realnameCertState}
+            </if>
+            <if test="null!=residenceAddress and ''!=residenceAddress">
+                AND residenceAddress = #{residenceAddress}
+            </if>
+            <if test="null!=issuingAuthority and ''!=issuingAuthority">
+                AND issuingAuthority = #{issuingAuthority}
+            </if>
+            <if test="null!=effectiveStartDate and ''!=effectiveStartDate">
+                AND effectiveStartDate = #{effectiveStartDate}
+            </if>
+            <if test="null!=effectiveEndDate and ''!=effectiveEndDate">
+                AND effectiveEndDate = #{effectiveEndDate}
+            </if>
+            <if test="null!=authAlipayUserId and ''!=authAlipayUserId">
+                AND authAlipayUserId = #{authAlipayUserId}
+            </if>
+            <if test="null!=authWeixinOpenId and ''!=authWeixinOpenId">
+                AND authWeixinOpenId = #{authWeixinOpenId}
+            </if>
+            <if test="null!=userStatus">
+                AND userStatus = #{userStatus}
+            </if>
+            <if test="null!=birthday and ''!=birthday">
+                AND birthday = #{birthday}
+            </if>
+            <if test="null!=age">
+                AND age = #{age}
+            </if>
+            <if test="null!=job">
+                AND job = #{job}
+            </if>
+            <if test="null!=education">
+                AND education = #{education}
+            </if>
+            <if test="null!=industry">
+                AND industry = #{industry}
+            </if>
+            <if test="null!=monthIncome and ''!=monthIncome">
+                AND monthIncome = #{monthIncome}
+            </if>
+            <if test="null!=phoneUserTime and ''!=phoneUserTime">
+                AND phoneUserTime = #{phoneUserTime}
+            </if>
+            <if test="null!=userEmail and ''!=userEmail">
+                AND userEmail = #{userEmail}
+            </if>
+            <if test="null!=companyName and ''!=companyName">
+                AND companyName = #{companyName}
+            </if>
+            <if test="null!=entryTime and ''!=entryTime">
+                AND entryTime = #{entryTime}
+            </if>
+            <if test="null!=position and ''!=position">
+                AND position = #{position}
+            </if>
+            <if test="null!=companyContactNumber and ''!=companyContactNumber">
+                AND companyContactNumber = #{companyContactNumber}
+            </if>
+            <if test="null!=companyAddress and ''!=companyAddress">
+                AND companyAddress = #{companyAddress}
+            </if>
+            <if test="null!=schoolName and ''!=schoolName">
+                AND schoolName = #{schoolName}
+            </if>
+            <if test="null!=livingExpenses and ''!=livingExpenses">
+                AND livingExpenses = #{livingExpenses}
+            </if>
+            <if test="null!=schoolAddress and ''!=schoolAddress">
+                AND schoolAddress = #{schoolAddress}
+            </if>
+            <if test="null!=hasLoanRecord">
+                AND hasLoanRecord = #{hasLoanRecord}
+            </if>
+            <if test="null!=loanAmount and ''!=loanAmount">
+                AND loanAmount = #{loanAmount}
+            </if>
+            <if test="null!=monthRepayment and ''!=monthRepayment">
+                AND monthRepayment = #{monthRepayment}
+            </if>
+            <if test="null!=marital">
+                AND marital = #{marital}
+            </if>
+            <if test="null!=createTime and ''!=createTime">
+                AND createTime = #{createTime}
+            </if>
+            <if test="null!=updateTime and ''!=updateTime">
+                AND updateTime = #{updateTime}
+            </if>
+            <if test="null!=zhimaScoreRefreshTime and ''!=zhimaScoreRefreshTime">
+                AND zhimaScoreRefreshTime = #{zhimaScoreRefreshTime}
+            </if>
+            <if test="null!=watchListValue">
+                AND watchListValue = #{watchListValue}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="UserHistoryMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                user_history
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="UserHistoryMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        user_history
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO user_history (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=userId">
+	                 userId,
+	            </if>
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=phoneNum">
+	                 phoneNum,
+	            </if>
+            	<if test="null!=loginPassword">
+	                 loginPassword,
+	            </if>
+            	<if test="null!=gender">
+	                 gender,
+	            </if>
+            	<if test="null!=channelType">
+	                 channelType,
+	            </if>
+            	<if test="null!=deviceId">
+	                 deviceId,
+	            </if>
+            	<if test="null!=deviceType">
+	                 deviceType,
+	            </if>
+            	<if test="null!=osType">
+	                 osType,
+	            </if>
+            	<if test="null!=appVersion">
+	                 appVersion,
+	            </if>
+            	<if test="null!=sourceType">
+	                 sourceType,
+	            </if>
+            	<if test="null!=avatar">
+	                 avatar,
+	            </if>
+            	<if test="null!=nickName">
+	                 nickName,
+	            </if>
+            	<if test="null!=realName">
+	                 realName,
+	            </if>
+            	<if test="null!=idNo">
+	                 idNo,
+	            </if>
+            	<if test="null!=zhimaScore">
+	                 zhimaScore,
+	            </if>
+            	<if test="null!=cardFaceUrl">
+	                 cardFaceUrl,
+	            </if>
+            	<if test="null!=cardBackUrl">
+	                 cardBackUrl,
+	            </if>
+            	<if test="null!=faceAuthUrl">
+	                 faceAuthUrl,
+	            </if>
+            	<if test="null!=realnameCertState">
+	                 realnameCertState,
+	            </if>
+            	<if test="null!=residenceAddress">
+	                 residenceAddress,
+	            </if>
+            	<if test="null!=issuingAuthority">
+	                 issuingAuthority,
+	            </if>
+            	<if test="null!=effectiveStartDate">
+	                 effectiveStartDate,
+	            </if>
+            	<if test="null!=effectiveEndDate">
+	                 effectiveEndDate,
+	            </if>
+            	<if test="null!=authAlipayUserId">
+	                 authAlipayUserId,
+	            </if>
+            	<if test="null!=authWeixinOpenId">
+	                 authWeixinOpenId,
+	            </if>
+            	<if test="null!=userStatus">
+	                 userStatus,
+	            </if>
+            	<if test="null!=birthday">
+	                 birthday,
+	            </if>
+            	<if test="null!=age">
+	                 age,
+	            </if>
+            	<if test="null!=job">
+	                 job,
+	            </if>
+            	<if test="null!=education">
+	                 education,
+	            </if>
+            	<if test="null!=industry">
+	                 industry,
+	            </if>
+            	<if test="null!=monthIncome">
+	                 monthIncome,
+	            </if>
+            	<if test="null!=phoneUserTime">
+	                 phoneUserTime,
+	            </if>
+            	<if test="null!=userEmail">
+	                 userEmail,
+	            </if>
+            	<if test="null!=companyName">
+	                 companyName,
+	            </if>
+            	<if test="null!=entryTime">
+	                 entryTime,
+	            </if>
+            	<if test="null!=position">
+	                 position,
+	            </if>
+            	<if test="null!=companyContactNumber">
+	                 companyContactNumber,
+	            </if>
+            	<if test="null!=companyAddress">
+	                 companyAddress,
+	            </if>
+            	<if test="null!=schoolName">
+	                 schoolName,
+	            </if>
+            	<if test="null!=livingExpenses">
+	                 livingExpenses,
+	            </if>
+            	<if test="null!=schoolAddress">
+	                 schoolAddress,
+	            </if>
+            	<if test="null!=hasLoanRecord">
+	                 hasLoanRecord,
+	            </if>
+            	<if test="null!=loanAmount">
+	                 loanAmount,
+	            </if>
+            	<if test="null!=monthRepayment">
+	                 monthRepayment,
+	            </if>
+            	<if test="null!=marital">
+	                 marital,
+	            </if>
+            	<if test="null!=createTime">
+	                 createTime,
+	            </if>
+            	<if test="null!=updateTime">
+	                 updateTime,
+	            </if>
+            	<if test="null!=zhimaScoreRefreshTime">
+	                 zhimaScoreRefreshTime,
+	            </if>
+            	<if test="null!=watchListValue">
+	                 watchListValue
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=userId">
+                #{userId},
+                </if>
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=phoneNum">
+                #{phoneNum},
+                </if>
+            	<if test="null!=loginPassword">
+                #{loginPassword},
+                </if>
+            	<if test="null!=gender">
+                #{gender},
+                </if>
+            	<if test="null!=channelType">
+                #{channelType},
+                </if>
+            	<if test="null!=deviceId">
+                #{deviceId},
+                </if>
+            	<if test="null!=deviceType">
+                #{deviceType},
+                </if>
+            	<if test="null!=osType">
+                #{osType},
+                </if>
+            	<if test="null!=appVersion">
+                #{appVersion},
+                </if>
+            	<if test="null!=sourceType">
+                #{sourceType},
+                </if>
+            	<if test="null!=avatar">
+                #{avatar},
+                </if>
+            	<if test="null!=nickName">
+                #{nickName},
+                </if>
+            	<if test="null!=realName">
+                #{realName},
+                </if>
+            	<if test="null!=idNo">
+                #{idNo},
+                </if>
+            	<if test="null!=zhimaScore">
+                #{zhimaScore},
+                </if>
+            	<if test="null!=cardFaceUrl">
+                #{cardFaceUrl},
+                </if>
+            	<if test="null!=cardBackUrl">
+                #{cardBackUrl},
+                </if>
+            	<if test="null!=faceAuthUrl">
+                #{faceAuthUrl},
+                </if>
+            	<if test="null!=realnameCertState">
+                #{realnameCertState},
+                </if>
+            	<if test="null!=residenceAddress">
+                #{residenceAddress},
+                </if>
+            	<if test="null!=issuingAuthority">
+                #{issuingAuthority},
+                </if>
+            	<if test="null!=effectiveStartDate">
+                #{effectiveStartDate},
+                </if>
+            	<if test="null!=effectiveEndDate">
+                #{effectiveEndDate},
+                </if>
+            	<if test="null!=authAlipayUserId">
+                #{authAlipayUserId},
+                </if>
+            	<if test="null!=authWeixinOpenId">
+                #{authWeixinOpenId},
+                </if>
+            	<if test="null!=userStatus">
+                #{userStatus},
+                </if>
+            	<if test="null!=birthday">
+                #{birthday},
+                </if>
+            	<if test="null!=age">
+                #{age},
+                </if>
+            	<if test="null!=job">
+                #{job},
+                </if>
+            	<if test="null!=education">
+                #{education},
+                </if>
+            	<if test="null!=industry">
+                #{industry},
+                </if>
+            	<if test="null!=monthIncome">
+                #{monthIncome},
+                </if>
+            	<if test="null!=phoneUserTime">
+                #{phoneUserTime},
+                </if>
+            	<if test="null!=userEmail">
+                #{userEmail},
+                </if>
+            	<if test="null!=companyName">
+                #{companyName},
+                </if>
+            	<if test="null!=entryTime">
+                #{entryTime},
+                </if>
+            	<if test="null!=position">
+                #{position},
+                </if>
+            	<if test="null!=companyContactNumber">
+                #{companyContactNumber},
+                </if>
+            	<if test="null!=companyAddress">
+                #{companyAddress},
+                </if>
+            	<if test="null!=schoolName">
+                #{schoolName},
+                </if>
+            	<if test="null!=livingExpenses">
+                #{livingExpenses},
+                </if>
+            	<if test="null!=schoolAddress">
+                #{schoolAddress},
+                </if>
+            	<if test="null!=hasLoanRecord">
+                #{hasLoanRecord},
+                </if>
+            	<if test="null!=loanAmount">
+                #{loanAmount},
+                </if>
+            	<if test="null!=monthRepayment">
+                #{monthRepayment},
+                </if>
+            	<if test="null!=marital">
+                #{marital},
+                </if>
+            	<if test="null!=createTime">
+                #{createTime},
+                </if>
+            	<if test="null!=updateTime">
+                #{updateTime},
+                </if>
+            	<if test="null!=zhimaScoreRefreshTime">
+                #{zhimaScoreRefreshTime},
+                </if>
+            	<if test="null!=watchListValue">
+                #{watchListValue}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO user_history (
+                userId,
+                rentRecordNo,
+                phoneNum,
+                loginPassword,
+                gender,
+                channelType,
+                deviceId,
+                deviceType,
+                osType,
+                appVersion,
+                sourceType,
+                avatar,
+                nickName,
+                realName,
+                idNo,
+                zhimaScore,
+                cardFaceUrl,
+                cardBackUrl,
+                faceAuthUrl,
+                realnameCertState,
+                residenceAddress,
+                issuingAuthority,
+                effectiveStartDate,
+                effectiveEndDate,
+                authAlipayUserId,
+                authWeixinOpenId,
+                userStatus,
+                birthday,
+                age,
+                job,
+                education,
+                industry,
+                monthIncome,
+                phoneUserTime,
+                userEmail,
+                companyName,
+                entryTime,
+                position,
+                companyContactNumber,
+                companyAddress,
+                schoolName,
+                livingExpenses,
+                schoolAddress,
+                hasLoanRecord,
+                loanAmount,
+                monthRepayment,
+                marital,
+                createTime,
+                updateTime,
+                zhimaScoreRefreshTime,
+                watchListValue
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId},#{item.rentRecordNo},#{item.phoneNum},#{item.loginPassword},#{item.gender},#{item.channelType},#{item.deviceId},#{item.deviceType},#{item.osType},#{item.appVersion},#{item.sourceType},#{item.avatar},#{item.nickName},#{item.realName},#{item.idNo},#{item.zhimaScore},#{item.cardFaceUrl},#{item.cardBackUrl},#{item.faceAuthUrl},#{item.realnameCertState},#{item.residenceAddress},#{item.issuingAuthority},#{item.effectiveStartDate},#{item.effectiveEndDate},#{item.authAlipayUserId},#{item.authWeixinOpenId},#{item.userStatus},#{item.birthday},#{item.age},#{item.job},#{item.education},#{item.industry},#{item.monthIncome},#{item.phoneUserTime},#{item.userEmail},#{item.companyName},#{item.entryTime},#{item.position},#{item.companyContactNumber},#{item.companyAddress},#{item.schoolName},#{item.livingExpenses},#{item.schoolAddress},#{item.hasLoanRecord},#{item.loanAmount},#{item.monthRepayment},#{item.marital},#{item.createTime},#{item.updateTime},#{item.zhimaScoreRefreshTime},#{item.watchListValue})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	user_history
+            <set>
+            	<if test="null!=updateCloumn.userId">
+                	<![CDATA[ userId = #{updateCloumn.userId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.phoneNum">
+                	<![CDATA[ phoneNum = #{updateCloumn.phoneNum} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.loginPassword">
+                	<![CDATA[ loginPassword = #{updateCloumn.loginPassword} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.gender">
+                	<![CDATA[ gender = #{updateCloumn.gender} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.channelType">
+                	<![CDATA[ channelType = #{updateCloumn.channelType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.deviceId">
+                	<![CDATA[ deviceId = #{updateCloumn.deviceId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.deviceType">
+                	<![CDATA[ deviceType = #{updateCloumn.deviceType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.osType">
+                	<![CDATA[ osType = #{updateCloumn.osType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.appVersion">
+                	<![CDATA[ appVersion = #{updateCloumn.appVersion} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.sourceType">
+                	<![CDATA[ sourceType = #{updateCloumn.sourceType} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.avatar">
+                	<![CDATA[ avatar = #{updateCloumn.avatar} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.nickName">
+                	<![CDATA[ nickName = #{updateCloumn.nickName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.realName">
+                	<![CDATA[ realName = #{updateCloumn.realName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.idNo">
+                	<![CDATA[ idNo = #{updateCloumn.idNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zhimaScore">
+                	<![CDATA[ zhimaScore = #{updateCloumn.zhimaScore} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.cardFaceUrl">
+                	<![CDATA[ cardFaceUrl = #{updateCloumn.cardFaceUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.cardBackUrl">
+                	<![CDATA[ cardBackUrl = #{updateCloumn.cardBackUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.faceAuthUrl">
+                	<![CDATA[ faceAuthUrl = #{updateCloumn.faceAuthUrl} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.realnameCertState">
+                	<![CDATA[ realnameCertState = #{updateCloumn.realnameCertState} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.residenceAddress">
+                	<![CDATA[ residenceAddress = #{updateCloumn.residenceAddress} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.issuingAuthority">
+                	<![CDATA[ issuingAuthority = #{updateCloumn.issuingAuthority} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.effectiveStartDate">
+                	<![CDATA[ effectiveStartDate = #{updateCloumn.effectiveStartDate} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.effectiveEndDate">
+                	<![CDATA[ effectiveEndDate = #{updateCloumn.effectiveEndDate} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.authAlipayUserId">
+                	<![CDATA[ authAlipayUserId = #{updateCloumn.authAlipayUserId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.authWeixinOpenId">
+                	<![CDATA[ authWeixinOpenId = #{updateCloumn.authWeixinOpenId} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.userStatus">
+                	<![CDATA[ userStatus = #{updateCloumn.userStatus} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.birthday">
+                	<![CDATA[ birthday = #{updateCloumn.birthday} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.age">
+                	<![CDATA[ age = #{updateCloumn.age} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.job">
+                	<![CDATA[ job = #{updateCloumn.job} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.education">
+                	<![CDATA[ education = #{updateCloumn.education} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.industry">
+                	<![CDATA[ industry = #{updateCloumn.industry} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.monthIncome">
+                	<![CDATA[ monthIncome = #{updateCloumn.monthIncome} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.phoneUserTime">
+                	<![CDATA[ phoneUserTime = #{updateCloumn.phoneUserTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.userEmail">
+                	<![CDATA[ userEmail = #{updateCloumn.userEmail} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.companyName">
+                	<![CDATA[ companyName = #{updateCloumn.companyName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.entryTime">
+                	<![CDATA[ entryTime = #{updateCloumn.entryTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.position">
+                	<![CDATA[ position = #{updateCloumn.position} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.companyContactNumber">
+                	<![CDATA[ companyContactNumber = #{updateCloumn.companyContactNumber} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.companyAddress">
+                	<![CDATA[ companyAddress = #{updateCloumn.companyAddress} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.schoolName">
+                	<![CDATA[ schoolName = #{updateCloumn.schoolName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.livingExpenses">
+                	<![CDATA[ livingExpenses = #{updateCloumn.livingExpenses} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.schoolAddress">
+                	<![CDATA[ schoolAddress = #{updateCloumn.schoolAddress} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.hasLoanRecord">
+                	<![CDATA[ hasLoanRecord = #{updateCloumn.hasLoanRecord} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.loanAmount">
+                	<![CDATA[ loanAmount = #{updateCloumn.loanAmount} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.monthRepayment">
+                	<![CDATA[ monthRepayment = #{updateCloumn.monthRepayment} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.marital">
+                	<![CDATA[ marital = #{updateCloumn.marital} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createTime">
+                	<![CDATA[ createTime = #{updateCloumn.createTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.updateTime">
+                	<![CDATA[ updateTime = #{updateCloumn.updateTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.zhimaScoreRefreshTime">
+                	<![CDATA[ zhimaScoreRefreshTime = #{updateCloumn.zhimaScoreRefreshTime} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.watchListValue">
+                	<![CDATA[ watchListValue = #{updateCloumn.watchListValue} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.userId">
+                	AND <![CDATA[ userId = #{updateWhere.userId} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.phoneNum">
+                	AND <![CDATA[ phoneNum = #{updateWhere.phoneNum} ]]>
+                </if>
+            	<if test="null!=updateWhere.loginPassword">
+                	AND <![CDATA[ loginPassword = #{updateWhere.loginPassword} ]]>
+                </if>
+            	<if test="null!=updateWhere.gender">
+                	AND <![CDATA[ gender = #{updateWhere.gender} ]]>
+                </if>
+            	<if test="null!=updateWhere.channelType">
+                	AND <![CDATA[ channelType = #{updateWhere.channelType} ]]>
+                </if>
+            	<if test="null!=updateWhere.deviceId">
+                	AND <![CDATA[ deviceId = #{updateWhere.deviceId} ]]>
+                </if>
+            	<if test="null!=updateWhere.deviceType">
+                	AND <![CDATA[ deviceType = #{updateWhere.deviceType} ]]>
+                </if>
+            	<if test="null!=updateWhere.osType">
+                	AND <![CDATA[ osType = #{updateWhere.osType} ]]>
+                </if>
+            	<if test="null!=updateWhere.appVersion">
+                	AND <![CDATA[ appVersion = #{updateWhere.appVersion} ]]>
+                </if>
+            	<if test="null!=updateWhere.sourceType">
+                	AND <![CDATA[ sourceType = #{updateWhere.sourceType} ]]>
+                </if>
+            	<if test="null!=updateWhere.avatar">
+                	AND <![CDATA[ avatar = #{updateWhere.avatar} ]]>
+                </if>
+            	<if test="null!=updateWhere.nickName">
+                	AND <![CDATA[ nickName = #{updateWhere.nickName} ]]>
+                </if>
+            	<if test="null!=updateWhere.realName">
+                	AND <![CDATA[ realName = #{updateWhere.realName} ]]>
+                </if>
+            	<if test="null!=updateWhere.idNo">
+                	AND <![CDATA[ idNo = #{updateWhere.idNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.zhimaScore">
+                	AND <![CDATA[ zhimaScore = #{updateWhere.zhimaScore} ]]>
+                </if>
+            	<if test="null!=updateWhere.cardFaceUrl">
+                	AND <![CDATA[ cardFaceUrl = #{updateWhere.cardFaceUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.cardBackUrl">
+                	AND <![CDATA[ cardBackUrl = #{updateWhere.cardBackUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.faceAuthUrl">
+                	AND <![CDATA[ faceAuthUrl = #{updateWhere.faceAuthUrl} ]]>
+                </if>
+            	<if test="null!=updateWhere.realnameCertState">
+                	AND <![CDATA[ realnameCertState = #{updateWhere.realnameCertState} ]]>
+                </if>
+            	<if test="null!=updateWhere.residenceAddress">
+                	AND <![CDATA[ residenceAddress = #{updateWhere.residenceAddress} ]]>
+                </if>
+            	<if test="null!=updateWhere.issuingAuthority">
+                	AND <![CDATA[ issuingAuthority = #{updateWhere.issuingAuthority} ]]>
+                </if>
+            	<if test="null!=updateWhere.effectiveStartDate">
+                	AND <![CDATA[ effectiveStartDate = #{updateWhere.effectiveStartDate} ]]>
+                </if>
+            	<if test="null!=updateWhere.effectiveEndDate">
+                	AND <![CDATA[ effectiveEndDate = #{updateWhere.effectiveEndDate} ]]>
+                </if>
+            	<if test="null!=updateWhere.authAlipayUserId">
+                	AND <![CDATA[ authAlipayUserId = #{updateWhere.authAlipayUserId} ]]>
+                </if>
+            	<if test="null!=updateWhere.authWeixinOpenId">
+                	AND <![CDATA[ authWeixinOpenId = #{updateWhere.authWeixinOpenId} ]]>
+                </if>
+            	<if test="null!=updateWhere.userStatus">
+                	AND <![CDATA[ userStatus = #{updateWhere.userStatus} ]]>
+                </if>
+            	<if test="null!=updateWhere.birthday">
+                	AND <![CDATA[ birthday = #{updateWhere.birthday} ]]>
+                </if>
+            	<if test="null!=updateWhere.age">
+                	AND <![CDATA[ age = #{updateWhere.age} ]]>
+                </if>
+            	<if test="null!=updateWhere.job">
+                	AND <![CDATA[ job = #{updateWhere.job} ]]>
+                </if>
+            	<if test="null!=updateWhere.education">
+                	AND <![CDATA[ education = #{updateWhere.education} ]]>
+                </if>
+            	<if test="null!=updateWhere.industry">
+                	AND <![CDATA[ industry = #{updateWhere.industry} ]]>
+                </if>
+            	<if test="null!=updateWhere.monthIncome">
+                	AND <![CDATA[ monthIncome = #{updateWhere.monthIncome} ]]>
+                </if>
+            	<if test="null!=updateWhere.phoneUserTime">
+                	AND <![CDATA[ phoneUserTime = #{updateWhere.phoneUserTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.userEmail">
+                	AND <![CDATA[ userEmail = #{updateWhere.userEmail} ]]>
+                </if>
+            	<if test="null!=updateWhere.companyName">
+                	AND <![CDATA[ companyName = #{updateWhere.companyName} ]]>
+                </if>
+            	<if test="null!=updateWhere.entryTime">
+                	AND <![CDATA[ entryTime = #{updateWhere.entryTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.position">
+                	AND <![CDATA[ position = #{updateWhere.position} ]]>
+                </if>
+            	<if test="null!=updateWhere.companyContactNumber">
+                	AND <![CDATA[ companyContactNumber = #{updateWhere.companyContactNumber} ]]>
+                </if>
+            	<if test="null!=updateWhere.companyAddress">
+                	AND <![CDATA[ companyAddress = #{updateWhere.companyAddress} ]]>
+                </if>
+            	<if test="null!=updateWhere.schoolName">
+                	AND <![CDATA[ schoolName = #{updateWhere.schoolName} ]]>
+                </if>
+            	<if test="null!=updateWhere.livingExpenses">
+                	AND <![CDATA[ livingExpenses = #{updateWhere.livingExpenses} ]]>
+                </if>
+            	<if test="null!=updateWhere.schoolAddress">
+                	AND <![CDATA[ schoolAddress = #{updateWhere.schoolAddress} ]]>
+                </if>
+            	<if test="null!=updateWhere.hasLoanRecord">
+                	AND <![CDATA[ hasLoanRecord = #{updateWhere.hasLoanRecord} ]]>
+                </if>
+            	<if test="null!=updateWhere.loanAmount">
+                	AND <![CDATA[ loanAmount = #{updateWhere.loanAmount} ]]>
+                </if>
+            	<if test="null!=updateWhere.monthRepayment">
+                	AND <![CDATA[ monthRepayment = #{updateWhere.monthRepayment} ]]>
+                </if>
+            	<if test="null!=updateWhere.marital">
+                	AND <![CDATA[ marital = #{updateWhere.marital} ]]>
+                </if>
+            	<if test="null!=updateWhere.createTime">
+                	AND <![CDATA[ createTime = #{updateWhere.createTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.updateTime">
+                	AND <![CDATA[ updateTime = #{updateWhere.updateTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.zhimaScoreRefreshTime">
+                	AND <![CDATA[ zhimaScoreRefreshTime = #{updateWhere.zhimaScoreRefreshTime} ]]>
+                </if>
+            	<if test="null!=updateWhere.watchListValue">
+                	AND <![CDATA[ watchListValue = #{updateWhere.watchListValue} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="UserHistoryMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        user_history
+         <include refid="where" />
+    </select>
+   
+    
+    <!-- 自动生成结束================================================================ -->
+    
+   <!-- 通过rentRecordNolist查询历史用户列表信息 -->
+	<select id="queryInfoByRentRecordNos"  resultMap="UserHistoryMap" parameterType="java.util.List">
+		select  
+		<include refid="columns" />
+        FROM
+        user_history
+		where 
+		rentRecordNo in
+		 <foreach close=")" collection="list" index="index" item="rentRecordNo" open="(" separator=",">
+	            #{rentRecordNo}
+	        </foreach>
+	</select>
+   
+</mapper>
+

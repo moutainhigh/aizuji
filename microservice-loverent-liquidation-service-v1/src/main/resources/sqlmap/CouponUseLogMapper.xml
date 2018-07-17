@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.CouponUseLogMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.CouponUseLogEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orderSN" jdbcType="VARCHAR" property="orderSN" />
+    <result column="couponId" jdbcType="BIGINT" property="couponId" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="realName" jdbcType="VARCHAR" property="realName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="productModel" jdbcType="VARCHAR" property="productModel" />
+    <result column="productType" jdbcType="TINYINT" property="productType" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="usageScenario" jdbcType="TINYINT" property="usageScenario" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="fundsSN" jdbcType="VARCHAR" property="fundsSN" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, orderSN,couponId,userId, realName, phone, productModel, productType, amount, usageScenario, 
+    remark, fundsSN,createOn
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		<if test="couponId != null">
+  			couponId = #{#couponId}
+  		</if>
+  		<if test="orderSN != null">
+  			orderSN = #{#orderSN}
+  		</if>
+  		<if test="usageScenario != null">
+  			usageScenario = #{#usageScenario}
+  		</if>
+  		<if test="startDate != null">
+  			AND createOn >= #{startDate}
+  		</if>
+  		<if test="endDate != null">
+  			<![CDATA[ AND createOn <= #{endDate} ]]>
+  		</if>
+  	</where>
+  </sql>
+  
+  <sql id="where_page_clause">
+  	<where>
+  		<if test="usageScenario != null">
+  			usageScenario = #{#usageScenario}
+  		</if>
+  		<if test="orderSN != null and orderSN !='' ">
+  			orderSN = #{orderSN}
+  		</if>
+  		<if test="phone != null and phone !='' ">
+			phone = #{phone}
+  		</if>
+  		<if test="startDate != null">
+  			AND createOn >= #{startDate}
+  		</if>
+  		<if test="endDate != null">
+  			<![CDATA[ AND createOn <= #{endDate} ]]>
+  		</if>
+  	</where>
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_use_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM coupon_use_log
+    <include refid="where_clause"></include>
+  </select>
+  <insert id="insert" parameterType="org.gz.liquidation.entity.CouponUseLogEntity">
+    insert into coupon_use_log (id, couponId, realName, 
+      phone, productModel, productType, 
+      amount, usageScenario, remark, 
+      createOn)
+    values (#{id,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{realName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{productModel,jdbcType=VARCHAR}, #{productType,jdbcType=TINYINT}, 
+      #{amount,jdbcType=DECIMAL}, #{usageScenario,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{createOn,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.CouponUseLogEntity">
+    insert into coupon_use_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        couponId,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="realName != null">
+        realName,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="productModel != null">
+        productModel,
+      </if>
+      <if test="productType != null">
+        productType,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="usageScenario != null">
+        usageScenario,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="fundsSN != null">
+        fundsSN,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="couponId != null">
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="productModel != null">
+        #{productModel,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=TINYINT},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="usageScenario != null">
+        #{usageScenario,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsSN != null">
+        #{fundsSN,jdbcType=VARCHAR},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 分页查询 -->
+  <select id="selectPage" resultMap="BaseResultMap">
+  	SELECT 
+  	 <include refid="Base_Column_List"></include>
+  	FROM
+  		coupon_use_log
+  	<include refid="where_page_clause"></include>
+  </select>
+  <!-- 统计优惠券金额 -->
+  <select id="sumAmount" resultType="BigDecimal">
+  	 	SELECT 
+	  		IFNULL(SUM(amount),0)
+	  	FROM
+	  		coupon_use_log
+	  	<where>
+	  		<if test="usageScenario != null and usageScenario >0  ">
+	  			AND usageScenario = #{usageScenario}
+	  		</if>
+	  	</where>	
+  </select>
+</mapper>

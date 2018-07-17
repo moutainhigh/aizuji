@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单退款处理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">退款管理</a></li>
+		  <li><a href="#">订单退款处理</a></li>
+		  <li class="active">订单详情</li>
+		</ol>
+	</div>
+
+	<div class="content before-order">
+		<div class="tips_tsz">
+			订单基本信息
+			<button class="detail btn btn-default btn-sm" data-toggle="modal" data-target="#see_lateFeeRemission">查看租赁计划</button>
+		</div>
+		<div class="detail_tsz">
+			<ul>
+				<li>订单编号：<span id="rentRecordNo"></span></li>
+				<li style="display: none;"><span id="userid"></span></li>
+				<li>姓名：<span id="realName"></span></li>
+				<li>身份证号码：<span id="idNo"></span></li>
+				<li>租期截止日：<span id="backTime"></span></li>
+				<li>订单状态：<span id="stateDesc"></span></li>
+				<li>每月应还租日：<span id="leaseAmount"></span></li>
+				<li>订单期数：<span id="leaseTerm"></span></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+		<div class="tuikuan_tsz">
+			<button class="detail btn btn-default btn-sm" data-toggle="modal" data-target="#div_lateFeeRemission">退款</button>
+		</div>
+		<div class="tuikuan_tsz">
+			<div class="" style="float: left; width: 58.5%; border-right: 1px #666 dotted;">
+				<div style="width: 95%;">
+					<div class="tips_tsz">订单交易信息</div>
+					<div class='table-box table-responsive'>
+						<table class="table" id='grid-tab'>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="" style="float: left; width: 40.5%;">
+				<div style="width: 95%; margin-left: 5%;">
+					<div class="tips_tsz">订单清偿信息</div>
+					<div class='table-box table-responsive'>
+						<table class="table" id='repay-grid-tab'>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--查看租赁计划-->
+	<div class="modal fade" id="see_lateFeeRemission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content" style="min-width:800px;margin-left:-200px">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel3">查看租赁计划</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal" role="form">
+						<div class='table-box table-responsive' style="margin-top: 0px;">
+							<table class="table" id='grid-tab-see'>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="display: none;"></div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--退款-->
+	<div class="modal fade" id="div_lateFeeRemission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">退款</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">退款科目:</label>
+							<div class="col-sm-8">
+								<div class="checkbox">
+									<label><input type="radio" name="radio_transactionType" checked="" value="ZNJ">滞纳金</label>
+									<label><input type="radio" name="radio_transactionType" value="ZJ">租金</label>
+									<label><input type="radio" name="radio_transactionType" value="MDJ">买断金</label>
+									<label><input type="radio" name="radio_transactionType" value="ZJWYJ">折旧费</label>
+									<label><input type="radio" name="radio_transactionType" value="SQK">首期款</label>
+									<label><input type="radio" name="radio_transactionType" value="BZJ">保证金</label>
+									<label><input type="radio" name="radio_transactionType" value="YJJ">溢价金</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">退款金额:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="ipt_remission_lateFee">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">交易流水号:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="ipt_remission_snNo">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">退款截图上传:</label>
+							<form id= "uploadForm1" enctype="multipart/form-data" style="position: relative;">
+								<img id="pic1" class="picAdd" src="../image/imgDefault.png" width="260" height="150" />
+								<input type="file" name="attaFile" id="upload1" class="imgUpload" style="margin-left: 150px;" />
+								<div class="" style="width: 260px; height: 35px; margin: 5px 0px 0px 150px; line-height: 35px; border: 1px #ccc solid; background-color: #efefef; border-radius: 5px;">
+									<a href="javascript:;" style="width: 49%; text-align: center; border-right: 1px #ccc solid; display: inline-block;" id="uploaderId1">上传</a>
+									<a href="javascript:;" style="width: 49%; text-align: center; display: inline-block;" id="deluploaderId1">删除</a>
+								</div>
+							</form>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">退款原因:</label>
+							<div class="col-sm-8">
+								<textarea class="form-control" rows="3" style="resize:none" id="tta_desc"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" onclick="doLateFeeRemission()">提交</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<!--退款成功-->
+	<div class="modal fade" id="divsure_lateFeeRemission" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel4">退款成功</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-horizontal" role="form">
+						<p>本次退款操作成功!</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#div_lateFeeRemission" id="lateFeeRemission">继续退款</button>
+					<!--<button type="button" class="btn btn-primary" onclick="goonList()">对其他订单退款</button>-->
+					<a href="./refundables.html" class="btn btn-primary">对其他订单退款</a>
+					<a href="./refundablesList.html" class="btn btn-primary">查看对款记录</a>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+	<style type="text/css">
+		.clear{height: 0px; clear: both;}
+		.tips_tsz{font-weight: bold;}
+		.tips_tsz .detail{font-size: 12px; color: #1b6d85; margin-left: 20px; border: none; background-color: transparent; padding: 0px;}
+		.detail_tsz ul li{float: left; padding: 20px 5% 0px 0px;}
+		.tuikuan_tsz{width: 100%; margin-top: 30px;}
+		.tuikuan_tsz .detail{width: 300px; height: 40px; line-height: 30px; font-size: 18px;  border-radius: 5px;}
+		.picAdd{border: 1px #ccc solid; border-radius: 5px;}
+		.imgUpload{position: absolute; width: 260px; height: 150px; left: 0px; top: 0px; display: inline-block; opacity: 0;}
+		.imgUpload.hover{z-index: -1;}
+	</style>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/date/WdatePicker.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/refundablesDetail.js'></script>
+	<script>
+
+		$('.height-srarch').click(function(){
+			$(this).find('span').toggleClass('active')
+			$('.form-box').slideToggle()
+		})
+		$('.order-tab li').click(function(){
+			$(this).addClass('active').siblings().removeClass('active')
+			var index = $(this).index()
+			$('.content-list').hide().eq(index).show()
+		})
+		$("#numberInput").bind('input porpertychange',function(){
+			if($(this).val()){
+				$('.form-box').find('input,button,select').attr('disabled','disabled')
+                $('.form-box').find('input,button,select').val('')
+			}else{
+				$('.form-box').find('input,button,select').removeAttr('disabled')
+			}
+		})
+		$('#clear').click(function(){
+			$('#numberInput').val('')
+			$('.form-box').find('input,select').val('')
+			$('.form-box').find('button').removeClass('btn-primary')
+			$('.form-box').find('input,button,select').removeAttr('disabled');
+			
+		})
+		// 查询方法以及table组件使用方法
+		//initData();
+		
+	</script>
+</body>
+</html>

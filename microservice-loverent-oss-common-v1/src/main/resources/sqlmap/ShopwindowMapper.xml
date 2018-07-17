@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.oss.common.dao.ShopwindowDao">
+
+    <!--修改-->
+    <update id="update" parameterType="org.gz.oss.common.entity.ShopwindowVO">
+        update shopwindow set
+            name = #{name},
+            type = #{type} ,
+            position =#{position},
+            image = #{image}
+        WHERE id=#{id}
+    </update>
+
+    <!--判断当前活动时间是否合理-->
+    <select id="queryActivityTime" parameterType="org.gz.oss.common.entity.ActivityCommodity" resultType="org.gz.oss.common.entity.ActivityTime">
+        SELECT * from sales_campaign where startTime  &lt;= #{startTime} and endTime &gt;= #{endTime}
+    </select>
+
+    <!-- 根据活动ID，判断当前活动时间是否能做修改-->
+    <select id="queryActivityTimeById" parameterType="org.gz.oss.common.entity.ActivityCommodity" resultType="org.gz.oss.common.entity.ActivityTime">
+         SELECT * from sales_campaign where  id = #{id}
+    </select>
+
+    <!--新增活动时间-->
+    <insert id="insertActivityTime" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.oss.common.entity.ActivityCommodity">
+        INSERT INTO sales_campaign(
+            shopwindowId,
+            startTime,
+            endTime,
+            createTime)
+        VALUES (
+            #{shopwindowId},
+            #{startTime},
+            #{endTime},
+            #{createTime}
+        )
+    </insert>
+
+    <!--修改活动时间-->
+    <update id="updateActivityTime" parameterType="org.gz.oss.common.entity.ActivityCommodity">
+        update sales_campaign set
+        startTime = #{startTime},
+        endTime = #{endTime}
+        where id = #{id}
+    </update>
+
+    <!--删除活动-->
+    <delete id="deleteActivity" parameterType="java.lang.Long">
+        DELETE FROM sales_campaign where id = #{id}
+    </delete>
+
+    <!--删除活动对应的商品-->
+    <delete id="deleteActivityCommodity" parameterType="java.lang.Long">
+        DELETE FROM shopwindow_commodity_relation where activityId = #{id}
+    </delete>
+
+    <delete id="deleteActivityCommodityByShopwindowId" parameterType="int">
+        DELETE FROM shopwindow_commodity_relation where shopwindowId =#{shopwindowId}
+    </delete>
+
+    <!--新增活动商品-->
+    <insert id="insertActivityCommodity" parameterType="org.gz.oss.common.entity.ActivityCommodity">
+        INSERT INTO shopwindow_commodity_relation (
+            shopwindowId,
+            productId,
+            imeiNo,
+            snNo,
+            position,
+            type,
+            modelId,
+            activityId)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+            #{item.shopwindowId},
+            #{item.productId},
+            #{item.imeiNo},
+            #{item.snNo},
+            #{item.position},
+            #{item.type},
+            #{item.modelId},
+            #{item.id}
+        )
+        </foreach>
+    </insert>
+
+
+    <!--查询活动商品列表-->
+    <select id="queryActivityList" resultType="org.gz.oss.common.entity.ActivityTime" >
+        select a.*,count(b.id) as totalCount FROM sales_campaign a
+        left join shopwindow_commodity_relation b on a.id = b.activityId
+        GROUP BY a.id
+    </select>
+
+    <!--根据活动ID，获取活动对应商品-->
+    <select id="queryActivityCommodity" parameterType="int" resultType="org.gz.oss.common.entity.ShopwindowCommodityRelation" >
+        SELECT * FROM shopwindow_commodity_relation where activityId = #{id}
+    </select>
+
+    <!--根据橱窗位ID获取橱窗位对应的商品-->
+    <select id="queryShopwindowCommodityById" parameterType="int" resultType="org.gz.oss.common.entity.ShopwindowCommodityRelation">
+        SELECT * FROM shopwindow_commodity_relation where shopwindowId = #{id}
+    </select>
+
+    <!--根据活动商品Id，修改活动商品-->
+    <!--<update id="updateActivityCommodity" parameterType="org.gz.oss.common.entity.ActivityCommodity" >-->
+        <!--UPDATE shopwindow_commodity_relation set-->
+            <!--productId = #{productId},-->
+            <!--imeiNo = #{imeiNo},-->
+            <!--snNo = #{snNo},-->
+            <!--position = #{position},-->
+            <!--type = #{type}-->
+            <!--WHERE id = #{commodityId}-->
+    <!--</update>-->
+
+    <!--获取所有橱窗位名称和对应商品数量-->
+    <select id="findShopwindowCount" resultType="org.gz.oss.common.entity.Shopwindow">
+        SELECT
+            a.*,
+            count(b.id) AS totalCount
+        FROM
+            shopwindow a
+        LEFT JOIN shopwindow_commodity_relation b ON a.id = b.shopwindowId
+        GROUP BY
+            a.id
+        ORDER BY
+            a.position
+    </select>
+
+    <!--根据当前时间，查询已开始的活动下的商品总数-->
+    <select id="getActivityShopwindowCommodityCount" parameterType="String" resultType="org.gz.oss.common.entity.Shopwindow">
+        SELECT
+        b.activityId AS id,
+        count(a.id) AS totalCount
+        FROM
+        sales_campaign a
+        LEFT JOIN shopwindow_commodity_relation b ON a.id = b.activityId
+        WHERE
+        startTime &lt;= #{date}
+        AND endTime &gt;= #{date}
+    </select>
+
+    <!--获取橱窗位列表-->
+    <select id="findAllList" resultType="org.gz.oss.common.entity.Shopwindow">
+        SELECT * FROM shopwindow order by position
+    </select>
+
+    <!--获取所有橱窗位和商品-->
+    <select id="getShopwindowAndCommondity" resultType="org.gz.oss.common.entity.IndexInfo">
+        select
+        a.id as shopwindowId,
+        b.activityId,
+        a.name,
+        a.image,
+        a.type as shopwindowType,
+        a.position as shopwindowPosition,
+        b.id as commodityId,
+        b.productId,
+        b.imeiNo,
+        b.snNo,
+        b.position as commodityPosition,
+        b.type as commodityType,
+        b.modelId,
+        c.startTime,
+        c.endTime
+        from shopwindow a
+        right JOIN shopwindow_commodity_relation b on a.id = b.shopwindowId
+        left JOIN  sales_campaign c on b.activityId = c.id
+        where
+        b.activityId is null
+        or c.startTime &lt;= #{date} and c.endTime &gt;= #{date}
+    </select>
+
+    <!-- 获取售卖橱窗下的所有商品-->
+    <select id="getSellShopwindowCommodity" resultType="org.gz.oss.common.entity.ShopwindowCommodityRelation">
+        select * from shopwindow_commodity_relation where type = 20 and shopwindowId = 2
+    </select>
+
+    <!--根据商品类型，删除商品-->
+    <delete id="deleteActivityByType" parameterType="java.lang.Integer">
+         DELETE FROM shopwindow_commodity_relation where type = #{type}
+    </delete>
+</mapper>

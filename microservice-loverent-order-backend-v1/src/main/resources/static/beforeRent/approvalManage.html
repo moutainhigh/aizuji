@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>订单审核管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+	<link rel="icon" href="../image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">订单管理</a></li>
+		  <li class="active">订单审核管理</li>
+		</ol>
+	</div>
+	<div class='content before-order'>
+		<!-- 查询模块 -->
+		<div class='content-list'>
+			<div class='search-box'>
+				<div class='input-box'>
+					<span class='title'>订单编号：</span>
+					<div class='input-list'>
+						 <input type="text" class="form-control" style = "width:200px;" placeholder="请输入订单编号" id='numberInput'>
+					</div>
+				</div>
+				<div class='button-box'>
+				<span class='search-tips'>(该条件作为唯一精确查询条件)</span>
+					<button type="button" class="btn btn-warning" id='search'>查询</button>
+				</div>
+			</div>
+			<div class='height-srarch'>高级查询<span class='glyphicon  glyphicon-menu-down'></span></div>
+			<div class='form-box'>
+				<form class="form-horizontal" role="form">
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">用户姓名</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="userName" placeholder="请输入姓名">
+				    </div>
+				   
+				  </div>
+				   <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">身份证号</label>
+				    <div class="col-sm-2">
+				      <input type="text" class="form-control" id="idCard" placeholder="请输入身份证号">
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <label for="lastname" class="col-sm-1 control-label">下单渠道</label>
+				    <div class="col-sm-10">
+				      	<div class="btn-group1">
+				      	</div>
+				    </div>
+				   </div>
+				    <div class="form-group">
+				    	<label for="lastname" class="col-sm-1 control-label">产品类别</label>
+					    <div class="col-sm-10">
+					      	<div class="btn-group2">
+					      	</div>
+					    </div>
+				   </div>
+				</form>
+			</div>
+			<div class='table-box  table-responsive'>
+	      		<table class="table" id='integrated-tab'>
+	      		</table>
+	      		<!-- 暂无数据 -->
+	      		<!-- <div class='no-data'>暂无数据</div> -->
+	      		<!-- 正在加载中 -->
+	      		<!-- <div class='loading-box'>
+	      			<img src="../image/loading.gif" alt="">正在加载中
+	      		</div> -->
+			</div>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/bootstrap/bootstrap-datetimepicker.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-datetimepicker.zh-CN.js'></script>
+	<script src='../js/common.js'></script>
+	<script>
+	var searObj = {}
+	var statemap = {}
+	var channelnosmap={}
+	//默认加载下单渠道，产品类别，订单状态等标签
+	//下单渠道
+	channelNos();
+	function channelNos(){
+		common.ajax('/common/channelNos',{},function(data){
+           	var _list = data;
+			var _arr = new Array();
+			_arr.push('<button type="button" class="btn btn-default" value="">全部</button>');
+			for(var i = 0;i < _list.length;i++){
+				_arr.push('<button type="button" class="btn btn-default" value="'+_list[i].code+'">'+_list[i].message+'</button>');
+			}
+			$('.btn-group1').html(_arr.join("")); 
+			
+			//订单来源集合
+			for(var i = 0;i < _list.length;i++){
+				channelnosmap[_list[i].code]=_list[i].message;
+			}
+        });
+	}
+	//获取产品类别
+	allMaterielClassList();
+	
+	//后端租赁状态
+	backRentStates();
+	function backRentStates(){
+		common.ajax('/common/backRentStates',{},function(data){
+        	var _list = data;
+			//后台租赁状态集合
+			for(var i = 0;i < _list.length;i++){
+				statemap[_list[i].code]=_list[i].message;
+			}	
+        });
+	}
+	
+	//加载列表数据
+	var _columns = [[
+	  			{
+	  	              field: 'rentRecord.rentRecordNo',
+	  	              title: '订单编号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.realName',
+	  	              title: '用户姓名'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.phoneNum',
+	  	              title: '手机号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.idNo',
+	  	              title: '身份证号'
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.materielClassName',
+	  	              title: '商品类别'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.materielModelName',
+	  	              title: '商品型号'
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseTerm',
+	  	              title: '租期',
+	  	              formatter:function(value, row, index){
+	 		              return value && (value+"个月");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.leaseAmount',
+	  	              title: '月租金',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.floatAmount',
+	  	              title: '产品溢价',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.premium',
+	  	              title: '保险费用',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	      	{
+	  	              field: 'rentRecordExtends.signContractAmount',
+	  	              title: '签约价值',
+  	            	  formatter:function(value, row, index){
+	 		              return value && (value+"元");
+	 		          }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.applyTime',
+	  	              title: '申请时间',
+	  	              formatter:function(value, row, index){
+		 		          return value && new Date(value).Format("yyyy-MM-dd hh:mm:ss");
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.state',
+	  	              title: '订单状态',
+	  	              formatter:function(value, row, index){
+		 		          return statemap[value];
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecord.channelNo',
+	  	              title: '订单来源',
+	  	              formatter:function(value, row, index){
+		 		          return channelnosmap[value];
+		 		      }
+	  	        },
+	  	        {
+	  	              field: 'rentRecordExtends.materielSpecName',
+	  	              title: '规格',
+	  	              formatter:function(value, row, index){
+	 		              return value && value.replace(new RegExp(",","gm"),"&nbsp;&nbsp;");
+	 		          }
+	  	        },
+	  	      {
+	  	              field: 'operate',
+	  	              title: '操作',
+	  	              formatter:function(value,row,index){
+	                       var btn = "<a href='./orderAudit.html?id="+row.rentRecord.id+"' target='iframe'><button type='button' class='btn btn-default btn-sm'>查看详情</button></a>";
+	                       return btn
+	     			  }
+	  	        }
+	 		]];
+	initData();
+	function initData(){
+    	common.tableInit().init("integrated-tab",'/integration/list',function (pageParam) {
+    		var temp={};
+    		if(searObj['rentRecord.rentRecordNo'])
+    			temp['rentRecord.rentRecordNo']=searObj['rentRecord.rentRecordNo'];
+    		else
+    			temp=searObj;
+    		temp.currPage=pageParam.pageNumber;
+    		temp.pageSize=pageParam.pageSize;
+    		temp['rentRecord.state']=1;
+    		temp['rentRecord.creditState']=2;
+    		return $.param(temp);
+		}
+    	,_columns);	
+    }
+	
+	//查询
+	$('#search').click(function(){
+		$('#integrated-tab').bootstrapTable('destroy');
+		initParams();
+		initData();
+	})
+	$('.height-srarch').click(function(){
+		$(this).find('span').toggleClass('active')
+		$('.form-box').slideToggle()
+	})
+	
+	// 查询方法以及table组件使用方法
+
+	//表格标题
+	$('.btn-group1,.btn-group2').delegate('.btn','click',function(){
+		$(this).toggleClass('btn-primary').siblings().removeClass('btn-primary')
+		if($(this).hasClass('btn-primary')){
+			//下单渠道
+			if($(this).parent().attr('class') == 'btn-group1'){
+				searObj['rentRecord.channelNo']=$(this).val();
+			}
+			//产品类别
+			if($(this).parent().attr('class') == 'btn-group2'){
+				searObj['rentRecordExtends.materielClassId']=$(this).val();
+			}
+		}else{
+			//下单渠道
+			if($(this).parent().attr('class') == 'btn-group1'){
+				searObj['rentRecord.channelNo']='';
+			}
+			//产品类别
+			if($(this).parent().attr('class') == 'btn-group2'){
+				searObj['rentRecordExtends.materielClassId']='';
+			}
+		}
+	})
+	function initParams(){
+			if($('#numberInput').val()){
+				searObj['rentRecord.rentRecordNo']=$('#numberInput').val();
+			}else{
+				searObj['rentRecord.rentRecordNo']='';
+			}
+			if($('#userName').val()){
+				searObj['rentRecordExtends.realName'] = $('#userName').val();
+			}else{
+				searObj['rentRecordExtends.realName'] = '';
+			}
+			if($('#idCard').val()){
+				if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test($('#idCard').val())){
+					common.error('身份证号码格式错误，请重新输入')
+				}else{ 
+					searObj['rentRecordExtends.idNo'] = $('#idCard').val();
+				}
+			}else{
+				searObj['rentRecordExtends.idNo'] ='';
+			} 
+		}
+	</script>
+</body>
+</html>

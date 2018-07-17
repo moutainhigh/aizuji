@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielBasicInfoMapper">
+
+ <select id="queryUsedCountByClassBrand" resultType="int">
+ 	select 
+ 		count(1) 
+ 	from materiel_basic_info 
+ 	where 1=1 and materielClassId=#{materielClassId} and materielBrandId in
+	<foreach item="item" collection="materielBrandIdList" open="(" separator="," close=")">
+          #{item}
+    </foreach>
+ </select>
+ 	
+ <select id="queryUsedCountByModelIds" parameterType="java.util.List" resultType="int">
+ 	select count(1) from materiel_basic_info where materielModelId in
+ 	<foreach item="item" collection="list" open="(" separator="," close=")">
+          #{item}
+    </foreach>
+ </select>
+ 
+ <!-- 根据主键和物料名称查询重复数量 -->
+ <select id="queryUniqueCount" parameterType="org.gz.warehouse.entity.MaterielBasicInfoQuery" resultType="int">
+ 	select count(1) from materiel_basic_info where 1=1
+ 	<if test="id!=null and id>0">
+ 		and id!=#{id}
+ 	</if>
+ 	<if test="materielName!=null and materielName!=''">
+ 		and materielName =#{materielName}
+ 	</if>
+ 	<if test="materielClassId!=null and materielClassId>0">
+ 		and materielClassId=#{materielClassId}
+ 	</if>
+ 	<if test="materielBrandId!=null and materielBrandId>0">
+ 		and materielBrandId=#{materielBrandId}
+ 	</if>
+ 	<if test="materielModelId!=null and materielModelId>0">
+ 		and materielModelId=#{materielModelId}
+ 	</if>
+ 	<if test="materielUnitId!=null and materielUnitId>0">
+ 		and materielUnitId=#{materielUnitId}
+ 	</if>
+ 	<if test="specBatchNo!=null and specBatchNo!=''">
+ 		and specBatchNo=#{specBatchNo}
+ 	</if>
+ 	<if test="materielFlag!=null and materielFlag==1">
+ 		and materielFlag=#{materielFlag}
+ 	</if>
+ 	<if test="materielNewConfigId!=null and materielNewConfigId>0">
+ 		and materielNewConfigId=#{materielNewConfigId}
+ 	</if>
+ 	
+ </select>
+ 
+ <!-- 插入数据 -->
+ <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 	insert into materiel_basic_info(
+ 		  materielName,
+		  materielClassId,
+		  materielBrandId,
+		  materielModelId,
+		  specBatchNo,
+		  materielUnitId,
+		  materielBarCode,
+		  materielCostPrice,
+		  createBy,
+		  createOn,
+		  updateBy,
+		  updateOn,
+		  remark,
+		  enableFlag,
+		  thumbnailUrl,
+		  materielFlag,
+		  materielIntroduction,
+		  materielNewConfigId,
+		  version
+ 	)values(
+ 		  #{materielName},
+		  #{materielClassId},
+		  #{materielBrandId},
+		  #{materielModelId},
+		  #{specBatchNo},
+		  #{materielUnitId},
+		  #{materielBarCode},
+		  #{materielCostPrice},
+		  #{createBy},
+		  #{createOn},
+		  #{updateBy},
+		  #{updateOn},
+		  #{remark},
+		  #{enableFlag},
+		  #{thumbnailUrl},
+		  #{materielFlag},
+		  #{materielIntroduction},
+		  #{materielNewConfigId},
+		  #{version}
+	)
+ </insert>
+ 
+ <!-- 更新物料编码 -->
+ <update id="updateMaterielCode" parameterType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 	update materiel_basic_info set materielCode=#{materielCode},materielBarCode=#{materielBarCode} where id=#{id}
+ </update>
+ 
+ <!-- 获取详情 -->
+ <select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 	SELECT 
+		t1.*,
+		t6.configValue,
+		t2.brandName,
+		t3.materielModelName, 
+		t4.unitName,
+		t5.typeName as materielClassName,
+		(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specValues
+	FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	INNER JOIN materiel_new_config t6 ON t1.materielNewConfigId=t6.id
+	where t1.id=#{id}
+ </select>
+ 
+ <sql id="where_queryPageCount">
+ 	where 1=1
+ 	<if test="id!=null and id>0">
+ 		and t1.id=#{id}
+ 	</if>
+ 	<if test="queryContent!=null and queryContent!=''">
+ 		and (t1.materielName like concat('%',#{queryContent},'%') or t1.materielCode like concat('%',#{queryContent},'%') )
+ 	</if>
+ 	<if test="materielName!=null and materielName!=''">
+ 		and t1.materielName like concat('%',#{materielName},'%')
+ 	</if>
+ 	<if test="materielCode!=null and materielCode!=''">
+ 		and t1.materielCode like concat('%',#{materielCode},'%')
+ 	</if>
+ 	<if test="materielClassId!=null and materielClassId>0">
+ 		and t1.materielClassId=#{materielClassId}
+ 	</if>
+ 	<if test="materielBrandId!=null and materielBrandId>0">
+ 		and t1.materielBrandId=#{materielBrandId}
+ 	</if>
+ 	<if test="materielModelId!=null and materielModelId>0">
+ 		and t1.materielModelId=#{materielModelId}
+ 	</if>
+ 	<if test="materielUnitId!=null and materielUnitId>0">
+ 		and t1.materielUnitId=#{materielUnitId}
+ 	</if>
+ 	<if test="materielBarCode!=null and materielBarCode>0">
+ 		and t1.materielBarCode=#{materielBarCode}
+ 	</if>
+ 	<if test="specBatchNo!=null and specBatchNo!=''">
+ 		and t1.specBatchNo=#{specBatchNo}
+ 	</if>
+ 	<if test="enableFlag!=null and enableFlag>-1">
+ 		and t1.enableFlag=#{enableFlag}
+ 	</if>
+ 	<if test="materielNewConfigId!=null and materielNewConfigId>0">
+ 		and t1.materielNewConfigId=#{materielNewConfigId}
+ 	</if>
+ </sql>
+ 
+ 
+ <select id="queryPageCount" parameterType="org.gz.warehouse.entity.MaterielBasicInfoQuery" resultType="int">
+ 	SELECT 
+		count(t1.id)
+	FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	INNER JOIN materiel_new_config t6 ON t1.materielNewConfigId=t6.id
+	<include refid="where_queryPageCount"/>
+ </select>
+ 
+ 
+ <select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielBasicInfoQuery" resultType="org.gz.warehouse.entity.MaterielBasicInfoVO">
+ 	SELECT 
+		t1.id,
+		t1.materielName,
+		t1.materielCode,
+		t1.materielBarCode,
+		t1.materielBrandId,
+		t1.enableFlag,
+		t2.brandName,
+		t1.materielClassId,
+		t1.materielModelId,
+		t3.materielModelName, 
+		t1.materielUnitId,
+		t4.unitName,
+		t1.specBatchNo,
+		t1.materielCostPrice,
+		t1.materielFlag,
+		(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specValues,
+		t1.thumbnailUrl,
+		t1.materielNewConfigId,
+    	t6.configValue as materielNewConfigValue
+	FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	INNER JOIN materiel_new_config t6 ON t1.materielNewConfigId=t6.id
+	<include refid="where_queryPageCount"/> 
+	order by t1.updateOn desc limit #{startIndex},#{endIndex}
+ </select>
+ 
+ 
+ <update id="update" parameterType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 	update materiel_basic_info set
+ 		  materielName=#{materielName},
+ 		  materielBarCode=#{materielBarCode},
+		  materielClassId=#{materielClassId},
+		  materielBrandId=#{materielBrandId},
+		  materielModelId=#{materielModelId},
+		  specBatchNo=#{specBatchNo},
+		  materielUnitId=#{materielUnitId},
+		  materielCostPrice=#{materielCostPrice},
+		  updateBy=#{updateBy},
+		  updateOn=#{updateOn},
+		  remark=#{remark},
+		  thumbnailUrl=#{thumbnailUrl},
+		  materielFlag=#{materielFlag},
+		  materielIntroduction=#{materielIntroduction},
+		  version=version+1
+     where id=#{id} and version=#{version}
+ </update>
+ 
+ <select id="queryList" parameterType="org.gz.warehouse.entity.MaterielBasicInfoQuery" resultType="org.gz.warehouse.entity.MaterielBasicInfoVO">
+ 	SELECT t1.* from materiel_basic_info t1
+	<include refid="where_queryList"/> 
+ </select>
+ 
+ <sql id="where_queryList">
+ 	where 1=1
+ 	<if test="materielClassId!=null and materielClassId>0">
+ 		and t1.materielClassId=#{materielClassId}
+ 	</if>
+ 	<if test="materielBrandId!=null and materielBrandId>0">
+ 		and t1.materielBrandId=#{materielBrandId}
+ 	</if>
+ 	<if test="materielModelId!=null and materielModelId>0">
+ 		and t1.materielModelId=#{materielModelId}
+ 	</if>
+ 	<if test="materielFlag!=null and materielFlag>-1">
+ 		and t1.materielFlag=#{materielFlag}
+ 	</if>
+ 	<if test="specBatchNo!=null and specBatchNo!=''">
+ 		and t1.specBatchNo=#{specBatchNo}
+ 	</if>
+ 	<if test="enableFlag!=null and enableFlag>-1">
+ 		and t1.enableFlag=#{enableFlag}
+ 	</if>
+ 	<if test="materielNewConfigId!=null and materielNewConfigId>0">
+ 		and t1.materielNewConfigId=#{materielNewConfigId}
+ 	</if>
+ </sql>
+ 
+ <update id="setEnableFlag" parameterType="org.gz.warehouse.entity.MaterielBasicInfo">
+ 	update materiel_basic_info set enableFlag=#{enableFlag} where id=#{id}
+ </update>
+ 
+ <select id="queryMainMaterielBasicInfo" parameterType="org.gz.warehouse.common.vo.MaterielBasicInfoReq" resultType="org.gz.warehouse.common.vo.MaterielBasicInfoResp">
+ 	 SELECT 
+		t1.*,
+		t2.brandName,
+		t3.materielModelName, 
+		t4.unitName,
+		(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t1.specBatchNo)as specValues
+	FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	where t1.materielModelId=#{materielModelId} and t1.materielFlag=#{materielFlag}
+ </select>
+ 
+ <select id="queryMainMaterielBasicShortInfo" parameterType="org.gz.warehouse.common.vo.MaterielBasicInfoReq" resultType="org.gz.warehouse.common.vo.MaterielBasicInfoResp">
+ 	 SELECT 
+		t1.id,
+		t1.materielName
+	 FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	 INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	 INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	 INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	 where t1.materielModelId=#{materielModelId} and t1.materielFlag=#{materielFlag}
+ </select>
+ 
+ <select id="queryMainMaterielBasicIntroductionInfo" parameterType="org.gz.warehouse.common.vo.MaterielBasicInfoReq" resultType="org.gz.warehouse.common.vo.MaterielBasicInfoResp">
+ 	 SELECT 
+		t1.id,
+		t1.materielName,
+		t1.materielIntroduction
+	 FROM materiel_basic_info t1 INNER JOIN materiel_brand t2 on t1.materielBrandId=t2.id  
+	 INNER JOIN materiel_model t3 ON (t2.id=t3.materielBrandId and t1.materielModelId=t3.id)
+	 INNER JOIN materiel_unit t4 ON t1.materielUnitId=t4.id
+	 INNER JOIN materiel_class t5 ON t1.materielClassId =t5.id
+	 where t1.materielModelId=#{materielModelId} and t1.materielFlag=#{materielFlag}
+ </select>
+ 
+ <!-- 根据物料的分类ID,品牌ID,型号ID查询主物料ID -->
+ <select id="queryMainMaterielBasicId" resultType="java.lang.Long">
+ 	select 
+	a.id
+	from materiel_basic_info a 
+	INNER JOIN (select materielClassId,materielBrandId,materielModelId from materiel_basic_info  where id=#{id}) b 
+	on (a.materielClassId=b.materielClassId and a.materielBrandId=b.materielBrandId and a.materielModelId=b.materielModelId)
+	where a.materielFlag=1
+ </select>
+
+ <!-- 根据物料ID查询物料图文介绍 -->
+ <select id="queryOnlyMaterielIntroduction" resultType="java.lang.String">
+ 	select a.materielIntroduction from materiel_basic_info a where a.id=#{id}
+ </select>
+
+ <!-- 根据物料ID查询物料附件列表 -->
+ <select id="queryOnlyMaterielAttaUrl" resultType="java.lang.String">
+ 	select attaUrl from materiel_basic_images where materielBasicInfoId=#{materielBasicInfoId} and attaUrl is not null and attaUrl!='';
+ </select>
+</mapper>

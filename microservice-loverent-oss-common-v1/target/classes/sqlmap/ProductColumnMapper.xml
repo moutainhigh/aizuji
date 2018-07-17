@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.ProductColumnDao">
+
+    <resultMap id="ProductColumnMap" type="org.gz.oss.common.entity.ProductColumn">
+        <result property="id" column="id"/>
+        <result property="columnName" column="column_name"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, column_name, is_deleted, sort_num, create_time
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.column_name, t.is_deleted, t.sort_num, t.create_time
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=columnName and ''!=columnName">
+                AND column_name = #{columnName}
+            </if>
+            <if test="null!=isDeleted">
+                AND is_deleted = #{isDeleted}
+            </if>
+            <if test="null!=sortNum">
+                AND sort_num = #{sortNum}
+            </if>
+            <if test="null!=createTime and ''!=createTime">
+                AND create_time = #{createTime}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="ProductColumnMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                product_column
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="ProductColumnMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        product_column
+        WHERE is_deleted = 0
+        ORDER BY sort_num
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO product_column (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=columnName">
+	                 column_name,
+	            </if>
+            	<if test="null!=isDeleted">
+	                 is_deleted,
+	            </if>
+            	<if test="null!=sortNum">
+	                 sort_num,
+	            </if>
+            	<if test="null!=createTime">
+	                 create_time
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=columnName">
+                #{columnName},
+                </if>
+            	<if test="null!=isDeleted">
+                #{isDeleted},
+                </if>
+            	<if test="null!=sortNum">
+                #{sortNum},
+                </if>
+            	<if test="null!=createTime">
+                #{createTime}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO product_column (
+                column_name,
+                is_deleted,
+                sort_num,
+                create_time
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.columnName},#{item.isDeleted},#{item.sortNum},#{item.createTime})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	product_column
+            <set>
+            	<if test="null!=updateCloumn.columnName">
+                	<![CDATA[ column_name = #{updateCloumn.columnName} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.isDeleted">
+                	<![CDATA[ is_deleted = #{updateCloumn.isDeleted} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.sortNum">
+                	<![CDATA[ sort_num = #{updateCloumn.sortNum} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createTime">
+                	<![CDATA[ create_time = #{updateCloumn.createTime} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.columnName">
+                	AND <![CDATA[ column_name = #{updateWhere.columnName} ]]>
+                </if>
+            	<if test="null!=updateWhere.isDeleted">
+                	AND <![CDATA[ is_deleted = #{updateWhere.isDeleted} ]]>
+                </if>
+            	<if test="null!=updateWhere.sortNum">
+                	AND <![CDATA[ sort_num = #{updateWhere.sortNum} ]]>
+                </if>
+            	<if test="null!=updateWhere.createTime">
+                	AND <![CDATA[ create_time = #{updateWhere.createTime} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="ProductColumnMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        product_column
+         <include refid="where" />
+    </select>
+   
+</mapper>
+

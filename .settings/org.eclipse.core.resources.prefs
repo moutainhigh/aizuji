@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+encoding//microservice-loverent-api-gateway-v1/src/main/resources/application.properties=UTF-8
+encoding//microservice-loverent-discovery-v1/src/main/resources/application.properties=UTF-8
+encoding/<project>=UTF-8

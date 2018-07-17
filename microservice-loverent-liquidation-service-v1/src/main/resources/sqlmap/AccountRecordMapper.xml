@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.AccountRecordMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.AccountRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="accountCode" jdbcType="VARCHAR" property="accountCode" />
+    <result column="fundsSN" jdbcType="VARCHAR" property="fundsSN" />
+    <result column="orderSN" jdbcType="VARCHAR" property="orderSN" />
+    <result column="transactionSN" jdbcType="VARCHAR" property="transactionSN" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="flowType" jdbcType="VARCHAR" property="flowType" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="createDate" jdbcType="DATE" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, accountCode, fundsSN, orderSN, transactionSN, amount, flowType, remark, createOn
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    <include refid="where_clause"></include>
+  </select>
+  
+  <!-- 分页查询 -->
+  <select id="selectPage" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    <include refid="where_clause_page"></include>
+    ORDER BY createOn DESC
+  </select>
+  
+  <sql id="where_clause">
+  	<where>
+  		 <if test="accountCode != null">
+            AND  accountCode = #{accountCode}
+      	 </if>
+      	  <if test="flowType != null">
+        	AND flowType = #{flowType}
+      	  </if>
+      	  <if test="orderSN != null">
+        	AND orderSN = #{orderSN}
+      	  </if>
+  	</where>
+  </sql>
+  <sql id="where_clause_page">
+  	<where>
+  		 <if test="accountCode != null and accountCode != '' ">
+            AND  accountCode = #{accountCode}
+      	 </if>
+      	  <if test="orderSN != null and orderSN !='' ">
+        	AND orderSN = #{orderSN}
+      	  </if>
+      	  <if test="startDate != null">
+        	AND createOn >= #{startDate}
+      	  </if>
+      	  <if test="endDate != null">
+        	<![CDATA[ AND createOn <= #{endDate} ]]>
+      	  </if>
+      	   <if test="1 == 1">
+            AND  accountCode != 'SQK'
+            AND  accountCode != 'BZJ'
+            AND  accountCode != 'YJJ'
+      	 </if>
+  	</where>
+  </sql>
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.AccountRecord">
+    insert into account_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountCode != null">
+        accountCode,
+      </if>
+      <if test="fundsSN != null">
+        fundsSN,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="transactionSN != null">
+        transactionSN,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="flowType != null">
+        flowType,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsSN != null">
+        #{fundsSN,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionSN != null">
+        #{transactionSN,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="flowType != null">
+        #{flowType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch">
+  	INSERT INTO account_record
+  		(
+  			accountCode, 
+  			fundsSN, 
+  			orderSN, 
+  			transactionSN, 
+  			amount, 
+  			flowType,
+  			createBy,
+  			remark
+  		)
+  	 VALUES
+  	 <foreach collection="list" item="item" index="index" separator=",">
+            (
+            	#{item.accountCode},
+            	#{item.fundsSN},
+            	#{item.orderSN},
+            	#{item.transactionSN},
+            	#{item.amount},
+            	#{item.flowType},
+            	#{item.createBy},
+            	#{item.remark}
+            )
+        </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.liquidation.entity.AccountRecord">
+    update account_record
+    <set>
+      <if test="accountcode != null">
+        accountCode = #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsSN != null">
+        fundsSN = #{fundsSN,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        orderSN = #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionSN != null">
+        transactionSN = #{transactionSN,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="flowType != null">
+        flowType = #{flowType,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 统计某一个科目的金额 -->
+  <select id="selectSumAmount" resultType="java.math.BigDecimal">
+  	SELECT 
+  		 sum(amount)
+  	FROM
+  		account_record
+  	<include refid="where_clause"></include>
+  </select>
+  <select id="selectAmount" resultType="AccountRecord">
+  	SELECT 
+  		 sum(amount),
+  		 flowType
+  	FROM
+  		account_record
+  	<include refid="where_clause"></include>
+  	ORDER BY createOn
+  	GROUP BY flowType
+  </select>
+  
+  <sql id="where_downpaymentStatistics">
+ 	
+  		<if test="orderSnList != null and orderSnList.size>0 ">
+  				AND orderSN in
+	        <foreach close=")" collection="orderSnList" item="item" open="(" separator=",">
+	            #{item}
+	        </foreach>
+  		</if>
+  		<if test="orderSnList ==null or orderSnList.size == 0">
+  				AND 1 != 1
+  		</if>
+  </sql>
+   <select id="selectDownpaymentStatistics" resultType="org.gz.liquidation.common.dto.DownpaymentStatisticsResp">
+  	SELECT 
+  		sum(amount) totalDownpayment, 
+  		0	totalFirstRent,
+  		0	totalInsurance,
+  		0	totalPremium
+  	FROM 
+  		account_record 
+  	where accountCode ='SQK' and flowType = 'IN'
+  		<include refid="where_downpaymentStatistics"></include>
+	UNION
+		SELECT 
+			0 totalDownpayment, 
+	  		sum(amount)	totalFirstRent,
+	  		0	totalInsurance,
+	  		0	totalPremium
+		FROM 
+			account_record 
+		WHERE accountCode ='ZJ' and flowType = 'IN' and remark ='首期租金'
+		<include refid="where_downpaymentStatistics"></include>
+	UNION
+		SELECT 	
+			0 totalDownpayment, 
+	  		0	totalFirstRent,
+	  		sum(amount)	totalInsurance,
+	  		0	totalPremium
+	  	 FROM 
+	  	 	account_record 
+	  	 WHERE accountCode ='BZJ' and flowType = 'IN'
+	  	<include refid="where_downpaymentStatistics"></include>
+	UNION
+		SELECT 
+			0 totalDownpayment, 
+	  		0	totalFirstRent,
+	  		0	totalInsurance,
+	  		sum(amount)	totalPremium
+		 FROM 
+		 	account_record WHERE accountCode ='YJJ' and flowType = 'IN'
+		<include refid="where_downpaymentStatistics"></include>
+  </select>
+  <!-- 收入统计查询 -->
+   <select id="selectRevenueList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account_record
+    <where>
+    	<if test="startDate !=null ">
+  			AND createOn >= #{startDate}
+  		</if>
+  		<if test="endDate != null">
+  			<![CDATA[ AND createOn <= #{endDate} ]]>
+  		</if>
+    </where>
+  </select>
+  
+  <!-- 统计滞纳金和滞纳金减免金额总额 -->
+   <select id="sumLatefee" resultMap="BaseResultMap">
+	    SELECT 
+	    	SUM(amount) amount,
+	    	orderSN
+	    FROM 
+	    	account_record
+	    WHERE
+	    	accountCode IN ('ZNJ','ZNJJM')
+	    	AND orderSN IN
+	    	<foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+           		 #{item}
+        	</foreach>
+        	GROUP BY orderSN
+   </select>
+	 
+</mapper>

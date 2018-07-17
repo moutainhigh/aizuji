@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.MaterielModelSpecMapper">
+
+ 	<!-- 批量插入 -->
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">
+		insert into materiel_model_spec(
+			materielModelId,
+			materielSpecId,
+			materielSpecValue,
+			specBatchNo
+		)
+		values  
+		<foreach collection="list" item="item" index="index" separator="," >  
+        	(
+	        	#{item.materielModelId},
+	        	#{item.materielSpecId},
+	        	#{item.materielSpecValue},
+	        	#{item.specBatchNo}
+        	)  
+    	</foreach>  
+	</insert>
+ 	
+ 	<sql id="where_queryPageCount">
+ 		where 1=1 
+ 		<if test="id!=null and id>0">
+ 			and id=#{id}
+ 		</if>
+ 		<if test="materielModelId!=null and materielModelId>0">
+ 			and materielModelId=#{materielModelId}
+ 		</if>
+ 		<if test="specBatchNo!=null and specBatchNo!=''">
+ 			and specBatchNo=#{specBatchNo}
+ 		</if>
+ 	</sql>
+ 	
+ 	<!-- 分页总数查询 -->
+ 	<select id="queryPageCont" parameterType="org.gz.warehouse.entity.MaterielModelSpecQuery" resultType="int">
+ 		select 
+ 			count(1)
+ 		from materiel_model_spec 
+ 		<include refid="where_queryPageCount"/>
+ 	</select>
+ 	
+ 	<!-- 分页列表查询 -->
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.MaterielModelSpecQuery" resultType="org.gz.warehouse.entity.MaterielModelSpec">
+ 		select 
+ 			* 
+ 		from materiel_model_spec 
+ 		<include refid="where_queryPageCount"/>
+ 		limit #{startIndex},#{endIndex}
+ 	</select>
+ 	
+ 	<!-- 批量删除 -->
+ 	<delete  id="batchDelete">
+ 		delete from materiel_model_spec where materielModelId=#{materielModelId} 
+ 		<if test="specBatchNo!=null and specBatchNo!=''">
+ 			and specBatchNo=#{specBatchNo}
+ 		</if>
+ 	</delete>
+ 	
+ 	<!-- 批量删除  -->
+ 	<delete id="batchDeleteByModelIdList" parameterType="java.util.List">
+		delete from materiel_model_spec where materielModelId in
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>	
+ 	</delete>
+ 	
+ 	<select id="querySpecListGroupBySpecId"  resultType="org.gz.warehouse.entity.MaterielModelSpec">
+ 		SELECT materielSpecId,group_concat(distinct(materielSpecValue)) as materielSpecValue
+		FROM materiel_model_spec t
+		WHERE EXISTS (
+		SELECT 1
+		FROM product_info t1
+		INNER JOIN materiel_basic_info t2 ON t2.id = t1.materielId
+		WHERE t2.materielModelId = t.materielModelId
+		and t1.isDeleted = 0
+		and t2.specBatchNo = t.specBatchNo)
+		and materielModelId = #{modelId}
+		group by materielSpecId
+ 	</select>
+
+ 	<select id="querySpecListGroupBySpecBatchNo"  resultType="org.gz.warehouse.entity.MaterielModelSpec">
+ 		SELECT specBatchNo,group_concat(materielSpecValue) as materielSpecValue
+		FROM materiel_model_spec t
+		WHERE EXISTS (
+		SELECT 1
+		FROM product_info t1
+		INNER JOIN materiel_basic_info t2 ON t2.id = t1.materielId
+		WHERE t2.materielModelId = t.materielModelId
+		and t1.isDeleted = 0
+		and t2.specBatchNo = t.specBatchNo)
+		and materielModelId = #{modelId}
+		group by specBatchNo
+ 	</select>
+
+
+</mapper>

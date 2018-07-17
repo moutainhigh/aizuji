@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>org.gz</groupId>
+    <artifactId>microservice-loverent-v1</artifactId>
+    <version>1.0</version>
+  </parent>
+  
+  <artifactId>microservice-loverent-timed-task</artifactId>
+  <name>microservice-loverent-timed-task</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <xxl-job-version>1.8.2</xxl-job-version>
+  </properties>
+  
+   <distributionManagement>
+        <snapshotRepository>
+            <id>snapshot</id>
+            <name>Snapshot</name>
+            <url>http://106.15.37.114:8081/nexus/content/repositories/snapshots/</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <name>Release</name>
+            <url>http://106.15.37.114:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+    
+  <dependencies>
+    
+    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-validator</artifactId>
+				</exclusion>
+			</exclusions>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.xuxueli</groupId>
+		<artifactId>xxl-job-core</artifactId>
+		<version>${xxl-job-version}</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.codehaus.groovy</groupId>
+				<artifactId>groovy-all</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+	
+  </dependencies>
+  
+  <build>
+		<!-- 由于引用了spring-cloud-dependencies造成无法使用*。properties，这里需要重写过滤资源 -->
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- 打包源代码 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+  
+</project>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gz.oss.common.dao.ProductColumnRelationDao">
+
+    <resultMap id="ProductColumnRelationMap" type="org.gz.oss.common.entity.ProductColumnRelation">
+        <result property="id" column="id"/>
+        <result property="columnId" column="column_id"/>
+        <result property="materielModelId" column="materiel_model_id"/>
+        <result property="materielModelName" column="materiel_model_name"/>
+        <result property="isDeleted" column="is_deleted"/>
+        <result property="sortNum" column="sort_num"/>
+        <result property="photoUrl" column="photo_url"/>
+        <result property="price" column="price"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, column_id, materiel_model_id, materiel_model_name, is_deleted, sort_num, photo_url, price, create_time
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.column_id, t.materiel_model_id, t.materiel_model_name, t.is_deleted, t.sort_num, t.photo_url, t.price, t.create_time
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=columnId">
+                AND column_id = #{columnId}
+            </if>
+            <if test="null!=materielModelId">
+                AND materiel_model_id = #{materielModelId}
+            </if>
+            <if test="null!=materielModelName and ''!=materielModelName">
+                AND materiel_model_name = #{materielModelName}
+            </if>
+            <if test="null!=isDeleted">
+                AND is_deleted = #{isDeleted}
+            </if>
+            <if test="null!=sortNum">
+                AND sort_num = #{sortNum}
+            </if>
+            <if test="null!=photoUrl">
+                AND photo_url = #{photoUrl}
+            </if>
+            <if test="null!=price">
+                AND price = #{price}
+            </if>
+            <if test="null!=createTime and ''!=createTime">
+                AND create_time = #{createTime}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="ProductColumnRelationMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                product_column_relation
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="queryListByColumnId" resultMap="ProductColumnRelationMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        product_column_relation
+        WHERE column_id = #{columnId}
+        order by sort_num
+    </select>
+    
+    <select id="queryAvalableListByColumnId" resultMap="ProductColumnRelationMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        product_column_relation
+        WHERE column_id = #{columnId}
+        AND is_deleted = 0
+        order by sort_num
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO product_column_relation (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=columnId">
+	                 column_id,
+	            </if>
+            	<if test="null!=materielModelId">
+	                 materiel_model_id,
+	            </if>
+            	<if test="null!=materielModelName">
+	                 materiel_model_name,
+	            </if>
+            	<if test="null!=isDeleted">
+	                 is_deleted,
+	            </if>
+            	<if test="null!=sortNum">
+	                 sort_num,
+	            </if>
+	            <if test="null!=photoUrl">
+	                 photo_url,
+	            </if>
+	            <if test="null!=price">
+	                 price,
+	            </if>
+            	<if test="null!=createTime">
+	                 create_time
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=columnId">
+                #{columnId},
+                </if>
+            	<if test="null!=materielModelId">
+                #{materielModelId},
+                </if>
+            	<if test="null!=materielModelName">
+                #{materielModelName},
+                </if>
+            	<if test="null!=isDeleted">
+                #{isDeleted},
+                </if>
+            	<if test="null!=sortNum">
+                #{sortNum},
+                </if>
+                <if test="null!=photoUrl">
+                #{photoUrl},
+                </if>
+                <if test="null!=price">
+                #{price},
+                </if>
+            	<if test="null!=createTime">
+                #{createTime}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO product_column_relation (
+                column_id,
+                materiel_model_id,
+                materiel_model_name,
+                is_deleted,
+                sort_num,
+                photo_url,
+                price,
+                create_time
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.columnId},#{item.materielModelId},#{item.materielModelName},#{item.isDeleted},#{item.sortNum},#{item.photoUrl},#{item.price},#{item.createTime})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	product_column_relation
+            <set>
+            	<if test="null!=columnId">
+                	<![CDATA[ column_id = #{columnId} ]]>,
+                </if>
+            	<if test="null!=materielModelId">
+                	<![CDATA[ materiel_model_id = #{materielModelId} ]]>,
+                </if>
+            	<if test="null!=materielModelName">
+                	<![CDATA[ materiel_model_name = #{materielModelName} ]]>,
+                </if>
+            	<if test="null!=isDeleted">
+                	<![CDATA[ is_deleted = #{isDeleted} ]]>,
+                </if>
+            	<if test="null!=sortNum">
+                	<![CDATA[ sort_num = #{sortNum} ]]>,
+                </if>
+                <if test="null!=photoUrl">
+                	<![CDATA[ photo_url = #{photoUrl} ]]>,
+                </if>
+                <if test="null!=price">
+                	<![CDATA[ price = #{price} ]]>,
+                </if>
+            	<if test="null!=createTime">
+                	<![CDATA[ create_time = #{createTime} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.columnId">
+                	AND <![CDATA[ column_id = #{updateWhere.columnId} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielModelId">
+                	AND <![CDATA[ materiel_model_id = #{updateWhere.materielModelId} ]]>
+                </if>
+            	<if test="null!=updateWhere.materielModelName">
+                	AND <![CDATA[ materiel_model_name = #{updateWhere.materielModelName} ]]>
+                </if>
+            	<if test="null!=updateWhere.isDeleted">
+                	AND <![CDATA[ is_deleted = #{updateWhere.isDeleted} ]]>
+                </if>
+            	<if test="null!=updateWhere.sortNum">
+                	AND <![CDATA[ sort_num = #{updateWhere.sortNum} ]]>
+                </if>
+                <if test="null!=updateWhere.photoUrl">
+                	AND <![CDATA[ photo_url = #{updateWhere.photoUrl} ]]>
+                </if>
+                <if test="null!=updateWhere.price">
+                	AND <![CDATA[ price = #{updateWhere.price} ]]>
+                </if>
+            	<if test="null!=updateWhere.createTime">
+                	AND <![CDATA[ create_time = #{updateWhere.createTime} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="ProductColumnRelationMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        product_column_relation
+         <include refid="where" />
+         order by sort_num 
+    </select>
+    
+    <delete id="deleteBycolumnId">
+    	DELETE FROM product_column_relation
+    	WHERE column_id = #{columnId}
+    </delete>
+    
+    <select id="selectByMaterielModelId" resultMap="ProductColumnRelationMap" parameterType="java.lang.Integer">
+    	SELECT
+    	<include refid="columns" />
+    	FROM
+    	product_column_relation
+    	WHERE
+    	materiel_model_id = #{materielModelId}
+    </select>
+    
+    <select id="updateRelation">
+    	update 
+    	product_column_relation
+    	<set>
+           	<if test="null!=columnId">
+               	<![CDATA[ column_id = #{columnId} ]]>,
+               </if>
+           	<if test="null!=materielModelId">
+               	<![CDATA[ materiel_model_id = #{materielModelId} ]]>,
+               </if>
+           	<if test="null!=materielModelName">
+               	<![CDATA[ materiel_model_name = #{materielModelName} ]]>,
+               </if>
+           	<if test="null!=isDeleted">
+               	<![CDATA[ is_deleted = #{isDeleted} ]]>,
+               </if>
+           	<if test="null!=sortNum">
+               	<![CDATA[ sort_num = #{sortNum} ]]>,
+               </if>
+               <if test="null!=photoUrl">
+               	<![CDATA[ photo_url = #{photoUrl} ]]>,
+               </if>
+               <if test="null!=price">
+               	<![CDATA[ price = #{price} ]]>,
+               </if>
+           	<if test="null!=createTime">
+               	<![CDATA[ create_time = #{createTime} ]]>
+               </if>
+           </set>
+           where id = #{id}
+    </select>
+    
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    	delete 
+    	from product_column_relation
+    	where id = #{id}
+    </delete>
+   
+</mapper>
+

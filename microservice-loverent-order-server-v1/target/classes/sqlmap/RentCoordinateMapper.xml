@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.gz.order.server.dao.RentCoordinateDao">
+
+    <resultMap id="RentCoordinateMap" type="org.gz.order.common.entity.RentCoordinate">
+           <result property="id" column="id"/>
+        <result property="rentRecordNo" column="rentRecordNo"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+        <result property="phoneModel" column="phoneModel"/>
+        <result property="imei" column="imei"/>
+        <result property="createOn" column="createOn"/>
+        <result property="state" column="state"/>
+        <result property="valid" column="valid"/>
+    </resultMap>
+    
+    <sql id="columns">
+        <![CDATA[
+        id, rentRecordNo, lng, lat, phoneModel, imei, createOn, state, valid
+        ]]>
+    </sql>
+    <sql id="t_columns">
+        <![CDATA[
+        t.id, t.rentRecordNo, t.lng, t.lat, t.phoneModel, t.imei, t.createOn, t.state, t.valid
+        ]]>
+    </sql>
+    
+    <sql id="where">
+        <where>
+            <if test="null!=id">
+                AND id = #{id}
+            </if>
+            <if test="null!=rentRecordNo and ''!=rentRecordNo">
+                AND rentRecordNo = #{rentRecordNo}
+            </if>
+            <if test="null!=lng and ''!=lng">
+                AND lng = #{lng}
+            </if>
+            <if test="null!=lat and ''!=lat">
+                AND lat = #{lat}
+            </if>
+            <if test="null!=phoneModel and ''!=phoneModel">
+                AND phoneModel = #{phoneModel}
+            </if>
+            <if test="null!=imei and ''!=imei">
+                AND imei = #{imei}
+            </if>
+            <if test="null!=createOn and ''!=createOn">
+                AND createOn = #{createOn}
+            </if>
+            <if test="null!=state">
+                AND state = #{state}
+            </if>
+            <if test="null!=valid and ''!=valid">
+                AND valid = #{valid}
+            </if>
+        </where>
+    </sql>
+    
+    <select id="getById" resultMap="RentCoordinateMap">
+        SELECT <include refid="columns" />
+        <![CDATA[
+            FROM
+                rent_coordinate
+            WHERE 
+                id = #{id} 
+        ]]>
+    </select>
+    
+    <select id="findAll" resultMap="RentCoordinateMap">
+        SELECT
+        <include refid="columns" />
+        FROM
+        rent_coordinate
+    </select>
+    
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO rent_coordinate (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+	                 rentRecordNo,
+	            </if>
+            	<if test="null!=lng">
+	                 lng,
+	            </if>
+            	<if test="null!=lat">
+	                 lat,
+	            </if>
+            	<if test="null!=phoneModel">
+	                 phoneModel,
+	            </if>
+            	<if test="null!=imei">
+	                 imei,
+	            </if>
+            	<if test="null!=createOn">
+	                 createOn,
+	            </if>
+            	<if test="null!=state">
+	                 state,
+	            </if>
+            	<if test="null!=valid">
+	                 valid
+	            </if>
+            </trim>
+            ) VALUES (
+            <trim suffix="" suffixOverrides=",">
+            	<if test="null!=rentRecordNo">
+                #{rentRecordNo},
+                </if>
+            	<if test="null!=lng">
+                #{lng},
+                </if>
+            	<if test="null!=lat">
+                #{lat},
+                </if>
+            	<if test="null!=phoneModel">
+                #{phoneModel},
+                </if>
+            	<if test="null!=imei">
+                #{imei},
+                </if>
+            	<if test="null!=createOn">
+                #{createOn},
+                </if>
+            	<if test="null!=state">
+                #{state},
+                </if>
+            	<if test="null!=valid">
+                #{valid}
+                </if>
+            </trim>
+            )
+    </insert>
+
+    <insert id="addBatch">
+        <![CDATA[
+            INSERT INTO rent_coordinate (
+                rentRecordNo,
+                lng,
+                lat,
+                phoneModel,
+                imei,
+                createOn,
+                state,
+                valid
+            ) VALUES
+        ]]>
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rentRecordNo},#{item.lng},#{item.lat},#{item.phoneModel},#{item.imei},#{item.createOn},#{item.state},#{item.valid})
+        </foreach>
+    </insert>
+    
+    <update id="update">
+            UPDATE	rent_coordinate
+            <set>
+            	<if test="null!=updateCloumn.rentRecordNo">
+                	<![CDATA[ rentRecordNo = #{updateCloumn.rentRecordNo} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.lng">
+                	<![CDATA[ lng = #{updateCloumn.lng} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.lat">
+                	<![CDATA[ lat = #{updateCloumn.lat} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.phoneModel">
+                	<![CDATA[ phoneModel = #{updateCloumn.phoneModel} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.imei">
+                	<![CDATA[ imei = #{updateCloumn.imei} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.createOn">
+                	<![CDATA[ createOn = #{updateCloumn.createOn} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.state">
+                	<![CDATA[ state = #{updateCloumn.state} ]]>,
+                </if>
+            	<if test="null!=updateCloumn.valid">
+                	<![CDATA[ valid = #{updateCloumn.valid} ]]>
+                </if>
+            </set>
+            <where>
+            	<if test="null!=updateWhere.id">
+                	AND <![CDATA[ id = #{updateWhere.id} ]]>
+                </if>
+            	<if test="null!=updateWhere.rentRecordNo">
+                	AND <![CDATA[ rentRecordNo = #{updateWhere.rentRecordNo} ]]>
+                </if>
+            	<if test="null!=updateWhere.lng">
+                	AND <![CDATA[ lng = #{updateWhere.lng} ]]>
+                </if>
+            	<if test="null!=updateWhere.lat">
+                	AND <![CDATA[ lat = #{updateWhere.lat} ]]>
+                </if>
+            	<if test="null!=updateWhere.phoneModel">
+                	AND <![CDATA[ phoneModel = #{updateWhere.phoneModel} ]]>
+                </if>
+            	<if test="null!=updateWhere.imei">
+                	AND <![CDATA[ imei = #{updateWhere.imei} ]]>
+                </if>
+            	<if test="null!=updateWhere.createOn">
+                	AND <![CDATA[ createOn = #{updateWhere.createOn} ]]>
+                </if>
+            	<if test="null!=updateWhere.state">
+                	AND <![CDATA[ state = #{updateWhere.state} ]]>
+                </if>
+            	<if test="null!=updateWhere.valid">
+                	AND <![CDATA[ valid = #{updateWhere.valid} ]]>
+                </if>
+            </where>
+    </update>
+    
+    <select id="queryList" resultMap="RentCoordinateMap">
+    	SELECT
+        <include refid="columns" />
+        FROM
+        rent_coordinate
+         <include refid="where" />
+    </select>
+    
+</mapper>
+

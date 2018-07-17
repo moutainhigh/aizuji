@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>产品配置管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<link rel="stylesheet" href="../fonts/iconfont.css">
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">产品管理</a></li>
+		  <li class="active">产品配置管理</li>
+		</ol>
+	</div>
+	<div class='content'>
+		<div class='search-box'>
+			<div class='input-box'>
+				<span class='title'>所属分类</span>
+				<div class='input-list'>
+					<select class="form-control" id="materielClass">
+					  <option value="">请选择分类</option>
+					</select>
+				</div>
+			</div>
+			<div class='input-box'>
+
+				<span class='title'>所属品牌</span>
+				<div class='input-list'>
+					<select class="form-control" id="materielBrand">
+					  <option value="">请选择品牌</option>
+					</select>
+				</div>
+			</div>
+			<div class='input-box'>
+				<span class='title'>产品型号</span>
+				<div class='input-list'>
+					<select class="form-control" id="materielModel">
+					  <option value="">请选择型号</option>
+					</select>
+				</div>
+			</div>
+			<div class='input-box'>
+				<span class='title'>产品规格</span>
+				<div class='input-list'>
+					<select class="form-control" id="materielSpec">
+					  <option value="">请选择规格</option>
+					</select>
+				</div>
+			</div>
+			<div class='input-box'>
+				<span class='title'>当前状态</span>
+				<div class='input-list'>
+					<select class="form-control" id="statue">
+					  <option value=''>全部</option>
+					  <option value='0'>上架中</option>
+					  <option value='1'>已下架</option>
+					</select>
+				</div>
+			</div>
+			<br/>
+			<br/>
+			<div class='input-box'>
+				<span class='title'>产品类型</span>
+				<div class='input-list'>
+					<select class="form-control" id="productTypeSel">
+					  <option value=''>全部</option>
+					  <option value='1'>租赁</option>
+					  <option value='2'>以租代购</option>
+					  <option value='3'>出售</option>
+					</select>
+				</div>
+			</div>
+			<div class='input-box'>
+				<span class='title'>产品成色</span>
+				<div class='input-list'>
+					<select class="form-control" id="materielNewConfigSel">
+					  <option value=''>全部</option>
+					</select>
+				</div>
+			</div>
+			<div class='button-box'>
+				<button type="button" class="btn btn-warning" id="btn_query">查询</button>
+				<a href='productEdit.html' target="iframe"><button type="button" class="btn btn-primary">新增</button></a>
+			</div>
+		</div>
+		<div class='table-box  table-responsive'>
+      		<table class="table" id="product_tab">
+      		</table>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+	<script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/materiel/materiel.js'></script>
+	<script src='../js/product/productList.js'></script>
+</body>
+</html>

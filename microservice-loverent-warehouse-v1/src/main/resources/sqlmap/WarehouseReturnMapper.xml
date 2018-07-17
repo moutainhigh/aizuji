@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseReturnMapper">
+
+    <!--查询所有还机记录-->
+    <select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecordVO" resultType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecord" >
+        SELECT a.id,
+            a.sourceOrderNo,
+            a.sourceOrderStatus,
+            a.productId,
+            a.productType,
+            a.transitInType,
+            a.transitlnStatus,
+            a.materielBasicId,
+            a.batchNo,
+            a.snNo,
+            a.imieNo,
+            a.damagePrice,
+            a.damageRemark,
+            a.materielStatus,
+            a.operatorId,
+            a.operatorName,
+            DATE_FORMAT(a.returnApplyTime,'%Y-%m-%d %H:%i:%s')as applyTime,
+            DATE_FORMAT(a.operateOn,'%Y-%m-%d %H:%i:%s') as transitlnTime,
+            a.materielName,
+            a.materielModelName,
+            a.materielSpecValue,
+            a.unitName,
+            a.logisticsNo,
+            a.materielCode
+            from warehouse_return_record a
+            <include refid="where_queryPageRecord"/>
+            ORDER BY a.operateOn desc limit #{startIndex},#{endIndex}
+    </select>
+
+    <sql id="where_queryPageRecord">
+        where 1=1
+        <if test="applyStartTime!=null and applyStartTime!=''">
+            and a.returnApplyTime &gt;= CONCAT(#{applyStartTime},' 00:00:00')
+        </if>
+        <if test="applyEndTime!=null and applyEndTime!=''">
+            and a.returnApplyTime &lt;= CONCAT(#{applyEndTime},' 23:59:59')
+        </if>
+        <if test="sourceOrderNo!=null and sourceOrderNo!=''">
+            and a.sourceOrderNo = #{sourceOrderNo}
+        </if>
+        <if test="imieNo!=null and imieNo!=''">
+            and a.imieNo = #{imieNo}
+        </if>
+        <if test="snNo!=null and snNo!=''">
+            and a.snNo = #{snNo}
+        </if>
+        <if test="operatorName!=null and operatorName!=''">
+            and a.operatorName like CONCAT('%',#{operatorName},'%')
+        </if>
+        <if test="transitlnStartTime!=null and transitlnStartTime!=''">
+            and a.operateOn &gt;= CONCAT(#{transitlnStartTime},' 00:00:00')
+        </if>
+        <if test="transitlnEndTime!=null and transitlnEndTime!=''">
+            and a.operateOn &lt;= CONCAT(#{transitlnEndTime},' 23:59:59')
+        </if>
+        <if test="transitlnStatus!=null and transitlnStatus>0">
+        	and a.transitlnStatus=#{transitlnStatus}
+        </if>
+        <if test="productType!=null and productType>0">
+        	and a.productType=#{productType}
+        </if>
+    </sql>
+
+    <!--获取还机记录总数-->
+    <select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecordVO" resultType="int">
+        select COUNT(a.id) as count from warehouse_return_record a <include refid="where_queryPageRecord"/>
+    </select>
+    
+    <!--新增还机记录-->
+    <insert id="inserRecord" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecord">
+        INSERT into warehouse_return_record(
+        		sourceOrderNo, 
+        		sourceOrderStatus,
+        		productId,
+        		productType,
+        		transitInType,
+        		materielBasicId, 
+        		batchNo, 
+        		snNo, 
+        		imieNo, 
+                returnApplyTime, 
+                operatorId, 
+                operatorName, 
+                operateOn,
+                transitlnStatus,
+                materielName,
+                materielCode,
+                unitName,
+                materielModelName,
+                materielSpecValue,
+                logisticsNo
+          )VALUES (
+          		#{sourceOrderNo},
+          		#{sourceOrderStatus},
+          		#{productId},
+        		#{productType},
+          		#{transitInType},
+          		#{materielBasicId},
+          		#{batchNo},
+          		#{snNo},
+          		#{imieNo},
+                #{returnApplyTime},
+                #{operatorId},
+                #{operatorName},
+                #{operateOn},
+                #{transitlnStatus},
+                #{materielName},
+                #{materielCode},
+                #{unitName},
+                #{materielModelName},
+                #{materielSpecValue},
+                #{logisticsNo}
+           )
+    </insert>
+
+    <!--修改还机记录-->
+    <update id="updateRecord" parameterType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecord" >
+        update warehouse_return_record set
+            transitlnStatus = #{transitlnStatus},
+            damagePrice = #{damagePrice},
+            damageRemark = #{damageRemark},
+            materielStatus = #{materielStatus},
+            operatorId = #{operatorId},
+            operatorName = #{operatorName},
+            operateOn = #{operateOn}
+            WHERE id = #{id}
+    </update>
+
+     <!--删除还机记录-->
+    <delete id="deleteRecord" parameterType="java.lang.Long" >
+        delete from warehouse_return_record where id IN
+        <foreach collection="array" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!--删除还机记录附件-->
+    <delete id="deleteRecordImages" parameterType="java.lang.Long" >
+        delete from warehouse_return_images where returnRecordId IN
+        <foreach collection="array" item="ids" open="(" separator="," close=")">
+            #{ids}
+        </foreach>
+    </delete>
+
+    <!--删除原始附件-->
+    <delete id="deleteOriginalImages" parameterType="java.lang.Long">
+        delete from warehouse_return_images where returnRecordId = #{id}
+    </delete>
+
+    <!--批量插入新附件-->
+    <insert id="insertRecordImages" parameterType="java.util.List">
+        INSERT INTO warehouse_return_images(returnRecordId,attaType,attaUrl)
+            VALUES
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.returnRecordId},#{item.attaType},#{item.attaUrl})
+            </foreach>
+    </insert>
+
+
+    <!--获取还机记录详情-->
+    <select id="queryRecordDetail" parameterType="java.lang.Long" resultType="org.gz.warehouse.entity.warehouse.WarehouseReturnImages">
+       SELECT * from warehouse_return_images where returnRecordId = #{id}
+    </select>
+
+	<select id="selectByPrimaryKey"  resultType="org.gz.warehouse.entity.warehouse.WarehouseReturnRecord">
+		select 
+		*,
+		DATE_FORMAT(returnApplyTime,'%Y-%m-%d %H:%i:%s')as applyTime,
+        DATE_FORMAT(operateOn,'%Y-%m-%d %Y-%m-%d  %H:%i:%s') as transitlnTime
+		from warehouse_return_record where id=#{id}
+	
+	</select>
+
+</mapper>

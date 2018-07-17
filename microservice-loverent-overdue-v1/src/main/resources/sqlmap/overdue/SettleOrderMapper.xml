@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.overdue.mapper.SettleOrderMapper">
+	<resultMap id="SettleOrderMap" type="org.gz.overdue.entity.SettleOrder">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderSN" property="orderSN" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="signTime" property="signTime" jdbcType="TIMESTAMP" />
+		<result column="overdueDay" property="overdueDay" jdbcType="INTEGER" />
+		<result column="dueAmount" property="dueAmount" jdbcType="DECIMAL" />
+		<result column="overdueTime" property="overdueTime" jdbcType="TIMESTAMP" />
+		<result column="leaseTimes" property="leaseTimes" jdbcType="INTEGER" />
+		<result column="followPerson" property="followPerson" jdbcType="VARCHAR" />
+		<result column="allocationTime" property="allocationTime"
+			jdbcType="TIMESTAMP" />
+		<result column="contactTime" property="contactTime" jdbcType="TIMESTAMP" />
+		<result column="contactResult" property="contactResult"
+			jdbcType="INTEGER" />
+		<result column="orderStatus" property="orderStatus" jdbcType="INTEGER" />
+		<result column="settleTime" property="settleTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="columns">
+		id,orderSN,userName,phone,signTime,overdueDay,dueAmount,overdueTime,leaseTimes,followPerson,allocationTime,contactTime,contactResult,orderStatus,settleTime
+	</sql>
+	<sql id="t_columns">
+		t.id,t.orderSN,t.userName,t.phone,t.signTime,t.overdueDay,t.dueAmount,t.overdueTime,t.leaseTimes,t.followPerson,t.allocationTime,t.contactTime,t.contactResult,t.orderStatus,t.settleTime
+	</sql>
+	<sql id="where">
+		<where>
+			<if test="null!=id">
+				AND id=#{id}
+			</if>
+			<if test="null!=orderSN">
+				AND orderSN=#{orderSN}
+			</if>
+			<if test="null!=userName">
+				AND userName=#{userName}
+			</if>
+			<if test="null!=phone">
+				AND phone=#{phone}
+			</if>
+			<if test="null!=signTime">
+				AND signTime=#{signTime}
+			</if>
+			<if test="null!=overdueDay">
+				AND overdueDay=#{overdueDay}
+			</if>
+			<if test="null!=dueAmount">
+				AND dueAmount=#{dueAmount}
+			</if>
+			<if test="null!=overdueTime">
+				AND overdueTime=#{overdueTime}
+			</if>
+			<if test="null!=leaseTimes">
+				AND leaseTimes=#{leaseTimes}
+			</if>
+			<if test="null!=followPerson">
+				AND followPerson=#{followPerson}
+			</if>
+			<if test="null!=allocationTime">
+				AND allocationTime=#{allocationTime}
+			</if>
+			<if test="null!=contactTime">
+				AND contactTime=#{contactTime}
+			</if>
+			<if test="null!=contactResult">
+				AND contactResult=#{contactResult}
+			</if>
+			<if test="null!=orderStatus">
+				AND orderStatus=#{orderStatus}
+			</if>
+			<if test="null!=settleTime">
+				AND settleTime=#{settleTime}
+			</if>
+		</where>
+	</sql>
+	<select id="getById" resultMap="SettleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM settle_order
+		WHERE id = #{id}
+	</select>
+	<select id="findAll" resultMap="SettleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM settle_order
+	</select>
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO settle_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="null!=id">
+				id,
+			</if>
+			<if test="null!=orderSN">
+				orderSN,
+			</if>
+			<if test="null!=userName">
+				userName,
+			</if>
+			<if test="null!=phone">
+				phone,
+			</if>
+			<if test="null!=signTime">
+				signTime,
+			</if>
+			<if test="null!=overdueDay">
+				overdueDay,
+			</if>
+			<if test="null!=dueAmount">
+				dueAmount,
+			</if>
+			<if test="null!=overdueTime">
+				overdueTime,
+			</if>
+			<if test="null!=leaseTimes">
+				leaseTimes,
+			</if>
+			<if test="null!=followPerson">
+				followPerson,
+			</if>
+			<if test="null!=allocationTime">
+				allocationTime,
+			</if>
+			<if test="null!=contactTime">
+				contactTime,
+			</if>
+			<if test="null!=contactResult">
+				contactResult,
+			</if>
+			<if test="null!=orderStatus">
+				orderStatus,
+			</if>
+			<if test="null!=settleTime">
+				settleTime,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="null!=id">
+				#{id},
+			</if>
+			<if test="null!=orderSN">
+				#{orderSN},
+			</if>
+			<if test="null!=userName">
+				#{userName},
+			</if>
+			<if test="null!=phone">
+				#{phone},
+			</if>
+			<if test="null!=signTime">
+				#{signTime},
+			</if>
+			<if test="null!=overdueDay">
+				#{overdueDay},
+			</if>
+			<if test="null!=dueAmount">
+				#{dueAmount},
+			</if>
+			<if test="null!=overdueTime">
+				#{overdueTime},
+			</if>
+			<if test="null!=leaseTimes">
+				#{leaseTimes},
+			</if>
+			<if test="null!=followPerson">
+				#{followPerson},
+			</if>
+			<if test="null!=allocationTime">
+				#{allocationTime},
+			</if>
+			<if test="null!=contactTime">
+				#{contactTime},
+			</if>
+			<if test="null!=contactResult">
+				#{contactResult},
+			</if>
+			<if test="null!=orderStatus">
+				#{orderStatus},
+			</if>
+			<if test="null!=settleTime">
+				#{settleTime},
+			</if>
+		</trim>
+	</insert>
+	<update id="update">
+		UPDATE settle_order
+		<set>
+			<if test="null!=id">
+				id = #{id},
+			</if>
+			<if test="null!=orderSN">
+				orderSN = #{orderSN},
+			</if>
+			<if test="null!=userName">
+				userName = #{userName},
+			</if>
+			<if test="null!=phone">
+				phone = #{phone},
+			</if>
+			<if test="null!=signTime">
+				signTime = #{signTime},
+			</if>
+			<if test="null!=overdueDay">
+				overdueDay = #{overdueDay},
+			</if>
+			<if test="null!=dueAmount">
+				dueAmount = #{dueAmount},
+			</if>
+			<if test="null!=overdueTime">
+				overdueTime = #{overdueTime},
+			</if>
+			<if test="null!=leaseTimes">
+				leaseTimes = #{leaseTimes},
+			</if>
+			<if test="null!=followPerson">
+				followPerson = #{followPerson},
+			</if>
+			<if test="null!=allocationTime">
+				allocationTime = #{allocationTime},
+			</if>
+			<if test="null!=contactTime">
+				contactTime = #{contactTime},
+			</if>
+			<if test="null!=contactResult">
+				contactResult = #{contactResult},
+			</if>
+			<if test="null!=orderStatus">
+				orderStatus = #{orderStatus},
+			</if>
+			<if test="null!=settleTime">
+				settleTime = #{settleTime},
+			</if>
+		</set>
+		<where>
+			AND id = #{id}
+		</where>
+	</update>
+	<select id="queryList" resultMap="SettleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM settle_order
+		<include refid="where" />
+		order by id desc
+		limit #{startIndex},#{endIndex}
+	</select>
+	<select id="queryCount" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM settle_order
+		<include refid="where" />
+	</select>
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from settle_order
+		where id = #{id}
+	</delete>
+</mapper>

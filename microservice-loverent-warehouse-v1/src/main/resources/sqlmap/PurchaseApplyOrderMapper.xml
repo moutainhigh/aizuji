@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.purchase.PurchaseApplyOrderMapper">
+ 	
+ 	<!-- 插入数据 -->
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrder">
+ 		insert into purchase_order(
+ 		   purchaseType,
+		   purchaseNo,
+		   warehouseInfoId,
+		   supplierId,
+		   applyName,
+		   expectedReceiveDate,
+		   statusFlag,
+		   createBy,
+		   createOn,
+		   updateBy,
+		   updateOn,
+		   remark,
+		   version
+ 		)values(
+ 		   #{purchaseType},
+ 		   #{purchaseNo},
+		   #{warehouseInfoId},
+		   #{supplierId},
+		   #{applyName},
+		   #{expectedReceiveDate},
+		   #{statusFlag},
+		   #{createBy},
+		   #{createOn},
+		   #{updateBy},
+		   #{updateOn},
+		   #{remark},
+		   #{version}
+ 		)
+ 	</insert>
+ 	
+ 	<!-- 更新总额 -->
+ 	<update id="updateSumAmount" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrder">
+ 		update purchase_order set sumAmount = #{sumAmount} where id=#{id}
+ 	</update>
+ 	
+ 	<sql id="where_queryPageCount">
+ 		where 1=1 
+ 		<if test="id!=null and id>0">
+ 			and t1.id=#{id}
+ 		</if>
+ 		<if test="purchaseNo!=null and purchaseNo!=''">
+ 			and t1.purchaseNo like concat('%',#{purchaseNo},'%')
+ 		</if>
+		<if test="warehouseInfoId!=null and warehouseInfoId>0">
+ 			and t1.warehouseInfoId=#{warehouseInfoId}
+ 		</if>
+ 		<if test="supplierId!=null and supplierId>0">
+ 			and t1.supplierId=#{supplierId}
+ 		</if>
+		<if test="startExpectedRecvDate!=null and startExpectedRecvDate!=''">
+			and t1.expectedReceiveDate &gt;=#{startExpectedRecvDate}
+		</if>
+		<if test="endExpectedRecvDate!=null and endExpectedRecvDate!=''">
+			and t1.expectedReceiveDate &lt;=#{endExpectedRecvDate}
+		</if>
+		
+		<if test="startApplyDate!=null and startApplyDate!=''">
+			and t1.createOn &gt;=#{startApplyDate}
+		</if>
+		<if test="endApplyDate!=null and endApplyDate!=''">
+			and t1.createOn &lt;=#{endApplyDate}
+		</if>
+		
+		<if test="applyId!=null and applyId>0">
+			and t1.createBy=#{applyId}
+		</if>
+		
+		<if test="applyName!=null and applyName!=''">
+ 			and t1.applyName like concat('%',#{applyName},'%')
+ 		</if>
+ 		
+ 		<if test="approvedName!=null and approvedName!=''">
+ 			and t1.approvedName like concat('%',#{approvedName},'%')
+ 		</if>
+ 		
+		<if test="statusFlag!=null and statusFlag>0">
+			and t1.statusFlag=#{statusFlag}
+		</if>
+		
+		<if test="statusFlag!=null and statusFlag==-1">
+			and t1.statusFlag &lt;30
+		</if>
+		<if test="statusFlag!=null and statusFlag==0">
+			and t1.statusFlag &gt;10
+		</if>
+ 	</sql>
+ 	
+ 	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderQuery" resultType="int">
+ 		SELECT 
+ 			count(t1.id)
+		FROM purchase_order t1 
+		INNER JOIN warehouse_info t2 on t1.warehouseInfoId=t2.id 
+		INNER JOIN supplier_basic_info t3 on t1.supplierId=t3.id
+ 	    <include refid="where_queryPageCount"/>
+ 	</select>
+ 	
+ 	<select id="queryPageList" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderQuery" resultType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderVO">
+ 	   select 
+ 	        t1.id,
+			t1.purchaseNo,
+			t1.purchaseType,
+			t1.statusFlag,
+			t1.sumAmount,
+			t1.approvedId,
+			t1.warehouseInfoId,
+			t1.supplierId,
+			t1.createBy,
+			t1.updateBy,
+			t1.applyName,
+			t1.approvedName,
+			t1.remark,
+			DATE_FORMAT(t1.createOn,'%Y-%m-%d %H:%i:%s')as createOn_s,
+			DATE_FORMAT(t1.updateOn,'%Y-%m-%d %H:%i:%s')as updateOn_s,
+			DATE_FORMAT(t1.expectedReceiveDate,'%Y-%m-%d')as expectedReceiveDate_s,
+			DATE_FORMAT(t1.realReceiveDate,'%Y-%m-%d %H:%i:%s')as realReceiveDate_s,
+			DATE_FORMAT(t1.approvedDateTime,'%Y-%m-%d %H:%i:%s')as approvedDateTime_s,
+			t2.warehouseName,
+			t3.supplierName,
+			t3.supplierCode
+		from purchase_order t1 INNER JOIN warehouse_info t2 on t1.warehouseInfoId=t2.id 
+		INNER JOIN supplier_basic_info t3 on t1.supplierId=t3.id
+ 	    <include refid="where_queryPageCount"/>
+ 		ORDER BY t1.createOn DESC LIMIT #{startIndex},#{endIndex} 
+ 	</select>
+ 	
+ 	<select id="selectByPrimaryKey" resultType="org.gz.warehouse.entity.purchase.PurchaseApplyOrderVO">
+ 	    select 
+ 	        t1.*,
+			DATE_FORMAT(t1.createOn,'%Y-%m-%d %H:%i:%s')as createOn_s,
+			DATE_FORMAT(t1.updateOn,'%Y-%m-%d %H:%i:%s')as updateOn_s,
+			DATE_FORMAT(t1.expectedReceiveDate,'%Y-%m-%d')as expectedReceiveDate_s,
+			DATE_FORMAT(t1.realReceiveDate,'%Y-%m-%d %H:%i:%s')as realReceiveDate_s,
+			DATE_FORMAT(t1.approvedDateTime,'%Y-%m-%d %H:%i:%s')as approvedDateTime_s
+		from purchase_order t1 where t1.id=#{id}
+ 	</select>
+ 	
+ 	<!-- 更新状态 -->
+ 	<update id="updateStatusFlag" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrder">
+ 		update purchase_order set statusFlag=#{statusFlag},updateBy=#{updateBy},updateOn=#{updateOn},realReceiveDate=#{realReceiveDate},version=version+1 where id=#{id} and version=#{version}
+ 	</update>
+ 	
+ 	<!-- 审批申请 -->
+ 	<update id="approved" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrder">
+		update purchase_order set 
+			approvedId=#{approvedId},
+			approvedName=#{approvedName},
+			approvedDateTime=#{approvedDateTime},
+			updateBy=#{approvedId},
+			updateOn=#{updateOn},
+			sumAmount=#{sumAmount},
+			statusFlag=30,
+			version=version+1 
+		where id=#{id} and statusFlag=20 and version=#{version} 	
+ 	</update>
+ 	
+ 	<!-- 拒绝申请 -->
+ 	<update id="reject" parameterType="org.gz.warehouse.entity.purchase.PurchaseApplyOrder">
+		update purchase_order set 
+			approvedId=#{approvedId},
+			approvedName=#{approvedName},
+			approvedDateTime=#{approvedDateTime},
+			updateBy=#{approvedId},
+			updateOn=#{updateOn},
+			statusFlag=40,
+			version=version+1 
+		where id=#{id} and statusFlag=20 and version=#{version} 	
+ 	</update>
+ 	
+ 	<select id="queryWarehouseLocation" parameterType="org.gz.warehouse.entity.warehouse.StorageLocationQuery" resultType="org.gz.warehouse.entity.warehouse.StorageLocation">
+ 		SELECT
+			t4.*
+		FROM
+		purchase_order t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseInfoId = t2.id
+		INNER JOIN warehouse_location_relation t3 ON t3.warehouseId = t2.id
+		INNER JOIN warehouse_location t4 ON t3.locationId = t4.id
+		WHERE t1.id = #{purchaseApplyOrderId} and t4.locationCode= #{locationCode} AND t4.enableFlag=#{enableFlag} limit 1
+ 	</select>
+ 	
+ 	<delete id="deleteApplyOrderDetail">
+ 		delete from purchase_order_detail where purchaseApplyOrderId=#{purchaseApplyOrderId}
+ 	</delete>
+ 	
+ 	<delete id="deleteApplyOrder">
+ 		delete from purchase_order where id=#{id}
+ 	</delete>
+ 	
+</mapper>

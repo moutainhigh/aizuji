@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.LoginLogMapper" >
+  
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.LoginLog" >
+    <id column="logId" property="logId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <result column="deviceType" property="deviceType" jdbcType="VARCHAR" />
+    <result column="osType" property="osType" jdbcType="VARCHAR" />
+    <result column="channelType" property="channelType" jdbcType="VARCHAR" />
+    <result column="appVersion" property="appVersion" jdbcType="VARCHAR" />
+    <result column="ipAddr" property="ipAddr" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    logId, userId, token, deviceId, deviceType, osType, channelType, appVersion, ipAddr, 
+    createTime
+  </sql>
+  
+  <insert id="insertSelective" parameterType="org.gz.user.entity.LoginLog" >
+    insert into login_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        logId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="deviceType != null" >
+        deviceType,
+      </if>
+      <if test="osType != null" >
+        osType,
+      </if>
+      <if test="channelType != null" >
+        channelType,
+      </if>
+      <if test="appVersion != null" >
+        appVersion,
+      </if>
+      <if test="ipAddr != null" >
+        ipAddr,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="osType != null" >
+        #{osType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null" >
+        #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null" >
+        #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddr != null" >
+        #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectNewlyRecordByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from login_log
+  	where userId = #{userId, jdbcType=BIGINT}
+  	order by createTime desc
+  	limit 0,1
+  </select>
+  
+</mapper>

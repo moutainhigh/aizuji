@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseInfoMapper">
+
+  <resultMap id="BaseResultMap" type="org.gz.warehouse.entity.warehouse.WarehouseInfo">
+    <id column="id" jdbcType="SMALLINT" property="id" />
+    <result column="warehouseCode" jdbcType="CHAR" property="warehouseCode" />
+    <result column="warehouseName" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="parentId" jdbcType="SMALLINT" property="parentId" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="enableFlag" jdbcType="BIT" property="enableFlag" />
+    <result column="delFlag" jdbcType="BIT" property="delFlag" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="updateBy" jdbcType="BIGINT" property="updateBy" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="updateOn" jdbcType="TIMESTAMP" property="updateOn" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, warehouseCode, warehouseName, parentId, contacts, phone, address, remark, enableFlag, 
+    delFlag, createBy, updateBy, createOn, updateOn
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse_info
+    where id = #{id,jdbcType=SMALLINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse_info
+    where id = #{id,jdbcType=SMALLINT}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="org.gz.warehouse.entity.warehouse.WarehouseInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into warehouse_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        warehouseCode,
+      </if>
+      <if test="warehouseName != null">
+        warehouseName,
+      </if>
+      <if test="parentId != null">
+        parentId,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="enableFlag != null">
+        enableFlag,
+      </if>
+      <if test="delFlag != null">
+        delFlag,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="updateBy != null">
+        updateBy,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+      <if test="updateOn != null">
+        updateOn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=CHAR},
+      </if>
+      <if test="warehouseName != null">
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=SMALLINT},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=BIT},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="query_page_where">
+  	<where>
+  		 <if test="warehouseCode != null">
+  		 	and warehouseCode = #{warehouseCode,jdbcType=CHAR}
+  		 </if>
+  		 <if test="warehouseName != null">
+  		 	and warehouseName = #{warehouseName,jdbcType=VARCHAR}
+  		 </if>
+  		 <if test="parentId != null">
+        	and parentId = #{parentId,jdbcType=SMALLINT}
+         </if>
+  	</where>
+  </sql>
+  
+  <select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseInfoQuery" resultType="int">
+    select count(*) from warehouse_info
+      <include refid="query_page_where" />
+  </select>
+  
+  <select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseInfoQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseInfo">
+		select 
+			<include refid="Base_Column_List"></include> 
+		from 
+			warehouse_info 
+		<include refid="query_page_where"/> 
+		limit #{startIndex},#{endIndex}
+   </select>
+   
+   
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.warehouse.entity.warehouse.WarehouseInfo">
+    update warehouse_info
+    <set>
+      <if test="warehouseCode != null">
+        warehouseCode = #{warehouseCode,jdbcType=CHAR},
+      </if>
+      <if test="warehouseName != null">
+        warehouseName = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parentId = #{parentId,jdbcType=SMALLINT},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null">
+        enableFlag = #{enableFlag,jdbcType=BIT},
+      </if>
+      <if test="delFlag != null">
+        delFlag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateBy != null">
+        updateBy = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateOn != null">
+        updateOn = #{updateOn,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=SMALLINT}
+  </update>
+  
+  
+  <select id="getNodeById" parameterType="int" resultType="org.gz.common.constants.ZTreeSimpleNode">
+  		SELECT id as id,warehouseName as `name`, parentId as pId FROM warehouse_info where id=#{value}
+  </select>
+  
+  <select id="getChildrenByParentId" parameterType="int" resultType="org.gz.common.constants.ZTreeSimpleNode">
+  		SELECT id as id,warehouseName as `name`, parentId as pId FROM warehouse_info where parentId=#{value}
+  </select>
+  
+  <select id="queryWarehouseLocationList" parameterType="int" resultType="org.gz.common.constants.ZTreeSimpleNode">
+  		SELECT 
+  			t1.id as id,t1.locationName as `name` 
+  		FROM warehouse_location t1 INNER JOIN warehouse_location_relation t2 on t1.id=t2.locationId INNER JOIN warehouse_info t3 on t2.warehouseId=t3.id 
+  		where t3.id=#{value}
+  </select>
+  
+  <select id="queryWarehouseInfoByCode" parameterType="string" resultType="org.gz.warehouse.entity.warehouse.WarehouseInfo">
+ 		SELECT * FROM warehouse_info where warehouseCode=#{value}
+  </select>
+</mapper>

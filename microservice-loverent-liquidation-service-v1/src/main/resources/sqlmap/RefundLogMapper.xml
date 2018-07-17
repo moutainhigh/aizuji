@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.liquidation.mapper.RefundLogMapper">
+  <resultMap id="BaseResultMap" type="org.gz.liquidation.entity.RefundLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="userRealName" jdbcType="VARCHAR" property="userRealName" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="createOn" jdbcType="TIMESTAMP" property="createOn" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="orderSN" jdbcType="VARCHAR" property="orderSN" />
+    <result column="accountCode" jdbcType="VARCHAR" property="accountCode" />
+    <result column="imgURL" jdbcType="VARCHAR" property="imgURL" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="refundDesc" jdbcType="VARCHAR" property="refundDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userId, userRealName, createBy, createOn, operator, orderSN,accountCode, imgURL,amount, refundDesc
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		<if test="orderSN != null">
+  			AND orderSN = #{orderSN}
+  		</if>
+  		<if test="userRealName != null">
+  			AND userRealName = #{userRealName}
+  		</if>
+  		<if test="operator != null">
+  			AND operator = #{operator}
+  		</if>
+  		<if test="startDate != null">
+  			AND createOn >= #{startDate}
+  		</if>
+  		<if test="endDate != null">
+  			<![CDATA[ AND createOn <= #{endDate} ]]>
+  		</if>
+  	</where>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from refund_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <insert id="insertSelective" parameterType="org.gz.liquidation.entity.RefundLog">
+    insert into refund_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="userRealName != null">
+        userRealName,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="createOn != null">
+        createOn,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="orderSN != null">
+        orderSN,
+      </if>
+      <if test="accountCode != null">
+        accountCode,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="refundDesc != null">
+        refundDesc,
+      </if>
+      <if test="imgURL != null">
+        imgURL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userRealName != null">
+        #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createOn != null">
+        #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="accountCode != null">
+        #{accountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundDesc != null">
+        #{refundDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="imgURL != null">
+        #{imgURL,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.liquidation.entity.RefundLog">
+    update refund_log
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userRealName != null">
+        userRealName = #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="createOn != null">
+        createOn = #{createOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSN != null">
+        orderSN = #{orderSN,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundDesc != null">
+        refundDesc = #{refundDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="imgURL != null">
+        imgURL = #{imgURL,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 查询列表数据 -->
+  <select id="selectList" resultMap="BaseResultMap">
+	    SELECT 
+	    	<include refid="Base_Column_List" />
+	    FROM refund_log
+	    	<include refid="where_clause" />
+  </select>
+  
+  <select id="selectPage" resultMap="BaseResultMap">
+	    SELECT 
+	    	<include refid="Base_Column_List" />
+	    FROM refund_log
+	    	<include refid="where_clause" />
+  </select>
+</mapper>

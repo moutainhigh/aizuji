@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.AppUserMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.AppUser" >
+    <id column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="loginPassword" property="loginPassword" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="TINYINT" />
+    <result column="channelType" property="channelType" jdbcType="VARCHAR" />
+    <result column="deviceId" property="deviceId" jdbcType="VARCHAR" />
+    <result column="deviceType" property="deviceType" jdbcType="VARCHAR" />
+    <result column="osType" property="osType" jdbcType="VARCHAR" />
+    <result column="appVersion" property="appVersion" jdbcType="VARCHAR" />
+    <result column="sourceType" property="sourceType" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickName" jdbcType="VARCHAR" />
+    <result column="realName" property="realName" jdbcType="VARCHAR" />
+    <result column="idNo" property="idNo" jdbcType="VARCHAR" />
+    <result column="zhimaScore" property="zhimaScore" jdbcType="INTEGER" />
+    <result column="watchListValue" property="watchListValue" jdbcType="INTEGER" />
+    <result column="cardFaceUrl" property="cardFaceUrl" jdbcType="VARCHAR" />
+    <result column="cardBackUrl" property="cardBackUrl" jdbcType="VARCHAR" />
+    <result column="realnameCertState" property="realnameCertState" jdbcType="TINYINT" />
+    <result column="residenceAddress" property="residenceAddress" jdbcType="VARCHAR" />
+    <result column="issuingAuthority" property="issuingAuthority" jdbcType="VARCHAR" />
+    <result column="effectiveStartDate" property="effectiveStartDate" jdbcType="DATE" />
+    <result column="effectiveEndDate" property="effectiveEndDate" jdbcType="DATE" />
+    <result column="authAlipayUserId" property="authAlipayUserId" jdbcType="VARCHAR" />
+    <result column="authWeixinOpenId" property="authWeixinOpenId" jdbcType="VARCHAR" />
+    <result column="userStatus" property="userStatus" jdbcType="TINYINT" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="zhimaScoreRefreshTime" property="zhimaScoreRefreshTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userId, phoneNum, loginPassword, gender, channelType, deviceId, deviceType, osType, 
+    appVersion, sourceType, avatar, nickName, realName, idNo, zhimaScore, watchListValue, cardFaceUrl, 
+    cardBackUrl, realnameCertState, residenceAddress, issuingAuthority, effectiveStartDate, 
+    effectiveEndDate, authAlipayUserId, authWeixinOpenId, userStatus, zhimaScoreRefreshTime, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from app_user
+    where userId = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from app_user
+    where userId = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.AppUser" keyProperty="userId" useGeneratedKeys="true">
+    insert into app_user (userId, phoneNum, loginPassword, 
+      gender, channelType, deviceId, 
+      deviceType, osType, appVersion, 
+      sourceType, avatar, nickName, 
+      realName, idNo, zhimaScore, watchListValue, 
+      cardFaceUrl, cardBackUrl, realnameCertState, 
+      residenceAddress, issuingAuthority, effectiveStartDate, 
+      effectiveEndDate, authAlipayUserId, authWeixinOpenId, 
+      userStatus, zhimaScoreRefreshTime, createTime, updateTime
+      )
+    values (#{userId,jdbcType=BIGINT}, #{phoneNum,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=TINYINT}, #{channelType,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{deviceType,jdbcType=VARCHAR}, #{osType,jdbcType=VARCHAR}, #{appVersion,jdbcType=VARCHAR}, 
+      #{sourceType,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{realName,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, #{zhimaScore,jdbcType=INTEGER}, #{watchListValue,jdbcType=INTEGER}, 
+      #{cardFaceUrl,jdbcType=VARCHAR}, #{cardBackUrl,jdbcType=VARCHAR}, #{realnameCertState,jdbcType=TINYINT}, 
+      #{residenceAddress,jdbcType=VARCHAR}, #{issuingAuthority,jdbcType=VARCHAR}, #{effectiveStartDate,jdbcType=DATE}, 
+      #{effectiveEndDate,jdbcType=DATE}, #{authAlipayUserId,jdbcType=VARCHAR}, #{authWeixinOpenId,jdbcType=VARCHAR}, 
+      #{userStatus,jdbcType=TINYINT}, #{zhimaScoreRefreshTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.AppUser" keyProperty="userId" useGeneratedKeys="true">
+    insert into app_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="loginPassword != null" >
+        loginPassword,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="channelType != null" >
+        channelType,
+      </if>
+      <if test="deviceId != null" >
+        deviceId,
+      </if>
+      <if test="deviceType != null" >
+        deviceType,
+      </if>
+      <if test="osType != null" >
+        osType,
+      </if>
+      <if test="appVersion != null" >
+        appVersion,
+      </if>
+      <if test="sourceType != null" >
+        sourceType,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="nickName != null" >
+        nickName,
+      </if>
+      <if test="realName != null" >
+        realName,
+      </if>
+      <if test="idNo != null" >
+        idNo,
+      </if>
+      <if test="zhimaScore != null" >
+        zhimaScore,
+      </if>
+      <if test="watchListValue != null" >
+        watchListValue,
+      </if>
+      <if test="cardFaceUrl != null" >
+        cardFaceUrl,
+      </if>
+      <if test="cardBackUrl != null" >
+        cardBackUrl,
+      </if>
+      <if test="realnameCertState != null" >
+        realnameCertState,
+      </if>
+      <if test="residenceAddress != null" >
+        residenceAddress,
+      </if>
+      <if test="issuingAuthority != null" >
+        issuingAuthority,
+      </if>
+      <if test="effectiveStartDate != null" >
+        effectiveStartDate,
+      </if>
+      <if test="effectiveEndDate != null" >
+        effectiveEndDate,
+      </if>
+      <if test="authAlipayUserId != null" >
+        authAlipayUserId,
+      </if>
+      <if test="authWeixinOpenId != null" >
+        authWeixinOpenId,
+      </if>
+      <if test="userStatus != null" >
+        userStatus,
+      </if>
+      <if test="zhimaScoreRefreshTime != null" >
+        zhimaScoreRefreshTime,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="channelType != null" >
+        #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="osType != null" >
+        #{osType,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null" >
+        #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="zhimaScore != null" >
+        #{zhimaScore,jdbcType=INTEGER},
+      </if>
+      <if test="watchListValue != null" >
+        #{watchListValue,jdbcType=INTEGER},
+      </if>
+      <if test="cardFaceUrl != null" >
+        #{cardFaceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBackUrl != null" >
+        #{cardBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="realnameCertState != null" >
+        #{realnameCertState,jdbcType=TINYINT},
+      </if>
+      <if test="residenceAddress != null" >
+        #{residenceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingAuthority != null" >
+        #{issuingAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveStartDate != null" >
+        #{effectiveStartDate,jdbcType=DATE},
+      </if>
+      <if test="effectiveEndDate != null" >
+        #{effectiveEndDate,jdbcType=DATE},
+      </if>
+      <if test="authAlipayUserId != null" >
+        #{authAlipayUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="authWeixinOpenId != null" >
+        #{authWeixinOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="zhimaScoreRefreshTime != null" >
+        #{zhimaScoreRefreshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.AppUser" >
+    update app_user
+    <set >
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPassword != null" >
+        loginPassword = #{loginPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="channelType != null" >
+        channelType = #{channelType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        deviceId = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        deviceType = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="osType != null" >
+        osType = #{osType,jdbcType=VARCHAR},
+      </if>
+      <if test="appVersion != null" >
+        appVersion = #{appVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceType != null" >
+        sourceType = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nickName = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        realName = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        idNo = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="zhimaScore != null" >
+        zhimaScore = #{zhimaScore,jdbcType=INTEGER},
+      </if>
+      <if test="watchListValue != null" >
+        watchListValue = #{watchListValue,jdbcType=INTEGER},
+      </if>
+      <if test="cardFaceUrl != null" >
+        cardFaceUrl = #{cardFaceUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBackUrl != null" >
+        cardBackUrl = #{cardBackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="realnameCertState != null" >
+        realnameCertState = #{realnameCertState,jdbcType=TINYINT},
+      </if>
+      <if test="residenceAddress != null" >
+        residenceAddress = #{residenceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingAuthority != null" >
+        issuingAuthority = #{issuingAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveStartDate != null" >
+        effectiveStartDate = #{effectiveStartDate,jdbcType=DATE},
+      </if>
+      <if test="effectiveEndDate != null" >
+        effectiveEndDate = #{effectiveEndDate,jdbcType=DATE},
+      </if>
+      <if test="authAlipayUserId != null" >
+        authAlipayUserId = #{authAlipayUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="authWeixinOpenId != null" >
+        authWeixinOpenId = #{authWeixinOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="userStatus != null" >
+        userStatus = #{userStatus,jdbcType=TINYINT},
+      </if>
+      <if test="zhimaScoreRefreshTime != null" >
+        zhimaScoreRefreshTime = #{zhimaScoreRefreshTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.AppUser" >
+    update app_user
+    set phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      loginPassword = #{loginPassword,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      channelType = #{channelType,jdbcType=VARCHAR},
+      deviceId = #{deviceId,jdbcType=VARCHAR},
+      deviceType = #{deviceType,jdbcType=VARCHAR},
+      osType = #{osType,jdbcType=VARCHAR},
+      appVersion = #{appVersion,jdbcType=VARCHAR},
+      sourceType = #{sourceType,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      nickName = #{nickName,jdbcType=VARCHAR},
+      realName = #{realName,jdbcType=VARCHAR},
+      idNo = #{idNo,jdbcType=VARCHAR},
+      zhimaScore = #{zhimaScore,jdbcType=INTEGER},
+      watchListValue = #{watchListValue,jdbcType=INTEGER},
+      cardFaceUrl = #{cardFaceUrl,jdbcType=VARCHAR},
+      cardBackUrl = #{cardBackUrl,jdbcType=VARCHAR},
+      realnameCertState = #{realnameCertState,jdbcType=TINYINT},
+      residenceAddress = #{residenceAddress,jdbcType=VARCHAR},
+      issuingAuthority = #{issuingAuthority,jdbcType=VARCHAR},
+      effectiveStartDate = #{effectiveStartDate,jdbcType=DATE},
+      effectiveEndDate = #{effectiveEndDate,jdbcType=DATE},
+      authAlipayUserId = #{authAlipayUserId,jdbcType=VARCHAR},
+      authWeixinOpenId = #{authWeixinOpenId,jdbcType=VARCHAR},
+      userStatus = #{userStatus,jdbcType=TINYINT},
+      zhimaScoreRefreshTime = #{zhimaScoreRefreshTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where userId = #{userId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findUserByTel" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+    from app_user
+    where phoneNum = #{phoneNum,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByAlipayUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+    from app_user
+    where authAlipayUserId = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryByCondition" resultMap="BaseResultMap" parameterType="org.gz.user.entity.AppUser">
+  	select 
+  	<include refid="Base_Column_List" />
+    from app_user
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+    	<if test="userId !=null">
+    		AND userId = #{userId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="phoneNum !=null and phoneNum !=''">
+    		AND phoneNum = #{phoneNum,jdbcType=VARCHAR}
+    	</if>
+    	<if test="nickName !=null and nickName !=''">
+    		AND nickName = #{nickName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="realName !=null and realName !=''">
+    		AND realName = #{realName,jdbcType=VARCHAR}
+    	</if>
+    	<if test="idNo !=null and idNo !=''">
+    		AND idNo = #{idNo,jdbcType=VARCHAR}
+    	</if>
+    	<if test="gender != null">
+    		AND gender = #{gender,jdbcType=TINYINT}
+    	</if>
+    </trim>
+  </select>
+  
+  <select id="queryUserByMobile" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+    from app_user
+    where phoneNum = #{phoneNum,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

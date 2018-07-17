@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="bcyj-service">
+        <wb-resource deploy-path="/" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/resources"/>
+        <dependent-module archiveName="ydjr-common-config-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ydjr-common-config/ydjr-common-config">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ydjr-common-base-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ydjr-common-base/ydjr-common-base">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ydjr-common-core-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/ydjr-common-core/ydjr-common-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

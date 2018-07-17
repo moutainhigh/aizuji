@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.AddressInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.AddressInfo" >
+    <id column="addrId" property="addrId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="addrProvince" property="addrProvince" jdbcType="VARCHAR" />
+    <result column="addrCity" property="addrCity" jdbcType="VARCHAR" />
+    <result column="addrArea" property="addrArea" jdbcType="VARCHAR" />
+    <result column="addrDetail" property="addrDetail" jdbcType="VARCHAR" />
+    <result column="addrStatus" property="addrStatus" jdbcType="TINYINT" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    addrId, userId, addrProvince, addrCity, addrArea, addrDetail, addrStatus, createTime, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from address_info
+    where addrId = #{addrId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from address_info
+    where addrId = #{addrId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.gz.user.entity.AddressInfo" >
+    insert into address_info (addrId, userId, addrProvince, 
+      addrCity, addrArea, addrDetail, addrStatus, 
+      createTime, updateTime)
+    values (#{addrId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{addrProvince,jdbcType=VARCHAR}, 
+      #{addrCity,jdbcType=VARCHAR}, #{addrArea,jdbcType=VARCHAR}, #{addrDetail,jdbcType=VARCHAR}, #{addrStatus,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.gz.user.entity.AddressInfo" >
+    insert into address_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addrId != null" >
+        addrId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="addrProvince != null" >
+        addrProvince,
+      </if>
+      <if test="addrCity != null" >
+        addrCity,
+      </if>
+      <if test="addrArea != null" >
+        addrArea,
+      </if>
+      <if test="addrDetail != null" >
+        addrDetail,
+      </if>
+      <if test="addrStatus != null" >
+        addrStatus,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addrId != null" >
+        #{addrId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="addrProvince != null" >
+        #{addrProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCity != null" >
+        #{addrCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addrArea != null" >
+        #{addrArea,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null" >
+        #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addrStatus != null" >
+        #{addrStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.gz.user.entity.AddressInfo" >
+    update address_info
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="addrProvince != null" >
+        addrProvince = #{addrProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCity != null" >
+        addrCity = #{addrCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addrArea != null" >
+        addrArea = #{addrArea,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null" >
+        addrDetail = #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addrStatus != null" >
+        addrStatus = #{addrStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where addrId = #{addrId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.gz.user.entity.AddressInfo" >
+    update address_info
+    set userId = #{userId,jdbcType=BIGINT},
+      addrProvince = #{addrProvince,jdbcType=VARCHAR},
+      addrCity = #{addrCity,jdbcType=VARCHAR},
+      addrArea = #{addrArea,jdbcType=VARCHAR},
+      addrDetail = #{addrDetail,jdbcType=VARCHAR},
+      addrStatus = #{addrStatus,jdbcType=TINYINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where addrId = #{addrId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="queryUserAddressByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  	select 
+    <include refid="Base_Column_List" />
+    from address_info
+    where userId = #{userId,jdbcType=BIGINT}
+    and addrStatus = 1
+  </select>
+  
+  <update id="updateAddressByUserId" parameterType="org.gz.user.entity.AddressInfo" >
+  	update address_info
+    <set >
+      <if test="addrProvince != null" >
+        addrProvince = #{addrProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addrCity != null" >
+        addrCity = #{addrCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addrArea != null" >
+        addrArea = #{addrArea,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null" >
+        addrDetail = #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="addrStatus != null" >
+        addrStatus = #{addrStatus,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="removeAddressByPrimaryKey" parameterType="java.lang.Long" >
+  	update address_info
+    set addrStatus = 2
+    where addrId = #{addrId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="removeAddressByUserId" parameterType="java.lang.Long" >
+  	update address_info
+    set addrStatus = 2
+    where userId = #{userId,jdbcType=BIGINT}
+    and addrStatus = 1
+  </update>
+  
+  <select id="queryAddressByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+    <include refid="Base_Column_List" />
+    from address_info
+    where userId = #{userId,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

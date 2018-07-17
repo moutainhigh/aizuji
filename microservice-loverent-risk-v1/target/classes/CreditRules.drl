@@ -1,0 +1,611 @@
+package credit.drl;
+
+import org.gz.common.http.CommonUtils
+import org.gz.risk.auditing.rules.CreditModel
+import org.gz.risk.auditing.entity.CreditResult
+import org.gz.risk.entity.Violation
+import org.gz.risk.auditing.service.CreditRuleService
+import org.gz.risk.auditing.entity.LoanUser
+import java.util.Calendar
+
+
+rule "passScore"
+salience 80
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(modelScore <80);
+    then
+        modify($creditResult) {
+            setResult(1),
+            setHitRule("pass score: " + $creditModel.getModelScore() + " <80")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "refuseScore"
+salience 90
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(modelScore >=80);
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("refuse score: " + $creditModel.getModelScore() + " >=80")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isAbnormalContactsKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isAbnormalContactsKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Abnormal contacts")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isBairongAfublackKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isBairongAfublackKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:BairongAfublackKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isBairongBaifuKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isBairongBaifuKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:isBairongBaifuKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isApplyKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isApplyKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation: applytimes")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isBlackTelKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isBlackTelKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:black")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isCertlengKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isCertlengKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:certleng")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isChannelKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isChannelKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation: channel")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isContactKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isContactKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Contact")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isCoupleKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isCoupleKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:couple")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+//rule "isDenullKill"
+//salience 100
+//no-loop true
+//lock-on-active true
+//agenda-group "1"
+//activation-group "CreditModel"
+//    when
+//        $creditResult : CreditResult(getResult() == 0);
+//        $creditModel : CreditModel(isDenullKill());
+//    then
+//        modify($creditResult) {
+//            setResult(2),
+//            setHitRule("Hit violation:denull")
+//        }
+//        CreditRuleService.log($creditResult);
+//end
+
+rule "isDeviceShareKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isDeviceShareKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation: deviceshare")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isDiffMaterial"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isDiffMaterial());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:diff material")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isDiffSpouseKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isDiffSpouseKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Diff spouse")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isDueContactKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isDueContactKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:due contact")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isEmergencyKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isEmergencyKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:emerphone")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isIdKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isIdKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation: district")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isIpKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isIpKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:ip")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isLoanContactsKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isLoanContactsKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Loan contacts")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isOutlookKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isOutlookKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:outlook")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isRejectKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isRejectKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:reject")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameContactsIdKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameContactsIdKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Same contacts id")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameContactsNameKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameContactsNameKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Same contacts name")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameContactsTelKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameContactsTelKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Same contacts tel")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameCurrentAddKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameCurrentAddKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Same current address")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameIpKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "1"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameIpKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("Hit violation:Same ip")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+//////////////////////
+
+rule "passScore2"
+salience 80
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(modelScore <80);
+    then
+        modify($creditResult) {
+            setResult(1),
+            setHitRule("pass score: " + $creditModel.getModelScore() + " <80")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "refuseScore2"
+salience 90
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(modelScore >=80);
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("refuse score: " + $creditModel.getModelScore() + " >=80")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isAbnormalInfoKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isAbnormalInfoKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("AbnormalInfoKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isBlackCompanyKilled"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isBlackCompanyKilled());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("BlackCompanyKilled")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isCompanyCellNumKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isCompanyCellNumKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("isCompanyCellNumKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+
+rule "isIndustryKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isIndustryKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("IndustryKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameCompanyAddKill"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameCompanyAddKill());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("SameCompanyAddKill")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+rule "isSameCompanyPassword"
+salience 100
+no-loop true
+lock-on-active true
+agenda-group "3"
+activation-group "CreditModel"
+    when
+        $creditResult : CreditResult(getResult() == 0);
+        $creditModel : CreditModel(isSameCompanyPassword());
+    then
+        modify($creditResult) {
+            setResult(2),
+            setHitRule("SameCompanyPassword")
+        }
+        CreditRuleService.log($creditResult);
+end
+
+
+

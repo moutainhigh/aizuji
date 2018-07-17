@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>手机租赁 - 订单系统</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="fonts/iconfont.css">
+	<link rel="icon" href="image/logo2.ico" type="image/x-icon">
+</head>
+<body>
+	<div class='content-wapper'>
+		<div class="header">
+			<div class='index-logo'></div>
+			<div class="exit">退出登录</div>
+			<span class='user'>欢迎您，<span class='userName'>admin</span></span>
+		</div>
+		<div class='view'>
+			<iframe src="./beforeRent/IntegratedQuery.html" frameborder="0" name='iframe' class='iframe' id='iframe'></iframe>
+		</div>
+	</div>
+ 	<div class="menu" ref='menu'>
+		<div class="panel-group" id="accordion">
+		    <div class="panel panel-default">
+		        <div class="panel-heading">
+		            <h4 class="panel-title">
+		                <a data-toggle="collapse" data-parent="#accordion" 
+		                   href="#collapseOne"> 
+		                    <b class='iconfont'></b>订单管理<span class='iconfont panel-icon'>&#xe600;</span>
+		                </a>
+		            </h4>
+		        </div>
+		        <div id="collapseOne" class="panel-collapse collapse">
+		            <div class="panel-body">
+						<a href="./beforeRent/IntegratedQuery.html" target="iframe">订单管理首页</a>
+						<!-- <a href="./beforeRent/todayOrder.html" target="iframe">今日订单</a>-->
+						<a href="./applet/orderManage.html" target="iframe">小程序订单管理</a>
+						<a href="./beforeRent/approvalManage.html" target="iframe">订单审核管理</a>
+						<!--<a href="./beforeRent/payManage.html" target="iframe">订单签约支付管理</a>
+						<a href="./beforeRent/allocateManage.html" target="iframe">订单配货管理</a>
+						<a href="./beforeRent/terminataManage.html" target="iframe">提前解约订单管理</a> -->
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<script src='js/jquery.min.js'></script>
+	<script src='js/common.js'></script>
+	<script src='js/bootstrap/bootstrap.min.js'></script>
+	<script src='js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script>
+		 $(function () {
+		 	$('.panel-group .panel-body a').click(function(){
+		 		$('.panel-group .panel-body a').removeClass('active')
+		 		$(this).addClass('active')
+		 	})
+		 	$('.panel').click(function(){
+		 		$(this).find('.panel-icon').toggleClass('active')
+		 		$(this).siblings().find('.panel-icon').removeClass('active')
+		 	})
+		 	$('.exit').click(function(){
+			 	common.promt('是否退出登录',function(){
+			 		common.ajax('/auth/logout',{},function(data){
+			 			window.location.href="login.html";
+			 		})
+			 	})
+		 	})
+		});
+		getAdmin();
+		function getAdmin(){
+			common.ajax('/common/authUser',{},function(data){
+				$('.userName').html(data.userName);
+	 		})
+		}
+	</script>
+</body>
+</html>

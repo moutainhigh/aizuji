@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>产品配置管理</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-dialog.min.css">
+	<link rel="stylesheet" href="../css/reset.css">
+	<link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../fonts/iconfont.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+
+    <style type="text/css">
+        .input-readonly[readonly]{background-color: white;}
+		.content .table-box{margin-top: 30px;}
+    </style>
+</head>
+<body>
+	<div class='title-breadcrumb'>
+		<div class='address-icon'><span class='iconfont'>&#xe61c;</span>您的位置: </div>
+		<ol class="breadcrumb">
+		  <li><a href="#">报表管理</a></li>
+		  <li class="active">运营报表</li>
+		</ol>
+	</div>
+	<div class='content'>
+		<div class='search-box'>
+			<div class='input-box'>
+				<span class='title'>渠道标识</span>
+				<div class='input-list'>
+					<select class="form-control" id="channelMark">
+                      <option value="">请选择</option>
+                      <option value="1">H5</option>
+                      <option value="2">应用商店</option>
+					</select>
+				</div>
+            </div>
+
+            <div class='input-box'>
+				<span class='title'>应用类型</span>
+				<div class='input-list'>
+					<select class="form-control" id="appType">
+                      <option value="">请选择</option>
+                      <option value="1">Ios</option>
+                      <option value="2">andriod</option>
+                      <option value="3">H5</option>
+					</select>
+				</div>
+            </div>
+
+            <div class='input-box'>
+                <span class='title'>报表时间</span>
+                <div class='input-list'>
+                    <input id="startDate" type="text" class="form-control input-readonly" placeholder="开始时间" readonly/>
+                </div>
+                -
+                <div class='input-list'>
+                    <input id="endDate" type="text" class="form-control input-readonly"  placeholder="结束时间" readonly/>
+                </div>
+            </div>
+
+            <div id="quicklySetDateGroup" class="btn-group" role="group">
+                <button type="button" class="btn btn-default" item-type="yesterday">昨天</button>
+                <button type="button" class="btn btn-default" item-type="today">今天</button>
+                <button type="button" class="btn btn-default" item-type="week">本周</button>
+                <button type="button" class="btn btn-default" item-type="lastWeek">上周</button>
+            </div>
+            
+			<div class='button-box'>
+				<button type="button" class="btn btn-warning" id="btn_query">查询</button>
+				<button type="button" class="btn btn-primary">导出报表</button>
+            </div>
+            
+		</div>
+		<div class='table-box table-responsive'>
+      		<table class="table" id="opreateReportTable"></table>
+		</div>
+	</div>
+	<script src='../js/jquery.min.js'></script>
+	<script src='../js/bootstrap/bootstrap.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-dialog.min.js'></script>
+	<script src='../js/bootstrap/bootstrap-table.js'></script>
+    <script src='../js/bootstrap/bootstrap-table-zh-CN.js'></script>
+    <script src='../js/bootstrap/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js'></script>
+    <script src='../js/bootstrap/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' charset="UTF-8"></script>
+	<script src='../js/common.js'></script>
+	<script src='../js/report/operateReport.js'></script>
+</body>
+</html>

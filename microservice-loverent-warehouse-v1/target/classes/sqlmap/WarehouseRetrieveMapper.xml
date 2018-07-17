@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseRetrieveMapper">
+	
+	<sql id="where_queryAggregationPageCount">
+		where 1=1 AND wl.locationCode!='BUY_END'
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t2.id=#{warehouseId}
+		</if>
+		<if test="locationId!=null and locationId>0">
+			AND wl.id=#{locationId}
+		</if>
+		<if test="materielClassId!=null and materielClassId>0">
+			AND t3.materielClassId=#{materielClassId}
+		</if>
+		<if test="materielBrandId!=null and materielBrandId>0">
+			AND t3.materielBrandId=#{materielBrandId}
+		</if>
+		<if test="materielModelId!=null and materielModelId>0">
+			AND t3.materielModelId=#{materielModelId}
+		</if>
+		<if test="queryContent!=null and queryContent!=''">
+			AND (t3.materielName LIKE CONCAT('%',#{queryContent},'%') or t3.materielCode LIKE CONCAT('%',#{queryContent},'%'))
+		</if>
+		<if test="materielName!=null and materielName!=''">
+			AND t3.materielName LIKE CONCAT('%',#{materielName},'%')
+		</if>
+		<if test="materielCode!=null and materielCode!=''">
+			AND t3.materielCode LIKE CONCAT('%',#{materielCode},'%')
+		</if>
+		<if test="materielSpecBatchNo!=null and materielSpecBatchNo!=''">
+			AND t3.specBatchNo=#{materielSpecBatchNo}
+		</if>
+		<if test="materielEnableFlag!=null and materielEnableFlag>-1">
+			AND t3.enableFlag=#{materielEnableFlag}
+		</if>
+		GROUP BY 
+			t1.materielBasicId,
+			t3.materielClassId,
+			t3.materielName,
+			t3.materielCode,
+			t3.materielBrandId,
+			t3.materielModelId,
+			t3.materielCostPrice,
+			t4.brandName,
+			t5.typeName,
+			t6.materielModelName,
+			t7.unitName
+		<if test="displyZero!=null and displyZero==1">
+			HAVING COUNT(t1.materielBasicId)=0
+		</if>
+	</sql>
+	
+	<!-- 库存汇总查询 -->
+	<select id="queryAggregationPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehouseRetrieveQuery" resultType="int">
+		SELECT count(1) FROM (
+			SELECT 
+				count(DISTINCT 
+						t1.materielBasicId,
+						t3.materielClassId,
+						t3.materielName,
+						t3.materielCode,
+						t3.materielBrandId,
+						t3.materielModelId,
+						t3.materielCostPrice,
+						t4.brandName,
+						t5.typeName,
+						t6.materielModelName,
+						t7.unitName
+				)
+			FROM warehouse_commodity_info t1 
+			INNER JOIN warehouse_info t2 ON t1.warehouseId=t2.id 
+			INNER JOIN warehouse_location wl ON t1.warehouseLocationId=wl.id
+			INNER JOIN materiel_basic_info t3 ON t1.materielBasicId=t3.id
+			INNER JOIN materiel_brand t4 ON t3.materielBrandId=t4.id
+			INNER JOIN materiel_class t5 ON t3.materielClassId=t5.id
+			INNER JOIN materiel_model t6 ON t3.materielModelId=t6.id
+			INNER JOIN materiel_unit t7 ON t3.materielUnitId=t7.id
+			<include refid="where_queryAggregationPageCount"/>
+		) t
+		
+	</select>
+	
+	
+	<select id="queryAggregationPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseRetrieveQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseAggregationVO">
+		SELECT 
+			t1.materielBasicId,
+			t3.materielClassId,
+			t3.materielName,
+			t3.materielCode,
+			t3.materielBrandId,
+			t3.materielModelId,
+			t3.materielCostPrice,
+			t3.enableFlag as materielEnableFlag,
+			t4.brandName as materielBrandName,
+			t5.typeName as materielClassName,
+			t6.materielModelName,
+			t7.unitName as materielUnitName,
+			(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t3.specBatchNo)as materielSpecValues,
+			count(1) as storageCount
+		FROM warehouse_commodity_info t1 
+		INNER JOIN warehouse_info t2 ON t1.warehouseId=t2.id 
+		INNER JOIN warehouse_location wl ON t1.warehouseLocationId=wl.id
+		INNER JOIN materiel_basic_info t3 ON t1.materielBasicId=t3.id
+		INNER JOIN materiel_brand t4 ON t3.materielBrandId=t4.id
+		INNER JOIN materiel_class t5 ON t3.materielClassId=t5.id
+		INNER JOIN materiel_model t6 ON t3.materielModelId=t6.id
+		INNER JOIN materiel_unit t7 ON t3.materielUnitId=t7.id
+		<include refid="where_queryAggregationPageCount"/> 
+		limit #{startIndex},#{endIndex}
+	</select>
+	
+	
+	<!-- 查询库存中包含的物料分组列表 -->
+	<select id="queryWarehouseMaterielList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseRetrieveQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseMaterielAggregationWrapper">
+		SELECT
+			t1.materielBasicId,
+			t3.materielName,
+			t3.materielCode,
+			t4.brandName AS materielBrandName,
+			t5.typeName AS materielClassName,
+			t6.materielModelName,
+			t7.unitName AS materielUnitName,
+			(SELECT  group_concat(materielSpecValue ORDER BY ms.sortOrder ASC SEPARATOR '|') FROM materiel_model_spec mms LEFT JOIN materiel_spec ms ON mms.materielSpecId = ms.id WHERE mms.specBatchNo = t3.specBatchNo)as materielSpecValues,
+			COUNT(t1.id) AS materielCount
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location wl ON t1.warehouseLocationId = wl.id
+		INNER JOIN materiel_basic_info t3 ON t1.materielBasicId = t3.id
+		INNER JOIN materiel_brand t4 ON t3.materielBrandId = t4.id
+		INNER JOIN materiel_class t5 ON t3.materielClassId = t5.id
+		INNER JOIN materiel_model t6 ON t3.materielModelId = t6.id
+		INNER JOIN materiel_unit t7 ON t3.materielUnitId = t7.id
+		where 1=1 
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t2.id=#{warehouseId}
+		</if>
+		<if test="locationId!=null and locationId>0">
+			AND wl.id=#{locationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t3.id=#{materielBasicId}
+		</if>
+		<if test="materielClassId!=null and materielClassId>0">
+			AND t3.materielClassId=#{materielClassId}
+		</if>
+		<if test="materielBrandId!=null and materielBrandId>0">
+			AND t3.materielBrandId=#{materielBrandId}
+		</if>
+		<if test="materielModelId!=null and materielModelId>0">
+			AND t3.materielModelId=#{materielModelId}
+		</if>
+		<if test="queryContent!=null and queryContent!=''">
+			AND (t3.materielName LIKE CONCAT('%',#{queryContent},'%') or t3.materielCode LIKE CONCAT('%',#{queryContent},'%'))
+		</if>
+		<if test="materielName!=null and materielName!=''">
+			AND t3.materielName LIKE CONCAT('%',#{materielName},'%')
+		</if>
+		<if test="materielCode!=null and materielCode!=''">
+			AND t3.materielCode LIKE CONCAT('%',#{materielCode},'%')
+		</if>
+		<if test="materielSpecBatchNo!=null and materielSpecBatchNo!=''">
+			AND t3.specBatchNo=#{materielSpecBatchNo}
+		</if>
+		<if test="materielEnableFlag!=null and materielEnableFlag>-1">
+			AND t3.enableFlag=#{materielEnableFlag}
+		</if>
+		GROUP BY
+			t1.materielBasicId,
+			t3.materielName,
+			t3.materielCode,
+			t4.brandName,
+			t5.typeName,
+			t6.materielModelName,
+			t7.unitName
+	</select>
+	
+	<!-- 按仓库分组统计 -->
+	<select id="queryWarehouseMaterielAggregationList" resultType="org.gz.warehouse.entity.warehouse.WarehouseMaterielDetailVO">
+		SELECT
+			t1.materielBasicId,
+			t1.warehouseId,
+			t2.warehouseName
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		WHERE t1.materielBasicId=#{materielBasicId}
+		GROUP BY 
+				t1.materielBasicId,
+				t1.warehouseId,
+				t2.warehouseName
+	</select>
+
+	<!-- 按物料ID,仓库ID分组统计仓位中的物料数量 -->
+	<select id="queryLocationMaterielAggregationList" resultType="org.gz.warehouse.entity.warehouse.WarehouseLocationMaterielDetailVO">
+		SELECT
+			t1.warehouseLocationId,
+			t3.locationName,
+			count(t1.id) AS commodityCount
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		WHERE t1.materielBasicId=#{materielBasicId} and t1.warehouseId=#{warehouseId}
+		GROUP BY 	
+			  	t1.materielBasicId,
+				t1.warehouseId,
+				t1.warehouseLocationId,
+				t3.locationName
+	</select>
+	
+	<select id="queryExcludeLocationMaterielAggregationList" resultType="org.gz.warehouse.entity.warehouse.WarehouseLocationMaterielDetailVO">
+		SELECT
+			t1.id AS warehouseLocationId,
+			t1.locationName,
+			0 as commodityCount
+		FROM
+			warehouse_location t1
+		INNER JOIN warehouse_location_relation t2 ON t1.id = t2.locationId
+		WHERE 1=1 AND t1.locationCode!='BUY_END' AND t2.warehouseId = #{warehouseId}  AND t2.locationId NOT IN
+		<foreach item="item" collection="locationIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+	</select>
+	
+	<select id="queryWarehouseMaterielCount" parameterType="org.gz.warehouse.common.vo.WarehouseMaterielCountQuery" resultType="org.gz.warehouse.common.vo.WarehouseMaterielCount">
+		SELECT
+			t1.materielBasicId,
+			count(t1.id) AS materielCount
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		WHERE  1=1
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t1.warehouseId=#{warehouseId}
+		</if>
+		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+			AND t1.warehouseLocationId=#{warehouseLocationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t1.materielBasicId=#{materielBasicId}
+		</if>
+		<if test="warehouseCode!=null and warehouseCode!=''">
+			AND t2.warehouseCode=#{warehouseCode}
+		</if>
+		<if test="locationCode!=null and locationCode!=''">
+			AND t3.locationCode=#{locationCode}
+		</if>
+		GROUP BY t1.materielBasicId
+	</select>
+	
+	<select id="queryWarehouseCommodityPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehouseCommodityInfoQuery" resultType="org.gz.warehouse.entity.warehouse.WarehouseCommodityShortVO">
+		SELECT
+		    t1.id,
+		    t1.warehouseId,
+		    t1.warehouseLocationId,
+		    t1.materielBasicId,
+		    t1.storageBatchNo,
+			t1.batchNo,
+			t1.snNo,
+			t1.imieNo
+		FROM
+			warehouse_commodity_info t1
+		INNER JOIN warehouse_info t2 ON t1.warehouseId = t2.id
+		INNER JOIN warehouse_location t3 ON t1.warehouseLocationId = t3.id
+		WHERE  1=1
+		<if test="warehouseId!=null and warehouseId>0">
+			AND t1.warehouseId=#{warehouseId}
+		</if>
+		<if test="warehouseLocationId!=null and warehouseLocationId>0">
+			AND t1.warehouseLocationId=#{warehouseLocationId}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			AND t1.materielBasicId=#{materielBasicId}
+		</if>
+		<if test="warehouseCode!=null and warehouseCode!=''">
+			AND t2.warehouseCode=#{warehouseCode}
+		</if>
+		<if test="locationCode!=null and locationCode!=''">
+			AND t3.locationCode=#{locationCode}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			AND t1.batchNo=#{batchNo}
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			AND t1.snNo=#{snNo}
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			AND t1.imieNo=#{imieNo}
+		</if>
+		limit #{startIndex},#{endIndex}
+	</select>
+</mapper>

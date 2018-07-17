@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.oss.common.dao.AdvertisingDao">
+
+    <!--查询-->
+    <select id="queryAdverList" resultType="org.gz.oss.common.entity.Advertising">
+        SELECT
+         id,
+         image,
+         type,
+         linkUrl,
+         imeiNo,
+         snNo,
+         position,
+         operatingId,
+         DATE_FORMAT(createTime,'%Y-%m-%d') as createTime,
+         productId,
+         modelId
+         from advertising order by position
+    </select>
+
+    <!--新增-->
+    <insert id="insert" parameterType="org.gz.oss.common.entity.AdvertisingVO" >
+        INSERT INTO advertising (
+            image,
+            type,
+            linkUrl,
+            imeiNo,
+            snNo,
+            position,
+            operatingId,
+            createTime,
+            productId,
+            modelId
+            )
+        VALUES(
+            #{image},
+            #{type},
+            #{linkUrl},
+            #{imeiNo},
+            #{snNo},
+            #{position},
+            #{operatingId},
+            #{createTime},
+            #{productId},
+            #{modelId}
+            )
+    </insert>
+
+    <!--修改-->
+    <update id="update" parameterType="org.gz.oss.common.entity.AdvertisingVO" >
+        UPDATE advertising SET
+            image=#{image},
+            type=#{type},
+            linkUrl=#{linkUrl},
+            imeiNo=#{imeiNo},
+            snNo=#{snNo},
+            productId=#{productId},
+            modelId=#{modelId},
+            position = #{position}
+        WHERE id=#{id};
+    </update>
+
+    <!--移动-->
+    <update id="move" parameterType="org.gz.oss.common.entity.AdvertisingVO" >
+        UPDATE advertising SET
+          position = #{position}
+        WHERE id=#{id};
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="int" >
+        DELETE FROM advertising where id = #{id}
+    </delete>
+
+    <!--先将当前广告位的上一个广告位的位置设置为当前广告位-->
+    <update id="moveNewAdv" parameterType="Map" >
+        UPDATE advertising set position = #{position} WHERE id = #{id}
+    </update>
+
+    <!--再将当前广告位的位置设置为上一个广告位的位置-->
+    <update id="moveCurrentAdve" parameterType="Map">
+        UPDATE advertising SET POSITION = #{position} where id=#{id}
+    </update>
+
+    <!-- 根据广告位ID，获取广告位信息-->
+    <select id="getAdvertisingById" parameterType="int" resultType="org.gz.oss.common.entity.Advertising">
+        SELECT * FROM advertising WHERE id=#{id}
+    </select>
+
+</mapper>

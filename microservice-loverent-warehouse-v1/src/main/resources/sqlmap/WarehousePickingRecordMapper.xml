@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehousePickingRecordMapper">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.warehouse.entity.warehouse.WarehousePickingRecord">
+		insert into warehouse_picking_record(
+			sourceOrderNo,
+			orderSource,
+  			applyDateTime,
+  			materielBasicId,
+  			materielName,
+  			materielModelName,
+  			materielCode,
+  			materielSpecValue,
+  			materielUnitName,
+  			pickQuantity,
+  			productId,
+  			productType,
+ 			batchNo,
+  			snNo,
+  			imieNo,
+  			fillReceiptId,
+  			fillReceiptName,
+  			fillReceiptOn,
+  			operatorId,
+  			operatorName,
+  			operateOn,
+  			statusFlag
+		)values(
+			#{sourceOrderNo},
+			#{orderSource},
+  			#{applyDateTime},
+  			#{materielBasicId},
+  			#{materielName},
+  			#{materielModelName},
+  			#{materielCode},
+  			#{materielSpecValue},
+  			#{materielUnitName},
+  			#{pickQuantity},
+  			#{productId},
+  			#{productType},
+ 			#{batchNo},
+  			#{snNo},
+  			#{imieNo},
+  			#{fillReceiptId},
+  			#{fillReceiptName},
+  			#{fillReceiptOn},
+  			#{operatorId},
+  			#{operatorName},
+  			#{operateOn},
+  			#{statusFlag}
+		)
+	</insert>
+	
+	<sql id="where_queryPageCount">
+		where 1=1
+		<if test="id!=null and id>0">
+			and id=#{id}
+		</if>
+		<if test="sourceOrderNo!=null and sourceOrderNo!=''">
+			and sourceOrderNo=#{sourceOrderNo}
+		</if>
+		<if test="applyStartTime!=null and applyStartTime!=''">
+			and applyDateTime &gt;=#{applyStartTime}
+		</if>
+		<if test="applyEndTime!=null and applyEndTime!=''">
+			and applyDateTime &lt;=#{applyEndTime}
+		</if>
+		<if test="materielBasicId!=null and materielBasicId>0">
+			and materielBasicId=#{materielBasicId}
+		</if>
+		<if test="batchNo!=null and batchNo!=''">
+			and batchNo like concat('%',#{batchNo},'%')
+		</if>
+		<if test="snNo!=null and snNo!=''">
+			and snNo like concat('%',#{snNo},'%')
+		</if>
+		<if test="imieNo!=null and imieNo!=''">
+			and imieNo like concat('%',#{imieNo},'%')
+		</if>
+		<if test="logisticsNo!=null and logisticsNo!=''">
+			and logisticsNo like concat('%',#{logisticsNo},'%')
+		</if>
+		<if test="fillReceiptName!=null and fillReceiptName!=''">
+			and fillReceiptName like concat('%',#{fillReceiptName},'%')
+		</if>
+		<if test="fillReceiptStartDate!=null and fillReceiptStartDate!=''">
+			and fillReceiptOn &gt;=#{fillReceiptStartDate}
+		</if>
+		<if test="fillReceiptEndDate!=null and fillReceiptEndDate!=''">
+			and fillReceiptOn &lt;=#{fillReceiptEndDate}
+		</if>
+		<if test="operatorName!=null and operatorName!=''">
+			and operatorName like concat('%',#{operatorName},'%')
+		</if>
+		
+		<if test="pickStartDate!=null and pickStartDate!=''">
+			and operateOn &gt;=#{pickStartDate}
+		</if>
+		<if test="pickEndDate!=null and pickEndDate!=''">
+			and operateOn &lt;=#{pickEndDate}
+		</if>
+		
+		<if test="statusFlag!=null and statusFlag>0">
+			and statusFlag=#{statusFlag}
+		</if>
+		
+		<if test="productType!=null and productType>0">
+			and productType=#{productType}
+		</if>
+		
+		<if test="productId!=null and productId>0">
+			and productId=#{productId}
+		</if>
+		
+		
+		<if test="orderSource!=null and orderSource>0">
+			and orderSource=#{orderSource}
+		</if>
+	</sql>
+	
+	<select id="queryPageCount" parameterType="org.gz.warehouse.entity.warehouse.WarehousePickingRecordQuery" resultType="int">
+		select 
+			count(1)
+		from warehouse_picking_record 
+		<include refid="where_queryPageCount"/>
+	</select>
+	
+	<select id="queryPageList" parameterType="org.gz.warehouse.entity.warehouse.WarehousePickingRecordQuery" resultType="org.gz.warehouse.entity.warehouse.WarehousePickingRecord">
+		select 
+			* 
+		from warehouse_picking_record 
+		<include refid="where_queryPageCount"/>
+		order by id desc limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="selectByPrimaryKey"  resultType="org.gz.warehouse.entity.warehouse.WarehousePickingRecord">
+		select 
+			* 
+		from warehouse_picking_record where id=#{id}
+	</select>
+
+	<update id="update" parameterType="org.gz.warehouse.entity.warehouse.WarehousePickingRecord">
+		update warehouse_picking_record set 
+			statusFlag=#{statusFlag},
+			fillReceiptId=#{fillReceiptId},
+			fillReceiptName=#{fillReceiptName},
+			fillReceiptOn=#{fillReceiptOn},
+			logisticsNo=#{logisticsNo},
+			insuredAmount=#{insuredAmount},
+			monthlyCardNum=#{monthlyCardNum},
+			productId=#{productId},
+			realName=#{realName},
+			prov=#{prov},
+			city=#{city},
+			area=#{area},
+			address=#{address},
+			phoneNum=#{phoneNum},
+			idNo=#{idNo}
+		where id=#{id}
+	</update>
+	
+	<update id="undoPick" parameterType="org.gz.warehouse.entity.warehouse.WarehousePickingRecord">
+		update warehouse_picking_record set 
+			statusFlag=#{statusFlag},
+			operatorId=#{operatorId},
+  			operatorName=#{operatorName},
+  			operateOn=#{operateOn}
+  		where id=#{id}
+	</update>
+</mapper>

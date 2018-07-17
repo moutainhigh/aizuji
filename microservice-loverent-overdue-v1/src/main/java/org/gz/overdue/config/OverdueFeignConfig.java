@@ -1,0 +1,22 @@
+package org.gz.overdue.config;
+
+/**
+ * 
+ */
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import feign.Logger;
+
+/**
+ * 定义Feign日志级别
+ */
+@Configuration
+public class OverdueFeignConfig {
+
+	@Bean
+	Logger.Level feignLoggerLevel(){
+		return Logger.Level.FULL;
+	}
+}

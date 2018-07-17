@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.app.mapper.SysAdminMapper">
+ 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="org.gz.app.entity.SysAdmin">
+ 		insert into sys_admin(
+ 			loginName,
+ 			loginPasswd,
+ 			realName,
+ 			bornDate,
+ 			telephone,
+ 			validFlag,
+ 			version
+ 		)values(
+ 			#{loginName},
+ 			#{loginPasswd},
+ 			#{realName},
+ 			#{bornDate},
+ 			#{telephone},
+ 			#{validFlag},
+ 			#{version}
+ 		)
+ 	</insert>
+ 	
+ 	<select id="selectById" parameterType="long" resultType="org.gz.app.entity.SysAdmin">
+ 		select * from sys_admin where id=#{value}
+ 	</select>
+</mapper>

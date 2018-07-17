@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.overdue.mapper.OverdueOrderMapper">
+<resultMap id="OverdueOrderMap"  type="org.gz.overdue.entity.OverdueOrder" >
+	<result column="id" property="id" jdbcType="INTEGER" />
+	<result column="orderSN" property="orderSN" jdbcType="VARCHAR" />
+	<result column="userId" property="userId" jdbcType="VARCHAR" />
+	<result column="userName" property="userName" jdbcType="VARCHAR" />
+	<result column="phone" property="phone" jdbcType="VARCHAR" />
+	<result column="signTime" property="signTime" jdbcType="TIMESTAMP" />
+	<result column="overdueDay" property="overdueDay" jdbcType="INTEGER" />
+	<result column="dueAmount" property="dueAmount" jdbcType="DECIMAL" />
+	<result column="overdueTime" property="overdueTime" jdbcType="TIMESTAMP" />
+	<result column="leaseTimes" property="leaseTimes" jdbcType="INTEGER" />
+	<result column="followPerson" property="followPerson" jdbcType="VARCHAR" />
+	<result column="allocationTime" property="allocationTime" jdbcType="TIMESTAMP" />
+	<result column="contactTime" property="contactTime" jdbcType="TIMESTAMP" />
+	<result column="contactResult" property="contactResult" jdbcType="INTEGER" />
+	<result column="orderStatus" property="orderStatus" jdbcType="INTEGER" />
+</resultMap> 
+<sql id="columns">
+  id,orderSN,userId,userName,phone,signTime,overdueDay,dueAmount,overdueTime,leaseTimes,followPerson,allocationTime,contactTime,contactResult,orderStatus
+</sql> 
+<sql id="t_columns">
+  t.id,t.orderSN,t.userId,t.userName,t.phone,t.signTime,t.overdueDay,t.dueAmount,t.overdueTime,t.leaseTimes,t.followPerson,t.allocationTime,t.contactTime,t.contactResult,t.orderStatus
+</sql> 
+<sql id="where"> 
+	<where> 
+		<if test="null!=id">
+			 AND id=#{id}
+		</if>
+		<if test="null!=orderSN and orderSN !=''">
+			 AND orderSN=#{orderSN}
+		</if>
+		<if test="null!=userId">
+			 AND userId=#{userId}
+		</if>
+		<if test="null!=userName">
+			 AND userName=#{userName}
+		</if>
+		<if test="null!=phone">
+			 AND phone=#{phone}
+		</if>
+		<if test="null!=signTime">
+			 AND signTime=#{signTime}
+		</if>
+		<if test="null!=overdueDay">
+			 AND overdueDay=#{overdueDay}
+		</if>
+		<if test="null!=dueAmount">
+			 AND dueAmount=#{dueAmount}
+		</if>
+		<if test="null!=overdueTime">
+			 AND overdueTime=#{overdueTime}
+		</if>
+		<if test="null!=leaseTimes">
+			 AND leaseTimes=#{leaseTimes}
+		</if>
+		<if test="null!=followPerson">
+			 AND followPerson=#{followPerson}
+		</if>
+		<if test="null!=allocationTime">
+			 AND allocationTime=#{allocationTime}
+		</if>
+		<if test="null!=contactTime">
+			 AND contactTime=#{contactTime}
+		</if>
+		<if test="null!=contactResult">
+			 AND contactResult=#{contactResult}
+		</if>
+		<if test="null!=orderStatus">
+			 AND orderStatus=#{orderStatus}
+		</if>
+	</where> 
+</sql> 
+
+<sql id="pageWhere"> 
+	<where> 
+		<if test="null!=id">
+			 AND id=#{id}
+		</if>
+		<if test="null!=orderSN and orderSN !=''">
+			 AND orderSN=#{orderSN}
+		</if>
+		<if test="null!=userId">
+			 AND userId=#{userId}
+		</if>
+		<if test="null!=userName">
+			 AND userName=#{userName}
+		</if>
+		<if test="null!=phone">
+			 AND phone=#{phone}
+		</if>
+		<if test="null!=signTime">
+			 AND signTime=#{signTime}
+		</if>
+		<if test="null!=overdueDay">
+			 AND overdueDay=#{overdueDay}
+		</if>
+		<if test="null!=overdueDayStart">
+			 AND overdueDay>=#{overdueDayStart}
+		</if>
+		<if test="null!=overdueDayEnd">
+			 AND #{overdueDayEnd}>=overdueDay
+		</if>
+		<if test="null!=dueAmount">
+			 AND dueAmount=#{dueAmount}
+		</if>
+		<if test="null!=overdueTime">
+			 AND overdueTime=#{overdueTime}
+		</if>
+		<if test="null!=leaseTimes">
+			 AND leaseTimes=#{leaseTimes}
+		</if>
+		<if test="null!=followPerson">
+			 AND followPerson=#{followPerson}
+		</if>
+		<if test="null!=allocationTime">
+			 AND allocationTime=#{allocationTime}
+		</if>
+		<if test="null!=allocationTimeStart">
+			 AND allocationTime>=#{allocationTimeStart}
+		</if>
+		<if test="null!=allocationTimeEnd">
+			 AND #{allocationTimeEnd}>=allocationTime
+		</if>
+		<if test="null!=contactTime">
+			 AND contactTime=#{contactTime}
+		</if>
+		<if test="null!=contactTimeStart">
+			 AND contactTime>=#{contactTimeStart}
+		</if>
+		<if test="null!=contactTimeEnd">
+			 AND #{contactTimeEnd}>=contactTime
+		</if>
+		<if test="null!=contactResult">
+			 AND contactResult=#{contactResult}
+		</if>
+		<if test="null!=orderStatus">
+			 AND orderStatus=#{orderStatus}
+		</if>
+	</where> 
+</sql> 
+<select id="getById" resultMap="OverdueOrderMap"> 
+	SELECT 
+	<include refid="columns" />
+	FROM overdue_order
+		WHERE  id = #{id}  
+</select> 
+<select id="findAll" resultMap="OverdueOrderMap"> 
+	SELECT 
+	<include refid="columns" />
+	FROM overdue_order
+</select> 
+<insert id="add" useGeneratedKeys="true" keyProperty="id"> 
+	INSERT INTO overdue_order
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+		<if test="null!=id"> 
+			id,
+		</if>
+		<if test="null!=orderSN and orderSN !=''"> 
+			orderSN,
+		</if>
+		<if test="null!=userId"> 
+			userId,
+		</if>
+		<if test="null!=userName"> 
+			userName,
+		</if>
+		<if test="null!=phone"> 
+			phone,
+		</if>
+		<if test="null!=signTime"> 
+			signTime,
+		</if>
+		<if test="null!=overdueDay"> 
+			overdueDay,
+		</if>
+		<if test="null!=dueAmount"> 
+			dueAmount,
+		</if>
+		<if test="null!=overdueTime"> 
+			overdueTime,
+		</if>
+		<if test="null!=leaseTimes"> 
+			leaseTimes,
+		</if>
+		<if test="null!=followPerson"> 
+			followPerson,
+		</if>
+		<if test="null!=allocationTime"> 
+			allocationTime,
+		</if>
+		<if test="null!=contactTime"> 
+			contactTime,
+		</if>
+		<if test="null!=contactResult"> 
+			contactResult,
+		</if>
+		<if test="null!=orderStatus"> 
+			orderStatus,
+		</if>
+	</trim>
+	values
+	<trim prefix="(" suffix=")" suffixOverrides=",">
+	<if test="null!=id"> 
+		#{id},
+	</if>
+	<if test="null!=orderSN and orderSN !=''"> 
+		#{orderSN},
+	</if>
+	<if test="null!=userId"> 
+		#{userId},
+	</if>
+	<if test="null!=userName"> 
+		#{userName},
+	</if>
+	<if test="null!=phone"> 
+		#{phone},
+	</if>
+	<if test="null!=signTime"> 
+		#{signTime},
+	</if>
+	<if test="null!=overdueDay"> 
+		#{overdueDay},
+	</if>
+	<if test="null!=dueAmount"> 
+		#{dueAmount},
+	</if>
+	<if test="null!=overdueTime"> 
+		#{overdueTime},
+	</if>
+	<if test="null!=leaseTimes"> 
+		#{leaseTimes},
+	</if>
+	<if test="null!=followPerson"> 
+		#{followPerson},
+	</if>
+	<if test="null!=allocationTime"> 
+		#{allocationTime},
+	</if>
+	<if test="null!=contactTime"> 
+		#{contactTime},
+	</if>
+	<if test="null!=contactResult"> 
+		#{contactResult},
+	</if>
+	<if test="null!=orderStatus"> 
+		#{orderStatus},
+	</if>
+	</trim>
+</insert>
+<update id="update">
+	UPDATE overdue_order
+	<set>
+	<if test="null!=id"> 
+		id = #{id},
+	</if>
+	<if test="null!=orderSN and orderSN !=''"> 
+		orderSN = #{orderSN},
+	</if>
+	<if test="null!=userId"> 
+		userId = #{userId},
+	</if>
+	<if test="null!=userName"> 
+		userName = #{userName},
+	</if>
+	<if test="null!=phone"> 
+		phone = #{phone},
+	</if>
+	<if test="null!=signTime"> 
+		signTime = #{signTime},
+	</if>
+	<if test="null!=overdueDay"> 
+		overdueDay = #{overdueDay},
+	</if>
+	<if test="null!=dueAmount"> 
+		dueAmount = #{dueAmount},
+	</if>
+	<if test="null!=overdueTime"> 
+		overdueTime = #{overdueTime},
+	</if>
+	<if test="null!=leaseTimes"> 
+		leaseTimes = #{leaseTimes},
+	</if>
+	<if test="null!=followPerson"> 
+		followPerson = #{followPerson},
+	</if>
+	<if test="null!=allocationTime"> 
+		allocationTime = #{allocationTime},
+	</if>
+	<if test="null!=contactTime"> 
+		contactTime = #{contactTime},
+	</if>
+	<if test="null!=contactResult"> 
+		contactResult = #{contactResult},
+	</if>
+	<if test="null!=orderStatus"> 
+		orderStatus = #{orderStatus},
+	</if>
+	</set>
+	<where> 
+		AND id = #{id}
+	</where> 
+</update>
+<select id="queryList" resultMap="OverdueOrderMap">
+	SELECT
+		<include refid="columns" />
+		FROM overdue_order
+		<include refid="pageWhere" />
+		order by id desc
+		limit #{startIndex},#{endIndex}
+</select>
+<select id="query" resultMap="OverdueOrderMap">
+	SELECT
+		<include refid="columns" />
+		FROM overdue_order
+		<include refid="where" />
+</select>
+<select id="queryCount" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM overdue_order
+		<include refid="pageWhere" />
+	</select>
+<delete id="deleteById" parameterType="java.lang.String">
+	delete from overdue_order
+	where id = #{id}
+</delete>
+<delete id="deleteOverdueData" parameterType="org.gz.overdue.entity.OverdueOrder">
+	delete from overdue_order
+	<include refid="where" />
+</delete>
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gz.user.mapper.ContactInfoMapper" >
+ 
+  <resultMap id="BaseResultMap" type="org.gz.user.entity.ContactInfo" >
+    <id column="contactId" property="contactId" jdbcType="BIGINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="contactName" property="contactName" jdbcType="VARCHAR" />
+    <result column="contactPhone" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    contactId, userId, contactName, contactPhone, createTime
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from contact_info
+    where contactId = #{contactId,jdbcType=BIGINT}
+  </select>
+  
+  <insert id="insert" parameterType="org.gz.user.entity.ContactInfo" >
+    insert into contact_info (contactId, userId, contactName, 
+      contactPhone, createTime)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    	(#{contactId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{contactName,jdbcType=VARCHAR}, 
+    	#{contactPhone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  
+  <insert id="insertBatch">
+  	insert into contact_info (contactId, userId, contactName, 
+      contactPhone, createTime)
+    values 
+    <foreach collection="list" item="item" separator=",">
+    	(#{item.contactId,jdbcType=BIGINT}, #{item.userId,jdbcType=BIGINT}, #{item.contactName,jdbcType=VARCHAR}, 
+      #{item.contactPhone,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="org.gz.user.entity.ContactInfo" >
+    insert into contact_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactId != null" >
+        contactId,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="contactName != null" >
+        contactName,
+      </if>
+      <if test="contactPhone != null" >
+        contactPhone,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactId != null" >
+        #{contactId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="selectContactByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from contact_info
+  	where userId = #{userId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="queryContactInfoByPage" resultMap="BaseResultMap" parameterType="org.gz.user.supports.Pagination">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from contact_info
+  	<trim prefix="WHERE" prefixOverrides="AND|OR">
+  		<if test="params.userId != null">
+  			AND userId = #{params.userId, jdbcType=BIGINT}
+  		</if>
+  	</trim>
+  </select>
+  
+</mapper>

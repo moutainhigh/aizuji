@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.supplier.SupplierMapper">
+
+	<select id="queryAllSuppliers" resultType="org.gz.warehouse.entity.supplier.SupplierBasicInfo">
+		select * from supplier_basic_info
+	</select>
+
+</mapper>

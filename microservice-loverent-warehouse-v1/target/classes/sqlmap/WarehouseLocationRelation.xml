@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.gz.warehouse.mapper.warehouse.WarehouseLocationRelationMapper">
+	<select id="selectCountById" resultType="int" parameterType="org.gz.warehouse.entity.warehouse.WarehouseLocationRelation">
+		SELECT 
+			count(1) 
+		FROM 
+			warehouse_location_relation
+		<where>  
+			<choose>  
+	            <when test="warehouseId !=null ">  
+	            	warehouseId = #{warehouseId}
+	            </when>
+	            <when test="locationId !=null ">  
+	            	locationId = #{locationId}
+	            </when>
+	            <otherwise> 
+	            	1 = 2 
+	            </otherwise>  
+			</choose>
+		</where>
+	</select>
+	<delete id="deleteRelation" parameterType="Integer">
+		delete from warehouse_location_relation
+		<where>
+			<if test="warehouseId !=null">
+				warehouseId = #{warehouseId}
+			</if>
+			<if test="locationId !=null">
+				AND locationId = #{locationId}
+			</if>
+		</where>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteRelationBatch">
+		DELETE FROM warehouse_location_relation
+		WHERE
+			warehouseId = #{warehouseId} 
+		AND	locationId IN
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.locationId}
+        </foreach>
+	</delete>
+	
+	<select id="queryList" parameterType="long" resultType="org.gz.warehouse.entity.warehouse.WarehouseLocationRelation">
+		SELECT 
+			warehouseId,
+			locationId,
+			t1.warehouseName,
+			t2.locationName
+		FROM
+			warehouse_location_relation r
+		LEFT JOIN 
+			warehouse_info t1
+		ON  r.warehouseId = t1.id
+		LEFT JOIN 
+			warehouse_location t2
+		ON  r.locationId = t2.id
+		WHERE
+			warehouseId = #{warehouseId}
+	</select>
+	<insert id="insertLocation" parameterType="list">
+  		INSERT INTO warehouse_location_relation
+  			(
+  				warehouseId,
+  				locationId
+  			)
+  	     VALUES
+  		<foreach collection="list" item="item" index="index" separator=",">
+            (
+            	#{item.warehouseId},
+            	#{item.locationId}
+            )
+        </foreach>
+    </insert>
+    <select id="queryCountByWarehouseId" resultType="Integer">
+	 	select 
+	 		count(*) 
+	 	from warehouse_location_relation 
+	 	where 
+			warehouseId = #{warehouseId} 
+		AND locationId IN
+		<foreach item="item" collection="list" open="(" separator="," close=")">
+	          #{item}
+	    </foreach>
+    </select>
+    <select id="queryLocationIdsByWarehouseId" resultType="Integer">
+    	SELECT 
+    		locationId
+    	FROM
+    		warehouse_location_relation
+    	WHERE
+    		warehouseId = #{warehouseId} 
+    </select>
+</mapper>
